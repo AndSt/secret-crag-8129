@@ -38,11 +38,14 @@ var addMeeting = function (text, partials, callback) {
             function (err) {
                 if (err) {
                     logger.log("Error while inserting a remindMeeting",
-                    "ERROR");
+                            "ERROR", function () {
+                            });
                     callback(true, "Error while inserting a remindMeeting");
                 }
                 else {
-                    logger.log("Inserting of remindMeeting went well", "INFO");
+                    logger.log("Inserting of remindMeeting went well",
+                            "INFO", function () {
+                            });
                     callback(false, "Inserting of remindMeeting went well");
                 }
             });
@@ -76,14 +79,14 @@ var updateFunction = function () {
 
     connection.query("SELECT * FROM  `remindMeetings` " +
             "WHERE  `sentReminder` =  '0' " +
-            " AND  `reminderDate` >=  '5'", function(err, rows){
+            " AND  `reminderDate` >=  '5'", function (err, rows) {
                 var meeting, date;
-                for(var i = 0; i < rows.length; i++){
+                for (var i = 0; i < rows.length; i++) {
                     meeting = rows[i];
                     date = new Date(meeting.date);
-                    
-                    
-                    
+
+
+
                 }
             });
 };
