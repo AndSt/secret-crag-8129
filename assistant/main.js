@@ -71,7 +71,6 @@ var checkItem = function (text, callback) {
 var updateFunction = function () {
 
     var now = Math.floor((new Date()).getTime() / 1000);
-    logger.log("check started at  " + now);
     // every 10 seconds there is a check, if a meeting is starting soon
     // if yes, a reminder will be posted to circuit
 
@@ -79,47 +78,56 @@ var updateFunction = function () {
             "WHERE  `sentReminder` =  '0' " +
             " AND  `reminderDate` <  '" + now + "'",
             function (err, rows) {
-                var meeting, date;
-                for (var i = 0; i < rows.length; i++) {
+                if (err) {
+                    logger.log("Error while getting the meeting to remind",
+                            "ERROR");
+                }
+                else {
+                    logger.log("check started at  " + now +
+                            "and " + rows.length + " meetings will " +
+                            "be sent", "INFO");
+                    var meeting, date;
+                    for (var i = 0; i < rows.length; i++) {
 
-                    //send reminder messages
-                    meeting = rows[i];
-                    date = new Date(meeting.date);
+                        //send reminder messages
+                        meeting = rows[i];
+                        date = new Date(meeting.date);
 
-                    // send text
-                    if (meeting.title === "") {
-                        logger.log(
-                                "Die nächste Besprechung findet bald statt. \n" +
-                                "Der genaue Uhrzeit ist " + date + ".",
-                                "INFO"
-                                );
+                        // send text
+                        if (meeting.title === "") {
+                            logger.log(
+                                    "Die nächste Besprechung findet bald statt. \n" +
+                                    "Der genaue Uhrzeit ist " + date + ".",
+                                    "INFO"
+                                    );
+                        }
+                        else {
+                            logger.log(
+                                    "Die Besprechung " + meeting.title +
+                                    " findet in 5 Minuten statt. \n" +
+                                    "Die genau Uhrzeit ist: " + date + ".",
+                                    "INFO"
+                                    );
+                        }
+                        // update the sentReminder flag
+                        connection.query("UPDATE `remindMeetings` " +
+                                "SET `sentReminder`='1' " +
+                                "WHERE `ID` = '" + meeting.ID + "'",
+                                function (err) {
+                                    if (err) {
+                                        logger.log("sentReminder von ID " +
+                                                meeting.ID + " konnte nicht " +
+                                                "geupdated werden.",
+                                                "ERROR");
+                                    }
+                                    else {
+                                        logger.log("sentReminder von ID " +
+                                                meeting.ID + " wurde erfolgreich " +
+                                                "geupdated.",
+                                                "INFO");
+                                    }
+                                });
                     }
-                    else {
-                        logger.log(
-                                "Die Besprechung " + meeting.title +
-                                " findet in 5 Minuten statt. \n" +
-                                "Die genau Uhrzeit ist: " + date + ".",
-                                "INFO"
-                                );
-                    }
-                    // update the sentReminder flag
-                    connection.query("UPDATE `remindMeetings` " +
-                            "SET `sentReminder`='1' " +
-                            "WHERE `ID` = '" + meeting.ID + "'",
-                            function (err) {
-                                if (err) {
-                                    logger.log("sentReminder von ID " +
-                                            meeting.ID + " konnte nicht " +
-                                            "geupdated werden.",
-                                            "ERROR");
-                                }
-                                else {
-                                    logger.log("sentReminder von ID " +
-                                            meeting.ID + " wurde erfolgreich " +
-                                            "geupdated.",
-                                            "INFO");
-                                }
-                            });
                 }
             });
 };
