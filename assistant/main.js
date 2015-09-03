@@ -33,7 +33,6 @@ exports.checkItem = function (text, callback) {
 };
 
 exports.addMeeting = function (text, partials, callback) {
-
     var now = Math.floor((new Date()).getTime() / 1000);
 
     var dat = partials[2].split(" ");
@@ -47,18 +46,21 @@ exports.addMeeting = function (text, partials, callback) {
     if (now >= reminderDate) {
         sentReminder = 1;
     }
-    connection.query(
-            "INSERT INTO `remindMeetings`(`convID`, `inputItemID`, " +
-            "`inputText`, `title`, `date`, `reminderDate`, `sentReminder`) " +
-            "VALUES ('1', '1', '" + text + "', '" + title + "', '" +
-            unixDate + "', " + reminderDate + ", " + sentReminder + ")",
-            function (err) {
-                if (err) {
-                    console.error("Error while inserting a remindMeeting");
-                    callback(true, "Error while inserting a remindMeeting");
-                }
-                else {
-                    callback(false, "Inserting of remindMeeting went well");
-                }
-            });
+    
+    callback(false, "passt alles");
+    
+//    connection.query(
+//            "INSERT INTO `remindMeetings`(`convID`, `inputItemID`, " +
+//            "`inputText`, `title`, `date`, `reminderDate`, `sentReminder`) " +
+//            "VALUES ('1', '1', '" + text + "', '" + title + "', '" +
+//            unixDate + "', " + reminderDate + ", " + sentReminder + ")",
+//            function (err) {
+//                if (err) {
+//                    console.error("Error while inserting a remindMeeting");
+//                    callback(true, "Error while inserting a remindMeeting");
+//                }
+//                else {
+//                    callback(false, "Inserting of remindMeeting went well");
+//                }
+//            });
 };
