@@ -1,6 +1,6 @@
 
-var mysql = require('mysql');
-var connection = require('./../database').getConnection();
+//var mysql = require('mysql');
+//var connection = require('./../database').getConnection();
 
 
 exports.test = function (callback) {
@@ -28,7 +28,8 @@ var addMeeting = function (text, partials, callback) {
     if (now >= reminderDate) {
         sentReminder = 1;
     }
-
+    
+    callback(false, "was geht");
 
     connection.query(
             "INSERT INTO `remindMeetings`(`convID`, `inputItemID`, " +
@@ -65,7 +66,7 @@ var checkItem = function (text, callback) {
     }
 };
 
-exports = {
+module.exports = {
     addMeeting: addMeeting,
     checkItem: checkItem
 };
