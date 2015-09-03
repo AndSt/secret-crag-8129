@@ -86,13 +86,13 @@ var updateFunction = function () {
                     logger.log("check started at  " + now +
                             "and " + rows.length + " meetings will " +
                             "be sent", "INFO");
-                    var meeting, date;
+                    var meeting, date, id;
                     for (var i = 0; i < rows.length; i++) {
 
                         //send reminder messages
                         meeting = rows[i];
                         date = new Date(meeting.date);
-
+                        id = meeting.ID;
                         // send text
                         if (meeting.title === "") {
                             logger.log(
@@ -112,17 +112,17 @@ var updateFunction = function () {
                         // update the sentReminder flag
                         connection.query("UPDATE `remindMeetings` " +
                                 "SET `sentReminder`='1' " +
-                                "WHERE `ID` = '" + meeting.ID + "'",
+                                "WHERE `ID` = '" + id + "'",
                                 function (err) {
                                     if (err) {
                                         logger.log("sentReminder von ID " +
-                                                meeting.ID + " konnte nicht " +
+                                                id + " konnte nicht " +
                                                 "geupdated werden.",
                                                 "ERROR");
                                     }
                                     else {
                                         logger.log("sentReminder von ID " +
-                                                meeting.ID + " wurde erfolgreich " +
+                                                id + " wurde erfolgreich " +
                                                 "geupdated.",
                                                 "INFO");
                                     }
