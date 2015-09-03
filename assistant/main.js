@@ -38,14 +38,12 @@ var addMeeting = function (text, partials, callback) {
             function (err) {
                 if (err) {
                     logger.log("Error while inserting a remindMeeting",
-                            "ERROR", function () {
-                            });
+                            "ERROR");
                     callback(true, "Error while inserting a remindMeeting");
                 }
                 else {
                     logger.log("Inserting of remindMeeting went well",
-                            "INFO", function () {
-                            });
+                            "INFO");
                     callback(false, "Inserting of remindMeeting went well");
                 }
             });

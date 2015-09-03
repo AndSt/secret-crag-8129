@@ -39,14 +39,7 @@ app.post('/addItem', function (req, res) {
 });
 
 app.get('/newLog', function(req, res){
-    logger.log("testLog", "INFO", function(err){
-        if(err){
-            res.send("Loggen hat nicht funktioniert");
-        }
-        else {
-            res.send("Loggen hat funktioniert");
-        }
-    });
+    logger.log("testLog", "INFO");
 });
 
 app.listen(app.get('port'), function () {

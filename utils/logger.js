@@ -9,16 +9,12 @@ var connection = require('./database').getConnection();
  * - INFO
  */
 
-var log = function (text, level, callback) {
+var log = function (text, level) {
     connection.query("INSERT INTO `Log`( `text`, `level`) " +
             "VALUES ('" + text + "', '" + level + "')",
             function (err) {
                 if (err) {
-                    callback(true);
                     console.log("The logger collapsed");
-                }
-                else {
-                    callback(false);
                 }
             });
 
