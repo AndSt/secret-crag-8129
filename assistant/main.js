@@ -70,7 +70,7 @@ var checkItem = function (text, callback) {
 
 var updateFunction = function () {
 
-    var now = Math.floor((new Date()).getTime() / 1000);
+    var now = Math.floor((new Date()).getTime() / 1000) + 7200;
     // every 10 seconds there is a check, if a meeting is starting soon
     // if yes, a reminder will be posted to circuit
 
