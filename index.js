@@ -2,25 +2,6 @@ var express = require('express');
 var app = express();
 var assistant = require('./assistant/main');
 
-var mysql = require('mysql');
-
-
-var connection = mysql.createConnection({
-    host: 'sql2.freemysqlhosting.net',
-    user: 'sql288857',
-    password: 'vB6*pR5!',
-    port: '3306',
-    database: 'sql288857'
-});
-
-connection.connect(function (err) {
-    if (!err) {
-        connected = true;
-        console.log("Database is connected ... \n\n");
-    } else {
-        console.log("Error connecting database ... \n\n");
-    }
-});
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -39,13 +20,8 @@ app.get('/add', function (req, res) {
 });
 
 app.get('/check', function (req, res) {
-    connection.query("SELECT * FROM remindMeetings", function (err, rows) {
-        if (err) {
-            res.send("Error querying database");
-        }
-        else {
-            res.send("Querrying database went great")
-        }
+    assistant.test(function(err, text){
+        res.send(text);
     });
 });
 

@@ -1,7 +1,9 @@
 
-var exports = module.exports = {};
+var mysql = require('mysql');
+var connection = require('./../database').getConnection();
 
-exports.test = function (conn) {
+
+exports.test = function (callback) {
     conn.query("SELECT * FROM remindMeetings", function (err, rows) {
         if (err) {
             callback(false, "Error querying database");
