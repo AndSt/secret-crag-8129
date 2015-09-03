@@ -3,7 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 
 var assistant = require('./assistant/main');
-
+var logger = require('./utils/logger');
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -35,6 +35,17 @@ app.get('/check', function (req, res) {
 app.post('/addItem', function (req, res) {
     assistant.checkItem(req.body.item, function (err, text) {
         res.send(text);
+    });
+});
+
+app.get('/newLog', function(req, res){
+    logger.log("testLog", "INFO", function(err){
+        if(err){
+            res.send("Loggen hat nicht funktioniert");
+        }
+        else {
+            res.send("Loggen hat funktioniert");
+        }
     });
 });
 
