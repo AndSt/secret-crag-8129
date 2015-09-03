@@ -1,6 +1,6 @@
 
-//var mysql = require('mysql');
-//var connection = require('./../database').getConnection();
+var mysql = require('mysql');
+var connection = require('./../database').getConnection();
 
 
 exports.test = function (callback) {
