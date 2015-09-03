@@ -14,25 +14,7 @@ exports.test = function (callback) {
     });
 };
 
-exports.checkItem = function (text, callback) {
-    var partials = text.split("/");
-    switch (partials[1]) {
-        case "addMeetingDate":
-            exports.addMeeting(conn, text, partials, function (err, val) {
-                if (err) {
-                    callback(err, val);
-                }
-                else {
-                    callback(err, val);
-                }
-            });
-            break;
-        default:
-            callback(true, "item");
-    }
-};
-
-exports.addMeeting = function (text, partials, callback) {
+var addMeeting = function (text, partials, callback) {
     var now = Math.floor((new Date()).getTime() / 1000);
 
     var dat = partials[2].split(" ");
@@ -46,8 +28,8 @@ exports.addMeeting = function (text, partials, callback) {
     if (now >= reminderDate) {
         sentReminder = 1;
     }
-    
-    
+
+
     connection.query(
             "INSERT INTO `remindMeetings`(`convID`, `inputItemID`, " +
             "`inputText`, `title`, `date`, `reminderDate`, `sentReminder`) " +
@@ -62,4 +44,28 @@ exports.addMeeting = function (text, partials, callback) {
                     callback(false, "Inserting of remindMeeting went well");
                 }
             });
+};
+
+
+var checkItem = function (text, callback) {
+    var partials = text.split("/");
+    switch (partials[1]) {
+        case "addMeetingDate":
+            addMeeting(text, partials, function (err, val) {
+                if (err) {
+                    callback(err, val);
+                }
+                else {
+                    callback(err, val);
+                }
+            });
+            break;
+        default:
+            callback(true, "item");
+    }
+};
+
+exports = {
+    addMeeting: addMeeting,
+    checkItem: checkItem
 };
