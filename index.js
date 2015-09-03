@@ -26,13 +26,8 @@ app.get('/check', function (req, res) {
 });
 
 app.post('/addItem', function (req, res) {
-    checkItem(req.body.item, function (err, text) {
-        if (err) {
-            res.send(text);
-        }
-        else {
-            res.json(text);
-        }
+    assistant.checkItem(req.body.item, function (err, text) {
+        res.send(text);
     });
 });
 
