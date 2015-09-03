@@ -39,12 +39,12 @@ app.get('/add', function (req, res) {
 });
 
 app.get('/check', function (req, res) {
-    assistant.test(connection, function(err, text){
-        if(err) {
-            res.send("Error");
+    connection.query("SELECT * FROM remindMeetings", function (err, rows) {
+        if (err) {
+            callback(false, "Error querying database");
         }
         else {
-            res.send(text);
+            callback(false, "Querrying database went great")
         }
     });
 });
