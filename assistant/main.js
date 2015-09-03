@@ -77,7 +77,7 @@ var updateFunction = function () {
 
     connection.query("SELECT * FROM  `remindMeetings` " +
             "WHERE  `sentReminder` =  '0' " +
-            " AND  `reminderDate` <=  '" + (now + 2) + "'",
+            " AND  `reminderDate` <  '" + now + "'",
             function (err, rows) {
                 var meeting, date;
                 for (var i = 0; i < rows.length; i++) {
