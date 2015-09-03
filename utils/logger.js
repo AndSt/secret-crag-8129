@@ -10,7 +10,7 @@ var connection = require('./database').getConnection();
  */
 
 var log = function (text, level, callback) {
-    connection.query("INSERT INTO `Log`( `text`, `type`) " +
+    connection.query("INSERT INTO `Log`( `text`, `level`) " +
             "VALUES ('" + text + "', '" + level + "')",
             function (err) {
                 if (err) {
