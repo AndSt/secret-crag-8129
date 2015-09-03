@@ -1,4 +1,3 @@
-var connection = require('db');
 
 var exports = module.exports = {};
 
