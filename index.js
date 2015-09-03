@@ -1,9 +1,16 @@
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
+
 var assistant = require('./assistant/main');
 
 
 app.set('port', (process.env.PORT || 5000));
+
+app.use(bodyParser.json());       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({// to support URL-encoded bodies
+    extended: true
+}));
 
 app.use(express.static(__dirname + '/public'));
 
@@ -20,7 +27,7 @@ app.get('/add', function (req, res) {
 });
 
 app.get('/check', function (req, res) {
-    assistant.test(function(err, text){
+    assistant.test(function (err, text) {
         res.send(text);
     });
 });
