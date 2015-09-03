@@ -4,7 +4,7 @@ var connection = require('./../database').getConnection();
 
 
 exports.test = function (callback) {
-    conn.query("SELECT * FROM remindMeetings", function (err, rows) {
+    connection.query("SELECT * FROM remindMeetings", function (err, rows) {
         if (err) {
             callback(false, "Error querying database");
         }
