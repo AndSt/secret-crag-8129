@@ -1,6 +1,7 @@
 
 var mysql = require('mysql');
-var connection = require('./../database').getConnection();
+var connection = require('./../utils/database').getConnection();
+var logger = require('./../utils/logger');
 
 
 exports.test = function (callback) {
@@ -25,7 +26,7 @@ var addMeeting = function (text, partials, callback) {
 
     var title = typeof partials[3] === 'undefined' ? "" : partials[3];
     var sentReminder = 0;
-    if (now >= reminderDate) {
+    if (now >= unixDate - 20) {
         sentReminder = 1;
     }
 
@@ -36,10 +37,12 @@ var addMeeting = function (text, partials, callback) {
             unixDate + "', " + reminderDate + ", " + sentReminder + ")",
             function (err) {
                 if (err) {
-                    console.error("Error while inserting a remindMeeting");
+                    logger.log("Error while inserting a remindMeeting",
+                    "ERROR");
                     callback(true, "Error while inserting a remindMeeting");
                 }
                 else {
+                    logger.log("Inserting of remindMeeting went well", "INFO");
                     callback(false, "Inserting of remindMeeting went well");
                 }
             });
@@ -64,7 +67,29 @@ var checkItem = function (text, callback) {
     }
 };
 
+var updateFunction = function () {
+
+    var now = Math.floor((new Date()).getTime() / 1000);
+    console.log("check started at  " + now);
+    // every 10 seconds there is a check, if a meeting is starting soon
+    // if yes, a reminder will be posted to circuit
+
+    connection.query("SELECT * FROM  `remindMeetings` " +
+            "WHERE  `sentReminder` =  '0' " +
+            " AND  `reminderDate` >=  '5'", function(err, rows){
+                var meeting, date;
+                for(var i = 0; i < rows.length; i++){
+                    meeting = rows[i];
+                    date = new Date(meeting.date);
+                    
+                    
+                    
+                }
+            });
+};
+
 module.exports = {
     addMeeting: addMeeting,
-    checkItem: checkItem
+    checkItem: checkItem,
+    updateFunction: updateFunction
 };
