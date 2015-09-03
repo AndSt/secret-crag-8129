@@ -41,10 +41,10 @@ app.get('/add', function (req, res) {
 app.get('/check', function (req, res) {
     connection.query("SELECT * FROM remindMeetings", function (err, rows) {
         if (err) {
-            callback(false, "Error querying database");
+            res.send("Error querying database");
         }
         else {
-            callback(false, "Querrying database went great")
+            res.send("Querrying database went great")
         }
     });
 });
