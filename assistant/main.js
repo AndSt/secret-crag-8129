@@ -77,17 +77,52 @@ var updateFunction = function () {
 
     connection.query("SELECT * FROM  `remindMeetings` " +
             "WHERE  `sentReminder` =  '0' " +
-            " AND  `reminderDate` >=  '5'", function (err, rows) {
+            " AND  `reminderDate` <=  '" + (now + 2) + "'",
+            function (err, rows) {
                 var meeting, date;
                 for (var i = 0; i < rows.length; i++) {
+
+                    //send reminder messages
                     meeting = rows[i];
                     date = new Date(meeting.date);
 
-
-
+                    // send text
+                    if (meeting.title === "") {
+                        logger.log(
+                                "Die nächste Besprechung findet bald statt. \n" +
+                                "Der genaue Uhrzeit ist " + date + ".",
+                                "INFO"
+                                );
+                    }
+                    else {
+                        logger.log(
+                                "Die Besprechung " + meeting.title +
+                                " findet in 5 Minuten statt. \n" +
+                                "Die genau Uhrzeit ist: " + date + ".",
+                                "INFO"
+                                );
+                    }
+                    // update the sentReminder flag
+                    connection.query("UPDATE `remindMeetings` " +
+                            "SET `sentReminder`='1' " +
+                            "WHERE `ID` = '1'", function (err) {
+                                if (err) {
+                                    logger.log("sentReminder von ID " +
+                                            meeting.ID + "konnte nicht " +
+                                            "geupdated werden.",
+                                            "ERROR");
+                                }
+                                else {
+                                    logger.log("sentReminder von ID " +
+                                            meeting.ID + "wurde erfolgreich " +
+                                            "geupdated.",
+                                            "INFO");
+                                }
+                            });
                 }
             });
 };
+
 
 module.exports = {
     addMeeting: addMeeting,

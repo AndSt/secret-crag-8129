@@ -40,6 +40,7 @@ app.post('/addItem', function (req, res) {
 
 app.get('/newLog', function(req, res){
     logger.log("testLog", "INFO");
+    res.send('Log funzt');
 });
 
 app.listen(app.get('port'), function () {
@@ -47,3 +48,4 @@ app.listen(app.get('port'), function () {
 });
 
 
+global.setInterval(assistant.updateFunction, 10000);
