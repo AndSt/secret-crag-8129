@@ -10,7 +10,7 @@ exports.test = function (conn) {
             callback(false, "Querrying database went great")
         }
     });
-}
+};
 
 exports.checkItem = function (conn, text, callback) {
     var partials = text.split("/");

@@ -13,6 +13,14 @@ var connection = mysql.createConnection({
     database: 'sql288857'
 });
 
+connection.connect(function (err) {
+    if (!err) {
+        connected = true;
+        console.log("Database is connected ... \n\n");
+    } else {
+        console.log("Error connecting database ... \n\n");
+    }
+});
 
 app.set('port', (process.env.PORT || 5000));
 
