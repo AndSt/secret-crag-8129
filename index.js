@@ -48,4 +48,4 @@ app.listen(app.get('port'), function () {
 });
 
 
-global.setInterval(assistant.updateFunction, 10000);
+global.setInterval(assistant.updateFunction, 60000);
