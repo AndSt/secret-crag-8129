@@ -18,7 +18,7 @@ exports.checkItem = function (text, callback) {
     var partials = text.split("/");
     switch (partials[1]) {
         case "addMeetingDate":
-            addMeeting(conn, text, partials, function (err, val) {
+            exports.addMeeting(conn, text, partials, function (err, val) {
                 if (err) {
                     callback(err, val);
                 }
@@ -47,20 +47,19 @@ exports.addMeeting = function (text, partials, callback) {
         sentReminder = 1;
     }
     
-    callback(false, "passt alles");
     
-//    connection.query(
-//            "INSERT INTO `remindMeetings`(`convID`, `inputItemID`, " +
-//            "`inputText`, `title`, `date`, `reminderDate`, `sentReminder`) " +
-//            "VALUES ('1', '1', '" + text + "', '" + title + "', '" +
-//            unixDate + "', " + reminderDate + ", " + sentReminder + ")",
-//            function (err) {
-//                if (err) {
-//                    console.error("Error while inserting a remindMeeting");
-//                    callback(true, "Error while inserting a remindMeeting");
-//                }
-//                else {
-//                    callback(false, "Inserting of remindMeeting went well");
-//                }
-//            });
+    connection.query(
+            "INSERT INTO `remindMeetings`(`convID`, `inputItemID`, " +
+            "`inputText`, `title`, `date`, `reminderDate`, `sentReminder`) " +
+            "VALUES ('1', '1', '" + text + "', '" + title + "', '" +
+            unixDate + "', " + reminderDate + ", " + sentReminder + ")",
+            function (err) {
+                if (err) {
+                    console.error("Error while inserting a remindMeeting");
+                    callback(true, "Error while inserting a remindMeeting");
+                }
+                else {
+                    callback(false, "Inserting of remindMeeting went well");
+                }
+            });
 };
