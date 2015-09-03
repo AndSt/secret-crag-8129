@@ -28,8 +28,6 @@ var addMeeting = function (text, partials, callback) {
     if (now >= reminderDate) {
         sentReminder = 1;
     }
-    
-    callback(false, "was geht");
 
     connection.query(
             "INSERT INTO `remindMeetings`(`convID`, `inputItemID`, " +
