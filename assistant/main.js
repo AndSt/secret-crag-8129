@@ -71,7 +71,7 @@ var checkItem = function (text, callback) {
 var updateFunction = function () {
 
     var now = Math.floor((new Date()).getTime() / 1000);
-    console.log("check started at  " + now);
+    logger.log("check started at  " + now);
     // every 10 seconds there is a check, if a meeting is starting soon
     // if yes, a reminder will be posted to circuit
 
@@ -105,16 +105,17 @@ var updateFunction = function () {
                     // update the sentReminder flag
                     connection.query("UPDATE `remindMeetings` " +
                             "SET `sentReminder`='1' " +
-                            "WHERE `ID` = '1'", function (err) {
+                            "WHERE `ID` = '" + meeting.ID + "'",
+                            function (err) {
                                 if (err) {
                                     logger.log("sentReminder von ID " +
-                                            meeting.ID + "konnte nicht " +
+                                            meeting.ID + " konnte nicht " +
                                             "geupdated werden.",
                                             "ERROR");
                                 }
                                 else {
                                     logger.log("sentReminder von ID " +
-                                            meeting.ID + "wurde erfolgreich " +
+                                            meeting.ID + " wurde erfolgreich " +
                                             "geupdated.",
                                             "INFO");
                                 }
