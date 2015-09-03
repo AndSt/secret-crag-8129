@@ -1,6 +1,6 @@
 
 var mysql = require('mysql');
-var connection = require('./../utils/database').getConnection();
+var connection = require('./database').getConnection();
 
 /*
  * We following loggin levels are possible:
