@@ -1,7 +1,10 @@
 var express = require('express');
 var app = express();
+var assistant = require('./assistant/main');
 
 var mysql = require('mysql');
+
+
 var connection = mysql.createConnection({
     host: 'sql2.freemysqlhosting.net',
     user: 'sql288857',
@@ -9,6 +12,7 @@ var connection = mysql.createConnection({
     port: '3306',
     database: 'sql288857'
 });
+
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -22,12 +26,28 @@ app.get('/', function (request, response) {
     response.render('pages/index');
 });
 
+app.get('/add', function (req, res) {
+    res.render('pages/add');
+});
+
 app.get('/check', function (req, res) {
-    connection.connect(function (err) {
-        if (!err) {
-            res.send("Database is connected ... \n\n");
-        } else {
-            res.send("Error connecting database ... \n\n");
+    assistant.test(connection, function(err, text){
+        if(err) {
+            res.send("Error");
+        }
+        else {
+            res.send(text);
+        }
+    });
+});
+
+app.post('/addItem', function (req, res) {
+    checkItem(req.body.item, function (err, text) {
+        if (err) {
+            res.send(text);
+        }
+        else {
+            res.json(text);
         }
     });
 });
