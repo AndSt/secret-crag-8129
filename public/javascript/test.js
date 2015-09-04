@@ -18,23 +18,6 @@ function run() {
                 console.log("In der Conversation " + item.convId +
                         " wurde gesagt: " + item.text.content);
             }
-            
-            var toSendTextItem = {
-                convId : item.convId,
-                type : 'TEXT',
-                content: item.text
-            };
-            client.addTextItem(toSendTextItem);
-            console.log("Oder auch nicht");
-//            
-//            
-//            client.getConversationById(item.convId, function (conv) {
-//                console.log("Versuch ein Item hinzuzufügen für " + conv.concId);
-//
-////                client.addItem(item.convId, "was geht", function(err){
-////                    console.log("kein plan");
-////                });
-//            });
         });
     }).catch(function (err) {
         console.log('Unable to logon. ' + err);
