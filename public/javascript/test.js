@@ -16,9 +16,14 @@ function run() {
     // Authenticate with Basic Auth
     client.authenticate({email: 'andreas-stephan@hotmail.de',
         password: 'andalos1'}).then(function () {
-            console.log("geschafft");
-        }, function (err) {
-            console.log("verdammt");
-            console.error(err);
+        console.log("geschafft");
+
+        client.addEventListener('itemAdded', function (item) {
+            console.log(item.type);
         });
+
+    }, function (err) {
+        console.log("verdammt");
+        console.error(err);
+    });
 }
