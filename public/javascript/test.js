@@ -18,10 +18,10 @@ function run() {
                 console.log("In der Conversation " + item.convId +
                         " wurde gesagt: " + item.text.content);
             }
-            client.addTextItem(item.convId, item.text).then( function(){
-                console.log("check ich nicht");
-            }).catch(function(e){
-                console.log("wtf");
+            var toSendTextItem = new Circuit.Item({contentType: 'RICH', 
+                content: item.text});
+            client.addTextItem(toSendTextItem, function(err){
+                console.log("Jetzt ist denk ich was gesendet");
             });
             console.log("Oder auch nicht");
 //            client.getConversationById(item.convId, function (conv) {
