@@ -19,6 +19,7 @@ var checkItem = function (text, callback) {
     }
 };
 
+
 var update = function(){
     meetingReminder.update();
 };

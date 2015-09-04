@@ -1,4 +1,11 @@
 // Load circuit sdk and when loaded run the example
+
+var parse = function(text, callback){
+    var object = JSON.parse(text);
+    console.log(object);
+    callback(false, object);
+};
+
 var script = document.createElement('script');
 script.onload = function () {
     run();
@@ -21,21 +28,27 @@ function run() {
         if (item.type === "TEXT"
                 && item.creatorId !== client.loggedOnUser.userId)
         {
+            var lol = item.text.split(':');
+            if(lol[0] === 'assistant'){
+                parse(lol[1], function(err, obj){
+                    
+                });
+            }
             
             client.getUserById(item.creatorId, function(user){
-                console.log(user);
+                var timeOffset = user.userPresenceState.timeZoneOffset;
             });
             
-//            client.addTextItem('0a19d4c4-9819-40c0-a299-ee3ce8ccb8b5',
-//                    {
-//                        contentType: "RICH",
-//                        content: "jo"
-//                    })
-//                    .then(function (i) {
-//                        console.log(i);
-//                    }).catch(function (err) {
-//                console.log('Unable to logon. ' + err);
-//            });
+            client.addTextItem(item.convId,
+                    {
+                        contentType: "RICH",
+                        content: "jo"
+                    })
+                    .then(function (i) {
+                        console.log(i);
+                    }).catch(function (err) {
+                console.log('Unable to logon. ' + err);
+            });
         }
     });
 }
