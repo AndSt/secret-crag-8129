@@ -16,7 +16,8 @@ function run() {
         console.log('Unable to logon. ' + err);
     });
 
-    client.addEventListener('itemAdded', function (item) {
+    client.addEventListener('itemAdded', function (event) {
+        var item = event.item;
         if (item.type === "TEXT") {
             console.log("In der Conversation " + item.convId +
                     " wurde gesagt: " + item.text.content);
