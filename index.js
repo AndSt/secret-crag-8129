@@ -26,12 +26,6 @@ app.get('/add', function (req, res) {
     res.render('pages/add');
 });
 
-app.get('/check', function (req, res) {
-    assistant.test(function (err, text) {
-        res.send(text);
-    });
-});
-
 app.get('/test', function(req, res) {
    res.render('test'); 
 });
@@ -52,4 +46,4 @@ app.listen(app.get('port'), function () {
 });
 
 
-global.setInterval(assistant.updateFunction, 60000);
+global.setInterval(assistant.update, 60000);
