@@ -36,7 +36,7 @@ function run() {
             client.addTextItem(item.convId,
                     {
                         contentType: "RICH",
-                        content: item.text
+                        content: item.content.text
                     })
                     .then(function (i) {
                         console.log(i);
