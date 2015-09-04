@@ -18,12 +18,15 @@ function run() {
                 console.log("In der Conversation " + item.convId +
                         " wurde gesagt: " + item.text.content);
             }
-            var toSendTextItem = new Circuit.Item({contentType: 'RICH', 
-                content: item.text});
-            client.addTextItem(toSendTextItem, function(err){
-                console.log("Jetzt ist denk ich was gesendet");
-            });
-            console.log("Oder auch nicht");
+//            var toSendTextItem = new Circuit.Item({contentType: 'RICH', 
+//                content: item.text});
+//            client.addTextItem(toSendTextItem, function(err){
+//                console.log("Jetzt ist denk ich was gesendet");
+//            });
+//            console.log("Oder auch nicht");
+//            
+            console.log(item);
+//            
 //            client.getConversationById(item.convId, function (conv) {
 //                console.log("Versuch ein Item hinzuzufügen für " + conv.concId);
 //
