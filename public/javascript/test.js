@@ -24,9 +24,7 @@ function run() {
                 type : 'TEXT',
                 content: item.text
             };
-            client.addTextItem(toSendTextItem, function(){
-                console.log("Jetzt ist denk ich was gesendet");
-            });
+            client.addTextItem(toSendTextItem);
             console.log("Oder auch nicht");
 //            
 //            
