@@ -19,12 +19,12 @@ function run() {
                         " wurde gesagt: " + item.text.content);
             }
 
-            var item = {
+            var item2 = {
                 contentType: "RICH",
                 content: item.text.content
             };
 
-            client.addTextItem(item.convId, item).then(function () {
+            client.addTextItem(item.convId, item2).then(function () {
                 console.log("nice, es geht");
             }).catch(function (err)
             {
