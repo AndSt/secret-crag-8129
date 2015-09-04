@@ -23,7 +23,8 @@ function run() {
             console.log("In der Conversation " + item.convId +
                     " wurde gesagt: " + item.text.content);
 
-            console.log(client.getLoggedOnUser().userId);
+            console.log("eingeloggt: " + client.getLoggedOnUser().userId);
+            console.log("gesendeter User: " + item.creatorId);
 //            client.addTextItem('0a19d4c4-9819-40c0-a299-ee3ce8ccb8b5',
 //                    {
 //                        contentType: "RICH",
