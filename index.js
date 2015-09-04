@@ -27,7 +27,11 @@ app.get('/add', function (req, res) {
 });
 
 app.get('/test', function (req, res) {
-    res.render('test');
+    res.render('pages/test');
+});
+
+app.get('/test2', function (req, res) {
+    res.render('pages/test2');
 });
 
 app.post('/addItem', function (req, res) {
