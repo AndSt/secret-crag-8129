@@ -32,6 +32,10 @@ app.get('/check', function (req, res) {
     });
 });
 
+app.get('test', function(req, res) {
+   res.render('test'); 
+});
+
 app.post('/addItem', function (req, res) {
     assistant.checkItem(req.body.item, function (err, text) {
         res.send(text);

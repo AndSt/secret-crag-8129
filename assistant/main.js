@@ -4,17 +4,6 @@ var connection = require('./../utils/database').getConnection();
 var logger = require('./../utils/logger');
 
 
-exports.test = function (callback) {
-    connection.query("SELECT * FROM remindMeetings", function (err, rows) {
-        if (err) {
-            callback(false, "Error querying database");
-        }
-        else {
-            callback(false, "Querrying database went great")
-        }
-    });
-};
-
 var addMeeting = function (text, partials, callback) {
     var now = Math.floor((new Date()).getTime() / 1000);
 
@@ -92,20 +81,19 @@ var updateFunction = function () {
                         //send reminder messages
                         meeting = rows[i];
                         date = new Date(meeting.date);
+                        dateString = date.getUTCHours() + ":" + date.getUTCMinutes(); 
                         id = meeting.ID;
                         // send text
                         if (meeting.title === "") {
                             logger.log(
-                                    "Die nächste Besprechung findet bald statt. \n" +
-                                    "Der genaue Uhrzeit ist " + date + ".",
+                                    "Um " + dateString + " Uhr beginnt ein Meeting",
                                     "INFO"
                                     );
                         }
                         else {
                             logger.log(
-                                    "Die Besprechung " + meeting.title +
-                                    " findet in 5 Minuten statt. \n" +
-                                    "Die genau Uhrzeit ist: " + date + ".",
+                                    "Um " + dateString + " Uhr beginnt das " +
+                                    "Meeting " + meeting.title,
                                     "INFO"
                                     );
                         }
