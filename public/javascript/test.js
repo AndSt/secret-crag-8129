@@ -10,6 +10,7 @@ function run() {
     var client = new Circuit.Client({domain: 'circuitsandbox.net'});
     client.logon('andreas-stephan@hotmail.de', 'andalos1').then(function (user) {
         console.log('Logged in as ' + user.displayName);
+        console.log(client);
     }).catch(function (err) {
         console.log('Unable to logon. ' + err);
     });
