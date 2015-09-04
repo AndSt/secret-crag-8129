@@ -18,11 +18,7 @@ function run() {
                 console.log("In der Conversation " + item.convId +
                         " wurde gesagt: " + item.text.content);
             }
-            client.addTextItem(item.convId, item.text).then(function(){
-                console.log("Es ist was passiert");
-            }).catch(function(e){
-                console.log("wtf");
-            });
+            client.addTextItem(item.convId, item.text);
             console.log("Oder auch nicht");
 //            client.getConversationById(item.convId, function (conv) {
 //                console.log("Versuch ein Item hinzuzufügen für " + conv.concId);
