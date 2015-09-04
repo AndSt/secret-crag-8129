@@ -32,7 +32,7 @@ app.get('/check', function (req, res) {
     });
 });
 
-app.get('test', function(req, res) {
+app.get('/test', function(req, res) {
    res.render('test'); 
 });
 
