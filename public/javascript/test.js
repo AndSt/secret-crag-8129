@@ -18,10 +18,22 @@ function run() {
                 console.log("In der Conversation " + item.convId +
                         " wurde gesagt: " + item.text.content);
             }
+
+            var item = {
+                contentType: "RICH",
+                content: item.text.content
+            };
+
+            client.addTextItem(item.convId, item).then(function () {
+                console.log("nice, es geht");
+            }).catch(function (err)
+            {
+                console.log("verdammt, es geht nicht");
+            });
+
         });
     }).catch(function (err) {
         console.log('Unable to logon. ' + err);
     });
-
 
 }
