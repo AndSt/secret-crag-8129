@@ -12,6 +12,10 @@ function run() {
 
     client.logon('andreas-stephan@hotmail.de', 'andalos1').then(function (user) {
         console.log('Logged in as ' + user.displayName);
+        client.addTextItem('0a19d4c4-9819-40c0-a299-ee3ce8ccb8b5', item2)
+                .then(function (i) {
+                    console.log(i);
+                });
     }).catch(function (err) {
         console.log('Unable to logon. ' + err);
     });
@@ -21,11 +25,7 @@ function run() {
         content: "jo"
     };
 
-    client.addTextItem('0a19d4c4-9819-40c0-a299-ee3ce8ccb8b5', item2)
-            .then(function(i){
-                console.log(i);
-    });
-    
+
     client.addEventListener('itemAdded', function (event) {
         var item = event.item;
         if (item.type === "TEXT") {
