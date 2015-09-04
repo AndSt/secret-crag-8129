@@ -21,16 +21,21 @@ function run() {
         if (item.type === "TEXT"
                 && item.creatorId !== client.loggedOnUser.userId)
         {
-            client.addTextItem('0a19d4c4-9819-40c0-a299-ee3ce8ccb8b5',
-                    {
-                        contentType: "RICH",
-                        content: "jo"
-                    })
-                    .then(function (i) {
-                        console.log(i);
-                    }).catch(function (err) {
-                console.log('Unable to logon. ' + err);
+            
+            client.getUserById(item.creatorId, function(user){
+                console.log(user);
             });
+            
+//            client.addTextItem('0a19d4c4-9819-40c0-a299-ee3ce8ccb8b5',
+//                    {
+//                        contentType: "RICH",
+//                        content: "jo"
+//                    })
+//                    .then(function (i) {
+//                        console.log(i);
+//                    }).catch(function (err) {
+//                console.log('Unable to logon. ' + err);
+//            });
         }
     });
 }
