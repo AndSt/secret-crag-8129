@@ -21,10 +21,10 @@ function run() {
             
             var toSendTextItem = {
                 convId : item.convId,
-                contentType: 'RICH', 
+                type : 'TEXT',
                 content: item.text
             };
-            client.addTextItem(toSendTextItem, function(err){
+            client.addTextItem(toSendTextItem, function(){
                 console.log("Jetzt ist denk ich was gesendet");
             });
             console.log("Oder auch nicht");
