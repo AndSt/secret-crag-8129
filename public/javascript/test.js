@@ -17,12 +17,13 @@ function run() {
     });
 
     client.addEventListener('itemAdded', function (item) {
-        console.log("addedItem " + item.type);
-        client.logout().then(function () {
-            console.log("Ausgeloggt");
-        }).catch(function (err) {
-            console.log("Ausloggen hat nicht funktioniert");
-        });
+        if (item.type === "TEXT") {
+            console.log("In der Conversation " + item.convId +
+                    " wurde gesagt: " + item.text.content);
+        }
+        else {
+            console.log("Item ist vom Typ " + item.type);
+        }
     });
 
 }
