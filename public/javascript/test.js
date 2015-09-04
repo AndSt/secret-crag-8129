@@ -23,8 +23,6 @@ function run() {
         }).catch(function (err) {
             console.log("Ausloggen hat nicht funktioniert");
         });
-    }).catch(function (err) {
-        console.log("Unable to get Item");
     });
 
 }
