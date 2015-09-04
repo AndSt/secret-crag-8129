@@ -22,9 +22,9 @@ function run() {
             console.log("In der Conversation " + item.convId +
                     " wurde gesagt: " + item.text.content);
         }
-        else {
-            console.log("Item ist vom Typ " + item.type);
-        }
+        client.getConversationById(item.convId, function(conv){
+            
+        });
     });
 
 }
