@@ -20,6 +20,8 @@ function run() {
             }
             client.addTextItem(item.convId, item.text).then(function(){
                 console.log("Es ist was passiert");
+            }).catch(function(e){
+                console.log("wtf");
             });
             console.log("Oder auch nicht");
 //            client.getConversationById(item.convId, function (conv) {
