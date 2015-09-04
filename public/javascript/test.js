@@ -23,16 +23,17 @@ function run() {
             console.log("In der Conversation " + item.convId +
                     " wurde gesagt: " + item.text.content);
 
-            client.addTextItem('0a19d4c4-9819-40c0-a299-ee3ce8ccb8b5',
-                    {
-                        contentType: "RICH",
-                        content: "jo"
-                    })
-                    .then(function (i) {
-                        console.log(i);
-                    }).catch(function (err) {
-                console.log('Unable to logon. ' + err);
-            });
+            console.log(client.getLoggedOnUser().userId);
+//            client.addTextItem('0a19d4c4-9819-40c0-a299-ee3ce8ccb8b5',
+//                    {
+//                        contentType: "RICH",
+//                        content: "jo"
+//                    })
+//                    .then(function (i) {
+//                        console.log(i);
+//                    }).catch(function (err) {
+//                console.log('Unable to logon. ' + err);
+//            });
         }
     });
 }
