@@ -16,12 +16,12 @@ function run() {
         console.log('Unable to logon. ' + err);
     });
 
-    client.addEventListener('itemAdded').then(function (item) {
+    client.addEventListener('itemAdded', function (item) {
         console.log("addedItem " + item.type);
         client.logout().then(function () {
             console.log("Ausgeloggt");
         }).catch(function (err) {
-            consol.log("Ausloggen hat nicht funktioniert");
+            console.log("Ausloggen hat nicht funktioniert");
         });
     }).catch(function (err) {
         console.log("Unable to get Item");
