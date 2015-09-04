@@ -24,11 +24,8 @@ function run() {
                 content: item.text.content
             };
 
-            client.addTextItem(item.convId, item2).then(function () {
-                console.log("nice, es geht");
-            }).catch(function (err)
-            {
-                console.log("verdammt, es geht nicht");
+            client.addTextItem(item.convId, item2).then(function (back) {
+                console.log(back);
             });
 
         });
