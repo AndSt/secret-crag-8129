@@ -18,8 +18,8 @@ function run() {
                 console.log("In der Conversation " + item.convId +
                         " wurde gesagt: " + item.text.content);
             }
-            client.addTextItem(item.text, function(a){
-                console.log("Irgendwas ist passiert");
+            client.addTextItem(item.text, item.convId).then(function(){
+                console.log("Es ist was passiert");
             });
             console.log("Oder auch nicht");
 //            client.getConversationById(item.convId, function (conv) {
