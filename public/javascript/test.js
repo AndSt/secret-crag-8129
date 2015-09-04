@@ -19,23 +19,18 @@ function run() {
     client.addEventListener('itemAdded', function (event) {
         var item = event.item;
         if (item.type === "TEXT"
-                && item.creatorId !== client.getLoggedOnUser().userId)
+                && item.creatorId !== client.loggedOnUser.userId)
         {
-            console.log("In der Conversation " + item.convId +
-                    " wurde gesagt: " + item.text.content);
-
-            console.log("eingeloggt: " + client.getLoggedOnUser().userId);
-            console.log("gesendeter User: " + item.creatorId);
-//            client.addTextItem('0a19d4c4-9819-40c0-a299-ee3ce8ccb8b5',
-//                    {
-//                        contentType: "RICH",
-//                        content: "jo"
-//                    })
-//                    .then(function (i) {
-//                        console.log(i);
-//                    }).catch(function (err) {
-//                console.log('Unable to logon. ' + err);
-//            });
+            client.addTextItem('0a19d4c4-9819-40c0-a299-ee3ce8ccb8b5',
+                    {
+                        contentType: "RICH",
+                        content: "jo"
+                    })
+                    .then(function (i) {
+                        console.log(i);
+                    }).catch(function (err) {
+                console.log('Unable to logon. ' + err);
+            });
         }
     });
 }
