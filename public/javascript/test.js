@@ -30,11 +30,10 @@ function run() {
                     })
                     .then(function (i) {
                         console.log(i);
-                    });
-
+                    }).catch(function (err) {
+                console.log('Unable to logon. ' + err);
+            });
         }
-    }).catch(function (err) {
-        console.log('Unable to logon. ' + err);
     });
 }
 
