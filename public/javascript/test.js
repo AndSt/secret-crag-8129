@@ -19,7 +19,9 @@ function run() {
                         " wurde gesagt: " + item.text.content);
             }
             client.getConversationById(item.convId, function (conv) {
-
+                client.addItem(item.convId, "was geht", function(err){
+                    console.log("kein plan");
+                });
             });
         });
     }).catch(function (err) {
