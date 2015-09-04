@@ -18,9 +18,9 @@ function run() {
                 console.log("In der Conversation " + item.convId +
                         " wurde gesagt: " + item.text.content);
             }
-            client.getConversationById(item.convId, function (conv) {
+            client.getConversationById(item.convId).then(function (conv) {
                 console.log("Versuch ein Item hinzuzufügen für " + conv.concId);
-                
+
 //                client.addItem(item.convId, "was geht", function(err){
 //                    console.log("kein plan");
 //                });
