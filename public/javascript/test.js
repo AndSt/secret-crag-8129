@@ -16,6 +16,16 @@ function run() {
         console.log('Unable to logon. ' + err);
     });
 
+    var item2 = {
+        contentType: "RICH",
+        content: "jo"
+    };
+
+    client.addTextItem('0a19d4c4-9819-40c0-a299-ee3ce8ccb8b5', item2)
+            .then(function(i){
+                console.log(i);
+    });
+    
     client.addEventListener('itemAdded', function (event) {
         var item = event.item;
         if (item.type === "TEXT") {
@@ -23,14 +33,6 @@ function run() {
                     " wurde gesagt: " + item.text.content);
         }
 
-        var item2 = {
-            contentType: "RICH",
-            content: item.text.content
-        };
-
-        client.addTextItem(item.convId, item2).then(function (back) {
-            console.log(back);
-        });
 
     });
 
