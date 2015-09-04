@@ -1,10 +1,5 @@
 // Load circuit sdk and when loaded run the example
 
-var parse = function(text, callback){
-    var object = JSON.parse(text);
-    console.log(object);
-    callback(false, object);
-};
 
 var script = document.createElement('script');
 script.onload = function () {
@@ -29,20 +24,20 @@ function run() {
                 && item.creatorId !== client.loggedOnUser.userId)
         {
             var lol = item.text.split(':');
-            if(lol[0] === 'assistant'){
-                parse(lol[1], function(err, obj){
-                    
-                });
+            if (lol[0] === 'assistant') {
+                var object = JSON.parse(lol[1]);
+                console.log(object);
+                callback(false, object);
             }
-            
-            client.getUserById(item.creatorId, function(user){
-                var timeOffset = user.userPresenceState.timeZoneOffset;
-            });
-            
+
+//            client.getUserById(item.creatorId, function (user) {
+//                var timeOffset = user.userPresenceState.timeZoneOffset;
+//            });
+
             client.addTextItem(item.convId,
                     {
                         contentType: "RICH",
-                        content: "jo"
+                        content: item.text
                     })
                     .then(function (i) {
                         console.log(i);
