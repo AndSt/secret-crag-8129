@@ -12,25 +12,26 @@ function run() {
 
     client.logon('andreas-stephan@hotmail.de', 'andalos1').then(function (user) {
         console.log('Logged in as ' + user.displayName);
-        client.addEventListener('itemAdded', function (event) {
-            var item = event.item;
-            if (item.type === "TEXT") {
-                console.log("In der Conversation " + item.convId +
-                        " wurde gesagt: " + item.text.content);
-            }
-
-            var item2 = {
-                contentType: "RICH",
-                content: item.text.content
-            };
-
-            client.addTextItem(item.convId, item2).then(function (back) {
-                console.log(back);
-            });
-
-        });
     }).catch(function (err) {
         console.log('Unable to logon. ' + err);
+    });
+
+    client.addEventListener('itemAdded', function (event) {
+        var item = event.item;
+        if (item.type === "TEXT") {
+            console.log("In der Conversation " + item.convId +
+                    " wurde gesagt: " + item.text.content);
+        }
+
+        var item2 = {
+            contentType: "RICH",
+            content: item.text.content
+        };
+
+        client.addTextItem(item.convId, item2).then(function (back) {
+            console.log(back);
+        });
+
     });
 
 }
