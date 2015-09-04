@@ -26,8 +26,8 @@ app.get('/add', function (req, res) {
     res.render('pages/add');
 });
 
-app.get('/test', function(req, res) {
-   res.render('test'); 
+app.get('/test', function (req, res) {
+    res.render('test');
 });
 
 app.post('/addItem', function (req, res) {
@@ -36,7 +36,7 @@ app.post('/addItem', function (req, res) {
     });
 });
 
-app.get('/newLog', function(req, res){
+app.get('/newLog', function (req, res) {
     logger.log("testLog", "INFO");
     res.send('Log funzt');
 });

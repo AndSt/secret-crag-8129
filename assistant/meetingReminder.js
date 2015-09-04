@@ -4,8 +4,6 @@ var connection = require('./../utils/database').getConnection();
 var logger = require('./../utils/logger');
 
 
-
-
 var addMeeting = function (text, partials, callback) {
     var now = Math.floor((new Date()).getTime() / 1000);
 
@@ -42,10 +40,10 @@ var addMeeting = function (text, partials, callback) {
 
 var update = function () {
 
+    // actual timestamp in UTC/GMT+2(berlin, germany)
     var now = Math.floor((new Date()).getTime() / 1000) + 7200;
-    // every 10 seconds there is a check, if a meeting is starting soon
-    // if yes, a reminder will be posted to circuit
 
+    // choose every meeting, which as a obsolete reminderDate
     connection.query("SELECT * FROM  `remindMeetings` " +
             "WHERE  `sentReminder` =  '0' " +
             " AND  `reminderDate` <  '" + now + "'",
@@ -64,19 +62,19 @@ var update = function () {
                         //send reminder messages
                         meeting = rows[i];
                         date = new Date(meeting.date);
-                        dateString = date.getUTCHours() + ":" + date.getUTCMinutes(); 
+                        dateString = date.getUTCHours() + ":" + date.getUTCMinutes();
                         id = meeting.ID;
                         // send text
                         if (meeting.title === "") {
                             logger.log(
-                                    "Um " + dateString + " Uhr beginnt ein Meeting",
-                                    "INFO"
+                                    "Um " + dateString + " Uhr beginnt " +
+                                    "ein Meeting", "INFO"
                                     );
                         }
                         else {
                             logger.log(
-                                    "Um " + dateString + " Uhr beginnt das " +
-                                    "Meeting " + meeting.title,
+                                    "Um " + dateString + " Uhr beginnt " +
+                                    "das Meeting " + meeting.title,
                                     "INFO"
                                     );
                         }
@@ -104,6 +102,6 @@ var update = function () {
 };
 
 module.exports = {
-    addMeeting : addMeeting,
-    update : update
+    addMeeting: addMeeting,
+    update: update
 };
