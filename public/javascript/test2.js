@@ -33,7 +33,8 @@ var pieData = [
 ];
 
 var options = {
-    legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\">" +
+    legendTemplate : 
+            "<ul class=\"<%=name.toLowerCase()%>-legend\">" +
             "<% for (var i=0; i<segments.length; i++){%>" +
             "<li>" +
             "<span style=\"background-color:<%=segments[i].fillColor%>\">" +
@@ -46,6 +47,6 @@ var options = {
 };
 window.onload = function () {
     var ctx = document.getElementById("chart-area").getContext("2d");
-    window.myPie = new Chart(ctx).Pie(pieData);
+    window.myPie = new Chart(ctx).Pie(pieData, options);
 };
 
