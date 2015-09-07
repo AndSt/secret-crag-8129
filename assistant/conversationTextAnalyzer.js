@@ -3,12 +3,12 @@ var connection = require('./../utils/database').getConnection();
 var logger = require('./../utils/logger');
 var comm = require('./communication');
 
-var getConversations = function() {
+var analyzeTextItems = function(convId, options, callback) {
     
 };
 
 module.exports = {
-    
+    analyzeTextItems : analyzeTextItems
 };
 
 

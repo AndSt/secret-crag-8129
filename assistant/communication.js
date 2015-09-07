@@ -26,13 +26,22 @@ var sendTextItem = function (convId, text) {
 /*
  * getLastTextItems receives the last textItems of a conversation
  * 
- * convId:  ID of the conversation
- * number:  how many items shall be fetched
+ * convId:      ID of the conversation
+ * number:      how many items shall be fetched
+ * callback:    as usual
  */
-var getLastTextItems = function(convId, number, callback){
-    
+var getLastItems = function (convId, number, callback) {
+    client.getConversationItems(convId, {numberOfItems: number})
+            .then(function (items) {
+                logger.info("Successfully retrieved " + number + "items: " +
+                        JSON.stringify(items));
+                callback(false, items);
+            }, function (err) {
+                logger.error("Failure while retrieving items: " + errr);
+            });
 };
 
 module.exports = {
-    sendTextItem: sendTextItem
+    sendTextItem: sendTextItem,
+    getLastItems: getLastItems
 };
