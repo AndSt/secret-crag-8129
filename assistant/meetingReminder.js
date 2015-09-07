@@ -2,9 +2,10 @@
 var mysql = require('mysql');
 var connection = require('./../utils/database').getConnection();
 var logger = require('./../utils/logger');
+var comm = require('./communication');
 
 
-var addMeeting = function (text, partials, callback) {
+var addMeeting = function (item, partials, callback) {
     var now = Math.floor((new Date()).getTime() / 1000);
 
     var dat = partials[2].split(" ");
@@ -22,18 +23,17 @@ var addMeeting = function (text, partials, callback) {
     connection.query(
             "INSERT INTO `remindMeetings`(`convID`, `inputItemID`, " +
             "`inputText`, `title`, `date`, `reminderDate`, `sentReminder`) " +
-            "VALUES ('1', '1', '" + text + "', '" + title + "', '" +
-            unixDate + "', " + reminderDate + ", " + sentReminder + ")",
+            "VALUES ('" + item.convId + "', '" + item.itemId + "', '" +
+            item.text.content + "', '" + title + "', '" + unixDate +
+            "', " + reminderDate + ", " + sentReminder + ")",
             function (err) {
                 if (err) {
-                    logger.log("Error while inserting a remindMeeting",
-                            "ERROR");
-                    callback(true, "Error while inserting a remindMeeting. " +
+                    logger.error("Error while inserting a remindMeeting");
+                    callback(false, "Error while inserting a remindMeeting. " +
                             "Please try again.");
                 }
                 else {
-                    logger.log("Inserting of remindMeeting went well",
-                            "INFO");
+                    logger.info("Inserting of remindMeeting went well");
                     callback(false, "Inserting of remindMeeting went well");
                 }
             });
@@ -50,13 +50,12 @@ var update = function () {
             " AND  `reminderDate` <  '" + now + "'",
             function (err, rows) {
                 if (err) {
-                    logger.log("Error while getting the meeting to remind",
-                            "ERROR");
+                    logger.error("Error while getting the meeting to remind");
                 }
                 else {
-                    logger.log("check started at  " + now +
+                    logger.info("check started at  " + now +
                             "and " + rows.length + " meetings will " +
-                            "be sent", "INFO");
+                            "be sent");
                     var meeting, date, id;
                     for (var i = 0; i < rows.length; i++) {
 
@@ -67,34 +66,33 @@ var update = function () {
                         id = meeting.ID;
                         // send text
                         if (meeting.title === "") {
-                            logger.log(
+                            comm.sendTextItem(meeting.convId,
                                     "Um " + dateString + " Uhr beginnt " +
-                                    "ein Meeting", "INFO"
+                                    "ein Meeting."
                                     );
                         }
                         else {
-                            logger.log(
+                            comm.sendTextItem(meeting.convId,
                                     "Um " + dateString + " Uhr beginnt " +
-                                    "das Meeting " + meeting.title,
-                                    "INFO"
+                                    "das Meeting " + meeting.title
                                     );
                         }
+
+
                         // update the sentReminder flag
                         connection.query("UPDATE `remindMeetings` " +
                                 "SET `sentReminder`='1' " +
                                 "WHERE `ID` = '" + id + "'",
                                 function (err) {
                                     if (err) {
-                                        logger.log("sentReminder von ID " +
-                                                id + " konnte nicht " +
-                                                "geupdated werden.",
-                                                "ERROR");
+                                        logger.error("sentReminder of ID " +
+                                                id + " couldn't be updated ," +
+                                                "because: " + err);
                                     }
                                     else {
-                                        logger.log("sentReminder von ID " +
-                                                id + " wurde erfolgreich " +
-                                                "geupdated.",
-                                                "INFO");
+                                        logger.info("sentReminder of ID " +
+                                                id + " was updated " +
+                                                "successfully.");
                                     }
                                 });
                     }

@@ -5,6 +5,7 @@ var Circuit = require('circuit');
 
 var assistant = require('./assistant/main');
 var logger = require('./utils/logger');
+var client = require('./utils/client').getClient();
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -52,15 +53,7 @@ app.listen(app.get('port'), function () {
 
 
 
-
-client = new Circuit.Client({domain: 'circuitsandbox.net'});
 assistant.registerEventListener(client);
-client.logon('andreas-stephan@hotmail.de', 'andalos1')
-        .then(function (user) {
-            logger.info('Logged in as ' + user.displayName);
-        }).catch(function (e) {
-    logger.error('Unable to logon. ' + e);
-});
 
 global.setInterval(assistant.update, 60000);
 

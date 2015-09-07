@@ -1,4 +1,6 @@
 var logger = require('./../utils/logger');
+var comm = require('./communication');
+
 var meetingReminder = require('./meetingReminder');
 
 
@@ -12,27 +14,22 @@ var registerEventListener = function (client) {
                 && item.creatorId !== client.loggedOnUser.userId)
         {
             checkItem(item.text.content, function (err, val) {
-                if ('val' !== '12345') {
-                    client.addTextItem(item.convId,
-                            {
-                                contentType: "RICH",
-                                content: val
-                            }
-                    ).then(function (ret) {
-                        logger.info("Antwort: " + ret);
-                    }).catch(function (err) {
-                        logger.error('Unable to answer. ' + err);
-                    });
+                // only send answer, if there's no error
+                // error handling is done in checkItem()
+                if (err === false) {
+                    comm.sendTextItem(item.convId, val);
                 }
             });
         }
     });
 };
-var checkItem = function (text, callback) {
-    var partials = text.split("/");
+
+
+var checkItem = function (item, callback) {
+    var partials = item.text.content.split("/");
     switch (partials[1]) {
         case "addMeetingDate":
-            meetingReminder.addMeeting(text, partials, function (err, val) {
+            meetingReminder.addMeeting(item, partials, function (err, val) {
                 if (err) {
                     callback(err, val);
                 }
