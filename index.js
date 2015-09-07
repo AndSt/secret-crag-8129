@@ -60,8 +60,8 @@ client.addEventListener('connectionStateChanged', function (item) {
 });
 
 client.addEventListener('itemAdded', function (event) {
-    logger.info('itemAdded' + item.text.content);
     var item = event.item;
+    logger.info('itemAdded' + item.text.content);
     if (item.type === "TEXT"
             && item.creatorId !== client.loggedOnUser.userId)
     {
