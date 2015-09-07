@@ -3,7 +3,6 @@ var connection = require('./../utils/database').getConnection();
 var logger = require('./../utils/logger');
 var circuitConn = require('./communication');
 
-
 /*  
  * 
  */
@@ -20,11 +19,26 @@ var analyzeTextItems = function (item, partials, callback) {
                     callback(false, "An error occured. Please try again.");
                 }
                 else {
-                    
-                    var participants;
+
                     var numberOfTextMessages = [];
-                    
-                    
+                    var numberOfLetters = [];
+
+                    for (var i = 0; i < conv.participates.length; i++) {
+                        numberOfTextMessages[conv.participants[i]] = 0;
+                        numberOfLetters[conv.participants[i]] = 0;
+                    }
+
+                    for (var i = 0; i < items.length; i++) {
+                        if (items[i].type === "TEXT") {
+                            numberOfTextMessages[items[i].creatorId] += 1;
+                            numberOfLetters[items[i].creatorId]
+                                    += items[i].text.content.length;
+                        }
+                    }
+
+                    logger.info("Statistiken: " +
+                            JSON.stringify(numberOfTextMessages));
+
                     callback(false, "Läuft gut");
                 }
             });
