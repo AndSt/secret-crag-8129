@@ -36,8 +36,8 @@ var analyzeTextItems = function (item, partials, callback) {
                     for (var j = 0; j < items.length; j++) {
                         if (items[j].type === "TEXT") {
                             stats[items[j].creatorId].numMessages += 1;
-                            text = stats[j].text.content;
-                            stats[items[j].creatorId].numLetters += text.length;
+                            stats[items[j].creatorId].numLetters 
+                                    += items[j].text.content.length;
                         }
                     }
 
