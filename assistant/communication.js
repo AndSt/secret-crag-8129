@@ -3,11 +3,12 @@ var logger = require('./../utils/logger');
 var client = require('./../utils/client').getClient();
 
 
+
 /*
  * sendTextItem() sends a textItem to a circuit conversation
  * 
- * convId:  ID of the conversation
- * text:    text which will be sent
+ * @param convId    ID of the conversation
+ * @param text      text which will be sent
  */
 var sendTextItem = function (convId, text) {
     client.addTextItem(convId,
@@ -26,9 +27,11 @@ var sendTextItem = function (convId, text) {
 /*
  * getLastTextItems receives the last textItems of a conversation
  * 
- * convId:      ID of the conversation
- * number:      how many items shall be fetched
- * callback:    gets an array of items(like in the circuit JS SDK)
+ * @param convId            ID of the conversation
+ * @param number            how many items shall be fetched
+ * @param callback(err, b)  will be called with
+ *            err - true, if retrieving of the items fails
+ *            b - items, if err=true, error string otherwise
  */
 var getLastItems = function (convId, number, callback) {
     client.getConversationItems(convId, {numberOfItems: number})
@@ -42,10 +45,14 @@ var getLastItems = function (convId, number, callback) {
             });
 };
 
+/*
+ * 
+ */
 var getConversation = function (convId, callback) {
     client.getConversationById(convId)
             .then(function (conv) {
-                logger.info("Successfully retrieved the conversation " + convId);
+                logger.info("Successfully retrieved the conversation " +
+                        convId + ": " + JSON.stringify(conv));
                 callback(false, conv);
             }, function (err) {
                 logger.error("Failure while retrieving the conversation " +
