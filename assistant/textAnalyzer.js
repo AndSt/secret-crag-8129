@@ -35,10 +35,10 @@ var analyzeTextItems = function (item, partials, callback) {
                                     += items[i].text.content.length;
                         }
                     }
-                    
+
 
                     logger.info("Statistiken: " +
-                            JSON.stringify(numberOfTextMessages));
+                            numberOfTextMessages.toString());
 
                     callback(false, "Läuft gut");
                 }
