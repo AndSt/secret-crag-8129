@@ -24,17 +24,18 @@ var analyzeTextItems = function (item, partials, callback) {
                     var numberOfLetters = [];
 
                     for (var i = 0; i < conv.participates.length; i++) {
-                        numberOfTextMessages[conv.participants[i]] = 0;
-                        numberOfLetters[conv.participants[i]] = 0;
+                        numberOfTextMessages[i] = 0;
+                        numberOfLetters[i] = 0;
                     }
 
                     for (var i = 0; i < items.length; i++) {
                         if (items[i].type === "TEXT") {
-                            numberOfTextMessages[items[i].creatorId] += 1;
-                            numberOfLetters[items[i].creatorId]
+                            numberOfTextMessages[i] += 1;
+                            numberOfLetters[i]
                                     += items[i].text.content.length;
                         }
                     }
+                    
 
                     logger.info("Statistiken: " +
                             JSON.stringify(numberOfTextMessages));
