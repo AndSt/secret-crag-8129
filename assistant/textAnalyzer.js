@@ -24,15 +24,17 @@ var analyzeTextItems = function (item, partials, callback) {
                     var stats = [];
 
                     for (var i = 0; i < participants.length; i++) {
-                        stats[("" + participants[i])] = {
+                        console.log("Participant " + participants[i]);
+                        stats[participants[i]] = {
                             numMessages: 0,
                             numLetters: 0
                         };
+                        logger.info(JSON.stringify(stats[participants[i]]));
                     }
 
                     logger.info("Das " + participants.length + " Array: " +
                             JSON.stringify(stats));
-                    
+
                     for (var j = 0; j < items.length; j++) {
                         if (items[j].type === "TEXT") {
                             (stats[items[j].creatorId]).numMessages += 1;
