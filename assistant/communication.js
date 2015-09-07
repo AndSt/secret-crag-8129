@@ -28,7 +28,7 @@ var sendTextItem = function (convId, text) {
  * 
  * convId:      ID of the conversation
  * number:      how many items shall be fetched
- * callback:    as usual
+ * callback:    gets an array of items(like in the circuit JS SDK)
  */
 var getLastItems = function (convId, number, callback) {
     client.getConversationItems(convId, {numberOfItems: number})
