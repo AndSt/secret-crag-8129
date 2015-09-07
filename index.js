@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var Circuit = require('circuit');
 
 var assistant = require('./assistant/main');
 var logger = require('./utils/logger');
@@ -50,4 +51,35 @@ app.listen(app.get('port'), function () {
 });
 
 
+client = new Circuit.Client({domain: 'circuitsandbox.net'});
+client.authenticate(
+        {
+            email: "andreas-stephan@hotmail.de",
+            password: "andalos1"
+        }).then(function logonCb() {
+    console.info('[APP]: Logged in as ', email2);
+}).catch(function (e) {
+    console.error('[APP]: Unable to logon. ' + e);
+});
+
+client.addEventListener('itemAdded', function (event) {
+    var item = event.item;
+    if (item.type === "TEXT"
+            && item.creatorId !== client.loggedOnUser.userId)
+    {
+        client.addTextItem(item.convId,
+                {
+                    contentType: "RICH",
+                    content: item.content.text
+                })
+                .then(function (i) {
+                    console.log(i);
+                }).catch(function (err) {
+            console.log('Unable to logon. ' + err);
+        });
+    }
+});
+
 global.setInterval(assistant.update, 60000);
+
+

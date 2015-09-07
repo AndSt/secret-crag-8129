@@ -8,13 +8,15 @@ var connection = require('./database').getConnection();
  * - ERROR 
  * - INFO
  */
-
 var log = function (text, level) {
     connection.query("INSERT INTO `Log`( `text`, `level`) " +
             "VALUES ('" + text + "', '" + level + "')",
             function (err) {
                 if (err) {
-                    console.log("The logger collapsed");
+                    console.log("[APP]: The logger collapsed");
+                }
+                else {
+                    console.log("[APP]: " + level + ". " + text);
                 }
             });
 
