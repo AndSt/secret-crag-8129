@@ -24,14 +24,14 @@ app.get('/', function (request, response) {
     response.render('pages/index');
 });
 
+app.get('/commandGeneratior', function(req, res){
+    res.render('pages/commandGenerator');
+});
+
 app.get('/test2', function (req, res) {
     res.render('pages/test2');
 });
 
-app.get('/newLog', function (req, res) {
-    logger.log("testLog", "INFO");
-    res.send('Log funzt');
-});
 
 app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));

@@ -37,11 +37,25 @@ var getLastItems = function (convId, number, callback) {
                         JSON.stringify(items));
                 callback(false, items);
             }, function (err) {
-                logger.error("Failure while retrieving items: " + errr);
+                logger.error("Failure while retrieving items: " + err);
+                callback(true, "Failure while retrieving the items");
+            });
+};
+
+var getConversation = function (convId, callback) {
+    client.getConversationById(convId)
+            .then(function (conv) {
+                callback(false, conv);
+            }, function (err) {
+                logger.error("Failure while retrieving the conversation " +
+                        convId);
+                callback(true, "Failure while retrieving the conversation" +
+                        convId);
             });
 };
 
 module.exports = {
     sendTextItem: sendTextItem,
-    getLastItems: getLastItems
+    getLastItems: getLastItems,
+    getConversation: getConversation
 };

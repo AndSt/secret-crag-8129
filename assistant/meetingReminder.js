@@ -1,6 +1,6 @@
 
 var mysql = require('mysql');
-var connection = require('./../utils/database').getConnection();
+var dbConn = require('./../utils/database').getConnection();
 var logger = require('./../utils/logger');
 var comm = require('./communication');
 
@@ -9,7 +9,11 @@ var comm = require('./communication');
  * 
  * @param item      the item to add
  * @param partials  array of strings containing information
- * @param callback  callback function
+ *      partials[2] - date, when the meeting will take place
+ *      partials[3] - title of the meeting
+ * @param callback  callback function with parameters
+ *          err - if true nothing will be answered to the user
+ *          val - string, which will be sent to the user
  */
 var addMeeting = function (item, partials, callback) {
     var now = Math.floor((new Date()).getTime() / 1000);
@@ -26,7 +30,7 @@ var addMeeting = function (item, partials, callback) {
         sentReminder = 1;
     }
 
-    connection.query(
+    dbConn.query(
             "INSERT INTO `remindMeetings`(`convId`, `inputItemId`, " +
             "`inputText`, `title`, `date`, `reminderDate`, `sentReminder`) " +
             "VALUES ('" + item.convId + "', '" + item.itemId + "', '" +
@@ -58,7 +62,7 @@ var update = function () {
     var now = Math.floor((new Date()).getTime() / 1000) + 7200;
 
     // choose every meeting, which has an expired reminderDate
-    connection.query("SELECT * FROM  `remindMeetings` " +
+    dbConn.query("SELECT * FROM  `remindMeetings` " +
             "WHERE  `sentReminder` =  '0' " +
             " AND  `reminderDate` <  '" + now + "'",
             function (err, rows) {
@@ -94,7 +98,7 @@ var update = function () {
 
 
                         // update the sentReminder flag
-                        connection.query("UPDATE `remindMeetings` " +
+                        dbConn.query("UPDATE `remindMeetings` " +
                                 "SET `sentReminder`='1' " +
                                 "WHERE `ID` = '" + id + "'",
                                 function (err) {
