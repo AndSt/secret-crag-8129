@@ -29,7 +29,6 @@ var analyzeTextItems = function (item, partials, callback) {
                             numMessages: 0,
                             numLetters: 0
                         };
-                        logger.info(JSON.stringify(stats[participants[i]]));
                     }
 
                     logger.info("Das " + participants.length + " Array: " +
@@ -37,9 +36,10 @@ var analyzeTextItems = function (item, partials, callback) {
 
                     for (var j = 0; j < items.length; j++) {
                         if (items[j].type === "TEXT") {
-                            (stats[items[j].creatorId]).numMessages += 1;
+                            stats[items[j].creatorId].numMessages += 1;
                             stats[items[j].creatorId].numLetters
                                     += stats[j].text.content.length;
+                            logger.info("Stats " + stats[items[j].creatorId]);
                         }
                     }
 

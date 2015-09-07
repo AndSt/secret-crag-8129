@@ -1,0 +1,21 @@
+<html ng-app="statistics">
+    <head>
+        <title>
+            Statistics
+        </title>
+        <link rel="stylesheet" type="text/css" 
+              href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.5/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+
+    </head>
+    <body>
+        <div ng-controller="dataController">
+            <canvas id="chart-area" width="300" height="300"/>
+            <div>
+                {{legend}}
+            </div>
+        </div>
+    </body>
+</html>
