@@ -1,6 +1,6 @@
 var logger = require('./../utils/logger');
-
 var meetingReminder = require('./meetingReminder');
+
 
 
 var registerEventListener = function (client) {
@@ -8,23 +8,25 @@ var registerEventListener = function (client) {
     client.addEventListener('itemAdded', function (event) {
         var item = event.item;
         logger.info('itemAdded ' + item.text.content);
-        if (item.type === "TEXT"
-                && item.creatorId !== client.loggedOnUser.userId)
+        if (item.type === "TEXT")
         {
-            client.addTextItem(item.convId,
-                    {
-                        contentType: "RICH",
-                        content: item.text.content
-                    })
-                    .then(function (i) {
-                        logger.info("Antwort: " + i);
+            checkItem(item.text.content, function (err, val) {
+                if ('val' !== '12345') {
+                    client.addTextItem(item.convId,
+                            {
+                                contentType: "RICH",
+                                content: val
+                            }
+                    ).then(function (ret) {
+                        logger.info("Antwort: " + ret);
                     }).catch(function (err) {
-                logger.error('Unable to logon. ' + err);
+                        logger.error('Unable to answer. ' + err);
+                    });
+                }
             });
         }
     });
 };
-
 var checkItem = function (text, callback) {
     var partials = text.split("/");
     switch (partials[1]) {
@@ -39,15 +41,12 @@ var checkItem = function (text, callback) {
             });
             break;
         default:
-            callback(true, "item");
+            callback(true, "12345");
     }
 };
-
-
 var update = function () {
     meetingReminder.update();
 };
-
 module.exports = {
     registerEventListener: registerEventListener,
     checkItem: checkItem,
