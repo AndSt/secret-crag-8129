@@ -54,11 +54,9 @@ app.listen(app.get('port'), function () {
 
 
 client = new Circuit.Client({domain: 'circuitsandbox.net'});
-client.logon('andreas-stephan@hotmail.de', 'andalos1')
-        .then(function (user) {
-            logger.info('Logged in as ' + user.displayName);
-        }).catch(function (e) {
-    logger.error('Unable to logon. ' + e);
+
+client.addEventListener('connectionStateChanged', function (item) {
+    logger.info('connectionStateChange event received');
 });
 
 client.addEventListener('itemAdded', function (event) {
@@ -78,6 +76,13 @@ client.addEventListener('itemAdded', function (event) {
             console.log('Unable to logon. ' + err);
         });
     }
+});
+
+client.logon('andreas-stephan@hotmail.de', 'andalos1')
+        .then(function (user) {
+            logger.info('Logged in as ' + user.displayName);
+        }).catch(function (e) {
+    logger.error('Unable to logon. ' + e);
 });
 
 global.setInterval(assistant.update, 60000);
