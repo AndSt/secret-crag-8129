@@ -32,11 +32,13 @@ var analyzeTextItems = function (item, partials, callback) {
                         };
                     }
 
-                    for (i = 0; i < items.length; i++) {
-                        if (items[i].type === "TEXT") {
-                            (stats[items[i].creatorId]).numMessages += 1;
-                            stats[items[i].creatorId].numLetters
-                                    += stats[i].text.content.length;
+                    logger.info(JSON.stringify(stats));
+                    
+                    for (var j = 0; j < items.length; j++) {
+                        if (items[j].type === "TEXT") {
+                            (stats[items[j].creatorId]).numMessages += 1;
+                            stats[items[j].creatorId].numLetters
+                                    += stats[j].text.content.length;
                         }
                     }
 
