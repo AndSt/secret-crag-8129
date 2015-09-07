@@ -32,15 +32,19 @@ var analyzeTextItems = function (item, partials, callback) {
                         };
                     }
 
-
+                    var text;
                     for (var j = 0; j < items.length; j++) {
                         if (items[j].type === "TEXT") {
                             stats[items[j].creatorId].numMessages += 1;
-//                            stats[items[j].creatorId].numLetters
-//                                    += stats[j].text.content.length;
+                            text = stats[j].text.content;
+                            stats[items[j].creatorId].numLetters += text.length;
                         }
                     }
 
+                    var logText = "";
+                    for (i = 0; i < participants.length; i++) {
+                        logText = logText + JSON.stringify(stats[participant[i]]);
+                    }
 
                     logger.info("Statistiken für " + items.length + "Items: " +
                             JSON.stringify(stats));
