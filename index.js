@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({// to support URL-encoded bodies
 }));
 
 app.use(express.static(__dirname + '/public'));
-
+app.use('/bower_components', express.static(__dirname + '/bower_components'));
 // views is directory for all template files
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
@@ -24,7 +24,7 @@ app.get('/', function (request, response) {
     response.render('pages/index');
 });
 
-app.get('/commandGeneratior', function(req, res){
+app.get('/commandGeneratior', function (req, res) {
     res.render('pages/commandGenerator');
 });
 
@@ -32,12 +32,12 @@ app.get('/test2', function (req, res) {
     res.render('pages/test2');
 });
 
-app.get('/statistics', function(req, res){
-   res.render('pages/statistics'); 
+app.get('/statistics', function (req, res) {
+    res.render('pages/statistics');
 });
 
-app.get('/getStats/:convId', function(req, res){
-    
+app.get('/getStats/:convId', function (req, res) {
+
 });
 
 app.listen(app.get('port'), function () {
