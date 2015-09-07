@@ -33,7 +33,7 @@ var analyzeTextItems = function (item, partials, callback) {
                     }
 
                     logger.info("Das " + participants.length + " Array: " +
-                            JSON.stringify(stats));
+                            JSON.stringify(stats[participants[0]]));
 
                     for (var j = 0; j < items.length; j++) {
                         if (items[j].type === "TEXT") {
