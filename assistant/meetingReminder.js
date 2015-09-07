@@ -89,12 +89,12 @@ var update = function () {
                                 function (err) {
                                     if (err) {
                                         logger.error("sentReminder of ID " +
-                                                rows[i].ID + " couldn't be updated ," +
+                                                id + " couldn't be updated ," +
                                                 "because: " + err);
                                     }
                                     else {
                                         logger.info("sentReminder of ID " +
-                                                rows[i].ID + " was updated " +
+                                                id + " was updated " +
                                                 "successfully.");
                                     }
                                 });
