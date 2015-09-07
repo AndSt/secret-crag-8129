@@ -40,7 +40,7 @@ var analyzeTextItems = function (item, partials, callback) {
 
 
                     logger.info("Statistiken für " + items.length + "Items: " +
-                            map.toString());
+                            JSON.stringify(map));
 
                     callback(false, "Läuft gut");
                 }
