@@ -9,7 +9,6 @@ var circuitConn = require('./communication');
  */
 var analyzeTextItems = function (item, partials, callback) {
 
-
     circuitConn.getConversation(item.convId, function (err, val) {
         if (err) {
             callback(false, val);
