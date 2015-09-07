@@ -19,7 +19,10 @@ var analyzeTextItems = function (item, partials, callback) {
                     callback(false, "An error occured. Please try again.");
                 }
                 else {
-
+                    
+                    var numberOfMessages = items.length;
+                    var numberOfAllLetters = 0;
+                    
                     var numberOfTextMessages = [];
                     var numberOfLetters = [];
 
@@ -28,11 +31,12 @@ var analyzeTextItems = function (item, partials, callback) {
                         numberOfLetters[i] = 0;
                     }
 
-                    for (var i = 0; i < items.length; i++) {
+                    for (i = 0; i < items.length; i++) {
                         if (items[i].type === "TEXT") {
                             numberOfTextMessages[i] += 1;
                             numberOfLetters[i]
                                     += items[i].text.content.length;
+                            numberOfAllLetters += numberOfLetters[i];
                         }
                     }
 
