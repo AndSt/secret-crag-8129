@@ -33,7 +33,7 @@ var pieData = [
 ];
 
 var options = {
-    legendTemplate : 
+    legendTemplate:
             "<ul class=\"<%=name.toLowerCase()%>-legend\">" +
             "<% for (var i=0; i<segments.length; i++){%>" +
             "<li>" +
@@ -50,6 +50,6 @@ window.onload = function () {
     window.myPie = new Chart(ctx).Pie(pieData, options);
     var legend = myPie.generateLegend();
     console.log(legend);
-    $("#legend").html(legend);
+    $("#chart-area").append(legend);
 };
 
