@@ -28,13 +28,13 @@ var analyzeTextItems = function (item, partials, callback) {
                         numberOfLetters[i] = 0;
                     }
 
-                    for (var i = 0; i < items.length; i++) {
-                        if (items[i].type === "TEXT") {
-                            numberOfTextMessages[i] += 1;
-                            numberOfLetters[i]
-                                    += items[i].text.content.length;
-                        }
-                    }
+//                    for (var i = 0; i < items.length; i++) {
+//                        if (items[i].type === "TEXT") {
+//                            numberOfTextMessages[i] += 1;
+//                            numberOfLetters[i]
+//                                    += items[i].text.content.length;
+//                        }
+//                    }
                     
 
                     logger.info("Statistiken: " +
