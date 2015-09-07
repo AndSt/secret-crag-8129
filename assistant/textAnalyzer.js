@@ -34,14 +34,14 @@ var analyzeTextItems = function (item, partials, callback) {
                     for (i = 0; i < items.length; i++) {
                         if (items[i].type === "TEXT") {
                             numberOfTextMessages[i] += 1;
-                            numberOfLetters[i]
-                                    += items[i].text.content.length;
-                            numberOfAllLetters += numberOfLetters[i];
+//                            numberOfLetters[i]
+//                                    += items[i].text.content.length;
+//                            numberOfAllLetters += numberOfLetters[i];
                         }
                     }
 
 
-                    logger.info("Statistiken: " +
+                    logger.info("Statistiken für " + items.length + "Items: " +
                             numberOfTextMessages.toString());
 
                     callback(false, "Läuft gut");
