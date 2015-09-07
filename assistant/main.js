@@ -28,17 +28,13 @@ var registerEventListener = function (client) {
 
 var checkItem = function (item, callback) {
     logger.info("Fehler0");
-    var partials = item.text.content.split("/");
+    var text = item.text.content;
+    var partials = text.split("/");
     logger.info("Fehler1");
     switch (partials[1]) {
         case "addMeetingDate":
             meetingReminder.addMeeting(item, partials, function (err, val) {
-                if (err) {
-                    callback(err, val);
-                }
-                else {
-                    callback(err, val);
-                }
+                callback(err, val);
             });
             break;
         default:
