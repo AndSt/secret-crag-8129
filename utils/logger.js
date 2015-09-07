@@ -5,8 +5,8 @@ var connection = require('./database').getConnection();
 /*
  * We following loggin levels are proposed:
  * - DEBUG
- * - ERROR 
  * - INFO
+ * - ERROR 
  */
 var log = function (text, level) {
     connection.query("INSERT INTO `Log`( `text`, `level`) " +
@@ -22,8 +22,23 @@ var log = function (text, level) {
 
 };
 
+var debug = function (text) {
+    log(text, 'DEBUG');
+};
+
+var info = function (text) {
+    log(text, 'INFO');
+};
+
+var error = function (text) {
+    log(text, 'ERROR');
+};
+
 module.exports = {
-    log: log
+    log: log,
+    debug: debug,
+    info: info,
+    error: error
 };
 
 

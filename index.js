@@ -51,15 +51,18 @@ app.listen(app.get('port'), function () {
 });
 
 
+
+
 client = new Circuit.Client({domain: 'circuitsandbox.net'});
 client.logon('andreas-stephan@hotmail.de', 'andalos1')
         .then(function (user) {
-            logger.log('Logged in as ' + user.displayName, 'INFO');
+            logger.info('Logged in as ' + user.displayName);
         }).catch(function (e) {
-    logger.log('Unable to logon. ' + e, 'ERROR');
+    logger.error('Unable to logon. ' + e);
 });
 
 client.addEventListener('itemAdded', function (event) {
+    logger.info('itemAdded' + item.text.content);
     var item = event.item;
     if (item.type === "TEXT"
             && item.creatorId !== client.loggedOnUser.userId)
@@ -67,7 +70,7 @@ client.addEventListener('itemAdded', function (event) {
         client.addTextItem(item.convId,
                 {
                     contentType: "RICH",
-                    content: item.content.text
+                    content: item.text.content
                 })
                 .then(function (i) {
                     console.log(i);
