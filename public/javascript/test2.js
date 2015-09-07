@@ -48,7 +48,7 @@ var options = {
 window.onload = function () {
     var ctx = document.getElementById("chart-area").getContext("2d");
     var myPie = new Chart(ctx).Pie(pieData, options);
-    var legend = myPie.generateLegend();
-    document.getElementById('legend').value = legend;
+//    var legend = myPie.generateLegend();
+//    document.getElementById('legend').value = legend;
 };
 
