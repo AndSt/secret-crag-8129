@@ -19,30 +19,28 @@ var analyzeTextItems = function (item, partials, callback) {
                     callback(false, "An error occured. Please try again.");
                 }
                 else {
-                    
-                    var numberOfMessages = items.length;
-                    var numberOfAllLetters = 0;
-                    
-                    var numberOfTextMessages = [];
-                    var numberOfLetters = [];
 
+                    var map = new Map();
                     for (var i = 0; i < conv.participants.length; i++) {
-                        numberOfTextMessages[i] = 0;
-                        numberOfLetters[i] = 0;
+                        map.set(conv.participants[i], {
+                            numMessages: 0,
+                            numLetters: 0
+                        });
                     }
 
+                    var tmp;
                     for (i = 0; i < items.length; i++) {
                         if (items[i].type === "TEXT") {
-                            numberOfTextMessages[i] += 1;
-//                            numberOfLetters[i]
-//                                    += items[i].text.content.length;
-//                            numberOfAllLetters += numberOfLetters[i];
+                            tmp = map.get(items[i].creatorId);
+                            tmp.numMessages += 1;
+                            tmp.numLetters  += items[i].text.content.length;
+                            map.set(items[i].creatorId, tmp);
                         }
                     }
 
 
                     logger.info("Statistiken für " + items.length + "Items: " +
-                            numberOfTextMessages.toString());
+                            map.toString());
 
                     callback(false, "Läuft gut");
                 }
