@@ -27,7 +27,9 @@ var registerEventListener = function (client) {
 
 
 var checkItem = function (item, callback) {
+    logger.info("Fehler0");
     var partials = item.text.content.split("/");
+    logger.info("Fehler1");
     switch (partials[1]) {
         case "addMeetingDate":
             meetingReminder.addMeeting(item, partials, function (err, val) {
@@ -40,6 +42,7 @@ var checkItem = function (item, callback) {
             });
             break;
         default:
+            logger.info("Fehler3");
             callback(true, "12345");
     }
 };
