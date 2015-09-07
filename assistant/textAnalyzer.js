@@ -24,13 +24,13 @@ var analyzeTextItems = function (item, partials, callback) {
                     var stats = [];
 
                     for (var i = 0; i < participants.length; i++) {
-                        stats[participants[i]] = {
+                        stats[("" + participants[i])] = {
                             numMessages: 0,
                             numLetters: 0
                         };
                     }
 
-                    logger.info("Das " + participants.length + "Array: " +
+                    logger.info("Das " + participants.length + " Array: " +
                             JSON.stringify(stats));
                     
                     for (var j = 0; j < items.length; j++) {
