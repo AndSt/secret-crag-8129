@@ -36,7 +36,7 @@ var sendTextItem = function (convId, text) {
 var getLastItems = function (convId, number, callback) {
     client.getConversationItems(convId, {numberOfItems: number})
             .then(function (items) {
-                logger.info("Successfully retrieved " + number + "items: " +
+                logger.info("Successfully retrieved " + number + " items: " +
                         JSON.stringify(items));
                 callback(false, items);
             }, function (err) {
