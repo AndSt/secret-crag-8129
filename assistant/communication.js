@@ -8,8 +8,9 @@ var sendTextItem = function (convId, text) {
                 contentType: "RICH",
                 content: text
             }
-    ).then(function (ret) {
-        logger.info("Antwort: " + ret);
+    ).then(function (item) {
+        logger.info("Message to conversation " + convId + "was delivered " +
+                "correctly");
     }).catch(function (err) {
         logger.error('Unable to answer. ' + err);
     });

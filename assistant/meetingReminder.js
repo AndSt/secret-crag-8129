@@ -21,19 +21,21 @@ var addMeeting = function (item, partials, callback) {
     }
 
     connection.query(
-            "INSERT INTO `remindMeetings`(`convID`, `inputItemID`, " +
+            "INSERT INTO `remindMeetings`(`convId`, `inputItemId`, " +
             "`inputText`, `title`, `date`, `reminderDate`, `sentReminder`) " +
             "VALUES ('" + item.convId + "', '" + item.itemId + "', '" +
             item.text.content + "', '" + title + "', '" + unixDate +
             "', " + reminderDate + ", " + sentReminder + ")",
             function (err) {
                 if (err) {
-                    logger.error("Error while inserting a remindMeeting");
+                    logger.error("[meetingReminder] Error while inserting " +
+                            +"a remindMeeting");
                     callback(false, "Error while inserting a remindMeeting. " +
                             "Please try again.");
                 }
                 else {
-                    logger.info("Inserting of remindMeeting went well");
+                    logger.info("[meetingReminder] Inserting of remindMeeting " +
+                            "went well");
                     callback(false, "Inserting of remindMeeting went well");
                 }
             });
@@ -44,13 +46,14 @@ var update = function () {
     // actual timestamp in UTC/GMT+2(berlin, germany)
     var now = Math.floor((new Date()).getTime() / 1000) + 7200;
 
-    // choose every meeting, which as a obsolete reminderDate
+    // choose every meeting, which has an expired reminderDate
     connection.query("SELECT * FROM  `remindMeetings` " +
             "WHERE  `sentReminder` =  '0' " +
             " AND  `reminderDate` <  '" + now + "'",
             function (err, rows) {
                 if (err) {
-                    logger.error("Error while getting the meeting to remind");
+                    logger.error("[meetingReminder] Fetching the meetings " +
+                            "the database failed.");
                 }
                 else {
                     logger.info("check started at  " + now +
