@@ -28,7 +28,8 @@ var addMeeting = function (text, partials, callback) {
                 if (err) {
                     logger.log("Error while inserting a remindMeeting",
                             "ERROR");
-                    callback(true, "Error while inserting a remindMeeting");
+                    callback(true, "Error while inserting a remindMeeting. " +
+                            "Please try again.");
                 }
                 else {
                     logger.log("Inserting of remindMeeting went well",
