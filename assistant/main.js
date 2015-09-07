@@ -49,6 +49,7 @@ var update = function () {
 };
 
 module.exports = {
+    registerEventListener: registerEventListener,
     checkItem: checkItem,
     update: update
 };
