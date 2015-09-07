@@ -24,22 +24,8 @@ app.get('/', function (request, response) {
     response.render('pages/index');
 });
 
-app.get('/add', function (req, res) {
-    res.render('pages/add');
-});
-
-app.get('/test', function (req, res) {
-    res.render('pages/test');
-});
-
 app.get('/test2', function (req, res) {
     res.render('pages/test2');
-});
-
-app.post('/addItem', function (req, res) {
-    assistant.parseItem(req.body.item, function (err, text) {
-        res.send(text);
-    });
 });
 
 app.get('/newLog', function (req, res) {
