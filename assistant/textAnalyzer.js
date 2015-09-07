@@ -13,7 +13,7 @@ var analyzeTextItems = function (item, partials, callback) {
             callback(false, "An error occured. Please try again.");
         }
         else {
-            var number = typeof partials[2] === 'undefined' ? 1000 : partials[2];
+            var number = typeof partials[2] === 'undefined' ? 25 : partials[2];
             circuitConn.getLastItems(item.convId, number, function (err, items) {
                 if (err) {
                     callback(false, "An error occured. Please try again.");
