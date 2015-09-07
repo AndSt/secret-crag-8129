@@ -52,7 +52,7 @@ app.listen(app.get('port'), function () {
 
 
 client = new Circuit.Client({domain: 'circuitsandbox.net'});
-client.client.logon('andreas-stephan@hotmail.de', 'andalos1')
+client.logon('andreas-stephan@hotmail.de', 'andalos1')
         .then(function logonCb() {
             logger.log('Logged in as andreas-stephan@hotmail.de', 'INFO');
         }).catch(function (e) {
