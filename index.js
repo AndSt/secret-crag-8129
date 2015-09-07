@@ -52,13 +52,10 @@ app.listen(app.get('port'), function () {
 
 
 client = new Circuit.Client({domain: 'circuitsandbox.net'});
-client.authenticate(
-        {
-            email: "andreas-stephan@hotmail.de",
-            password: "andalos1"
-        }).then(function logonCb() {
-    logger.log('Logged in as andreas-stephan@hotmail.de', 'INFO');
-}).catch(function (e) {
+client.client.logon('andreas-stephan@hotmail.de', 'andalos1')
+        .then(function logonCb() {
+            logger.log('Logged in as andreas-stephan@hotmail.de', 'INFO');
+        }).catch(function (e) {
     logger.log('Unable to logon. ' + e, 'ERROR');
 });
 
