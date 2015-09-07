@@ -16,6 +16,7 @@ var registerEventListener = function (client) {
             checkItem(item.text.content, function (err, val) {
                 // only send answer, if there's no error
                 // error handling is done in checkItem()
+                logger.info("checkItem was done");
                 if (err === false) {
                     comm.sendTextItem(item.convId, val);
                 }
