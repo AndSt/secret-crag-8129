@@ -57,9 +57,9 @@ client.authenticate(
             email: "andreas-stephan@hotmail.de",
             password: "andalos1"
         }).then(function logonCb() {
-    console.info('[APP]: Logged in as ', email2);
+    logger.log('Logged in as andreas-stephan@hotmail.de', 'INFO');
 }).catch(function (e) {
-    console.error('[APP]: Unable to logon. ' + e);
+    logger.log('Unable to logon. ' + e, 'ERROR');
 });
 
 client.addEventListener('itemAdded', function (event) {
