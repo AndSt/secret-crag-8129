@@ -26,24 +26,18 @@ var analyzeTextItems = function (item, partials, callback) {
                     for (var i = 0; i < participants.length; i++) {
                         console.log("Participant " + participants[i]);
                         stats[participants[i]] = {
+                            userId: participants[i],
                             numMessages: 0,
                             numLetters: 0
                         };
                     }
 
-                    logger.info("Das " + participants.length + " Array: " +
-                            JSON.stringify(stats[participants[0]]));
 
                     for (var j = 0; j < items.length; j++) {
                         if (items[j].type === "TEXT") {
-                            logger.info("hey");
                             stats[items[j].creatorId].numMessages += 1;
-                            logger.info("hey2");
-                            stats[items[j].creatorId].numLetters
-                                    += stats[j].text.content.length;
-                            logger.info("Stats " + stats[items[j].creatorId]);
-                        }
-                        else {
+//                            stats[items[j].creatorId].numLetters
+//                                    += stats[j].text.content.length;
                         }
                     }
 
