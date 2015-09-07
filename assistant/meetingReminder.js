@@ -29,7 +29,7 @@ var addMeeting = function (item, partials, callback) {
             function (err) {
                 if (err) {
                     logger.error("[meetingReminder] Error while inserting " +
-                            +"a remindMeeting");
+                            +"a remindMeeting, because: " +err);
                     callback(false, "Error while inserting a remindMeeting. " +
                             "Please try again.");
                 }
