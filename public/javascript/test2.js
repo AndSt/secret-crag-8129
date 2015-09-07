@@ -50,6 +50,6 @@ window.onload = function () {
     window.myPie = new Chart(ctx).Pie(pieData, options);
     var legend = myPie.generateLegend();
     console.log(legend);
-    $("#chart-area").append(legend);
+    $("#canvas-holder").append(legend);
 };
 
