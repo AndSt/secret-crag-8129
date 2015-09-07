@@ -13,7 +13,7 @@ var registerEventListener = function (client) {
         if (item.type === "TEXT"
                 && item.creatorId !== client.loggedOnUser.userId)
         {
-            checkItem(item.text.content, function (err, val) {
+            checkItem(item, function (err, val) {
                 // only send answer, if there's no error
                 // error handling is done in checkItem()
                 logger.info("checkItem was done");
@@ -27,10 +27,8 @@ var registerEventListener = function (client) {
 
 
 var checkItem = function (item, callback) {
-    logger.info("Fehler0");
     var text = item.text.content;
     var partials = text.split("/");
-    logger.info("Fehler1");
     switch (partials[1]) {
         case "addMeetingDate":
             meetingReminder.addMeeting(item, partials, function (err, val) {
@@ -38,7 +36,6 @@ var checkItem = function (item, callback) {
             });
             break;
         default:
-            logger.info("Fehler3");
             callback(true, "12345");
     }
 };
