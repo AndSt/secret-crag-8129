@@ -3,7 +3,7 @@ var connection = require('./../utils/database').getConnection();
 var logger = require('./../utils/logger');
 var comm = require('./communication');
 
-var analyzeTextItems = function(convId, options, callback) {
+var analyzeTextItems = function(item, partials, callback) {
     
 };
 

@@ -37,7 +37,7 @@ app.get('/test2', function (req, res) {
 });
 
 app.post('/addItem', function (req, res) {
-    assistant.checkItem(req.body.item, function (err, text) {
+    assistant.parseItem(req.body.item, function (err, text) {
         res.send(text);
     });
 });

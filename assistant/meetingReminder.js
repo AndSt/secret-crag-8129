@@ -4,7 +4,13 @@ var connection = require('./../utils/database').getConnection();
 var logger = require('./../utils/logger');
 var comm = require('./communication');
 
-
+/*
+ * adds a new meeting to the table remindMeetings
+ * 
+ * @param item      the item to add
+ * @param partials  array of strings containing information
+ * @param callback  callback function
+ */
 var addMeeting = function (item, partials, callback) {
     var now = Math.floor((new Date()).getTime() / 1000);
 
@@ -41,6 +47,11 @@ var addMeeting = function (item, partials, callback) {
             });
 };
 
+
+/*
+ * the update function checks, if any remindings have to be sent.
+ * Then it sends the remindings and updates the database
+ */
 var update = function () {
 
     // actual timestamp in UTC/GMT+2(berlin, germany)

@@ -2,6 +2,7 @@ var logger = require('./../utils/logger');
 var comm = require('./communication');
 
 var meetingReminder = require('./meetingReminder');
+var textAnalyzer = require('./textAnalyzer');
 
 
 
@@ -13,7 +14,7 @@ var registerEventListener = function (client) {
         if (item.type === "TEXT"
                 && item.creatorId !== client.loggedOnUser.userId)
         {
-            checkItem(item, function (err, val) {
+            parseItem(item, function (err, val) {
                 // only send answer, if there's no error
                 // error handling is done in checkItem()
                 logger.info("checkItem was done");
@@ -26,7 +27,7 @@ var registerEventListener = function (client) {
 };
 
 
-var checkItem = function (item, callback) {
+var parseItem = function (item, callback) {
     var text = item.text.content;
     var partials = text.split("/");
     switch (partials[1]) {
@@ -35,6 +36,10 @@ var checkItem = function (item, callback) {
                 callback(err, val);
             });
             break;
+        case "getTextStatistics":
+            textAnalyzer.analyzeTextItems(item, partials, function (err, val) {
+                callback(err, val);
+            });
         default:
             callback(true, "12345");
     }
@@ -44,6 +49,6 @@ var update = function () {
 };
 module.exports = {
     registerEventListener: registerEventListener,
-    checkItem: checkItem,
+    parseItem: parseItem,
     update: update
 };
