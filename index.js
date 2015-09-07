@@ -53,8 +53,8 @@ app.listen(app.get('port'), function () {
 
 client = new Circuit.Client({domain: 'circuitsandbox.net'});
 client.logon('andreas-stephan@hotmail.de', 'andalos1')
-        .then(function logonCb() {
-            logger.log('Logged in as andreas-stephan@hotmail.de', 'INFO');
+        .then(function (user) {
+            logger.log('Logged in as ' + user.displayName, 'INFO');
         }).catch(function (e) {
     logger.log('Unable to logon. ' + e, 'ERROR');
 });
