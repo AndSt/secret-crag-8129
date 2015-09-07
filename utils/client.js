@@ -9,11 +9,11 @@ client.logon('andreas-stephan@hotmail.de', 'andalos1')
     logger.error('Unable to logon. ' + e);
 });
 
-var getClient = function(){
+var getClient = function () {
     return client;
 };
 
 
-module.exports.getClient = function(){
+module.exports.getClient = function () {
     return client;
 };

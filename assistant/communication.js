@@ -1,3 +1,4 @@
+var circuit = require('circuit');
 var logger = require('./../utils/logger');
 var client = require('./../utils/client').getClient();
 
