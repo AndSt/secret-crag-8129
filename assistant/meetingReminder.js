@@ -29,7 +29,7 @@ var addMeeting = function (item, partials, callback) {
             function (err) {
                 if (err) {
                     logger.error("[meetingReminder] Error while inserting " +
-                            +"a remindMeeting, because: " +err);
+                            +"a remindMeeting, because: " + err);
                     callback(false, "Error while inserting a remindMeeting. " +
                             "Please try again.");
                 }
@@ -65,7 +65,7 @@ var update = function () {
                         //send reminder messages
                         meeting = rows[i];
                         date = new Date(meeting.date);
-                        dateString = date.getUTCHours() + ":" + date.getUTCMinutes();
+                        dateString = date.getHours() + ":" + date.getMinutes();
                         id = meeting.ID;
                         // send text
                         if (meeting.title === "") {
@@ -89,12 +89,12 @@ var update = function () {
                                 function (err) {
                                     if (err) {
                                         logger.error("sentReminder of ID " +
-                                                id + " couldn't be updated ," +
+                                                rows[i].ID + " couldn't be updated ," +
                                                 "because: " + err);
                                     }
                                     else {
                                         logger.info("sentReminder of ID " +
-                                                id + " was updated " +
+                                                rows[i].ID + " was updated " +
                                                 "successfully.");
                                     }
                                 });
