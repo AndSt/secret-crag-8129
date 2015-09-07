@@ -45,6 +45,7 @@ var getLastItems = function (convId, number, callback) {
 var getConversation = function (convId, callback) {
     client.getConversationById(convId)
             .then(function (conv) {
+                logger.info("Successfully retrieved the conversation " + convId);
                 callback(false, conv);
             }, function (err) {
                 logger.error("Failure while retrieving the conversation " +

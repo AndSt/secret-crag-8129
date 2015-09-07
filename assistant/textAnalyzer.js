@@ -8,7 +8,7 @@ var circuitConn = require('./communication');
  * 
  */
 var analyzeTextItems = function (item, partials, callback) {
-
+    logger.info("Textanalyzer: started analyzeTextItems");
     circuitConn.getConversation(item.convId, function (err, val) {
         if (err) {
             callback(false, val);
