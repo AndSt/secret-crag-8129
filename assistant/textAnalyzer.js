@@ -19,8 +19,8 @@ var getTextItemNumbers = function (convId, number) {
                                 var stats = [];
 
                                 participants.forEach(function (participant) {
-                                    stats[participants] = {
-                                        userId: participant[i],
+                                    stats[participant] = {
+                                        userId: participant,
                                         numMessages: 0,
                                         numLetters: 0
                                     };
@@ -56,10 +56,10 @@ var getTextItemNumbers = function (convId, number) {
 
 var analyzeConversation = function (item, partials) {
     
+    logger.info("Textanalyzer: started analyzeConversation");
 
 return new Promise(function(resolve, reject){
     var number = typeof partials[2] === 'undefined' ? 100 : partials[2];
-    logger.info("Textanalyzer: started analyzeTextItems");
 
     getTextItemNumbers(item.convId, number)
             .then(function (data) {

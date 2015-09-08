@@ -25,13 +25,11 @@ var sendTextItem = function (convId, text) {
 };
 
 /*
- * getLastTextItems receives the last textItems of a conversation
+ * getLastTextItems() receives the last textItems of a conversation
  * 
  * @param convId            ID of the conversation
  * @param number            how many items shall be fetched
- * @param callback(err, b)  will be called with
- *            err - true, if retrieving of the items fails
- *            b - items, if err=true, error string otherwise
+ * @return                  array of items. items are specified in the circuit API
  */
 var getLastItems = function (convId, number) {
     return new Promise(function (resolve, reject) {
@@ -48,7 +46,10 @@ var getLastItems = function (convId, number) {
 };
 
 /*
+ * getConversation() receives the details of a conversation
  * 
+ * @param convId    ID of conversation
+ * @return          conversation object specified in the circuit API
  */
 var getConversation = function (convId) {
     return new Promise(function (resolve, reject) {
