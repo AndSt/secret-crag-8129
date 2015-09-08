@@ -56,6 +56,10 @@ app.get('/getStats/:convId', function (req, res) {
 
 });
 
+app.get('/getStats/:convId/user', function (req, res) {
+
+});
+
 app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));
 });

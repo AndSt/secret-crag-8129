@@ -42,24 +42,29 @@ var saveNewTextStatistics = function (convId, number) {
                     });
 
                     logger.info("stats: " + JSON.stringify(stats));
-
-//                    dbConn.query(
-//                            "INSERT INTO `TextStatistics`(`convId`, `stats`) " +
-//                            "VALUES ('" + convId + "', '" + JSON.stringify(stats) + "')",
-//                            function (err) {
-//                                if (err) {
-//                                    logger.error("[textAnalyzer] Error while inserting " +
-//                                            +"text statistics: " + err);
-//                                    reject("Error while inserting text statistics. " +
-//                                            "Please try again.");
-//                                }
-//                                else {
-//                                    logger.info("[textAnalyzer] Inserting of " +
-//                                            "text statistics " + "went well");
-//                                    resolve(stats);
-//                                }
-//                            });
                     resolve(stats);
+
+                    stats.forEach(function (stat) {
+                        dbConn.query(
+                                "INSERT INTO `TextStatistics`(`convId`, " +
+                                "`userId`, `numMessages`, `numLetters`) " +
+                                "VALUES ('" + convId + "','" + stat.userId +
+                                "','" + stat.numMessages + "'," +
+                                "'" + convId + "')",
+                                function (err) {
+                                    if (err) {
+                                        logger.error("[textAnalyzer] Error while inserting " +
+                                                +"text statistics: " + err);
+                                        reject("Error while inserting text statistics. " +
+                                                "Please try again.");
+                                    }
+                                    else {
+                                        logger.info("[textAnalyzer] Inserting of " +
+                                                "text statistics " + "went well");
+                                        resolve(stats);
+                                    }
+                                });
+                    });
                 })
                 .catch(function (err) {
                     reject(err);
