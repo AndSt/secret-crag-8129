@@ -161,30 +161,31 @@ var getNumMessagesForChart = function (convId) {
                 "WHERE t2.`convId` = t1.`convId` ) ORDER BY t1.numMessages DESC",
                 function (err, rows) {
                     if (err) {
-
+                        reject(err);
                     }
                     else {
-                        userIds = rows.map(function (row) {
-                            return row.userId;
-                        });
-                        circuitConn.getUsersById(userIds)
-                                .then(function (users) {
-                                    var ret = rows.map(function (row) {
-                                        var arrId = users.indexOf(function (user) {
-                                            user.userId = row.userId;
-                                        });
-                                        
-                                        return {
-                                            userId: row.userId,
-                                            displayName: users[arrId].displayName,
-                                            numMessages: row.numMessages
-                                        };
-                                    });
-                                    resolve(ret);
-                                })
-                                .catch(function (err) {
-                                    reject(err);
-                                });
+                        resolve(rows);
+//                        userIds = rows.map(function (row) {
+//                            return row.userId;
+//                        });
+//                        circuitConn.getUsersById(userIds)
+//                                .then(function (users) {
+//                                    var ret = rows.map(function (row) {
+//                                        var arrId = users.indexOf(function (user) {
+//                                            user.userId = row.userId;
+//                                        });
+//                                        
+//                                        return {
+//                                            userId: row.userId,
+//                                            displayName: users[arrId].displayName,
+//                                            numMessages: row.numMessages
+//                                        };
+//                                    });
+//                                    resolve(ret);
+//                                })
+//                                .catch(function (err) {
+//                                    reject(err);
+//                                });
                     }
 
                 });
