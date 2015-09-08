@@ -17,9 +17,8 @@ var analyzeTextItems = function (item, partials) {
                             .then(function (items) {
                                 var participants = conv.participants;
                                 var stats = [];
-
-//                                var stats2 = 
-                                        
+//                                var stats2 = participants.map(function(participant){
+//                                );
                                 for (var i = 0; i < participants.length; i++) {
                                     console.log("Participant " + participants[i]);
                                     stats[participants[i]] = {
@@ -45,26 +44,21 @@ var analyzeTextItems = function (item, partials) {
                                 }
 
                                 logger.info("Statistiken für " + items.length +
-                                        "Items: " + JSON.stringify(stats)) +
-                                        ",!!! " + logText;
-
+                                        "Items: " + ",!!! " + logText);
                                 resolve("Läuft gut");
                             })
                             .catch(function (err) {
                                 reject(err);
                             });
-
                 })
                 .catch(function (err) {
                     reject(err);
                 });
     });
 };
-
 var analyzeLikes = function () {
 
 };
-
 module.exports = {
     analyzeTextItems: analyzeTextItems
 };
