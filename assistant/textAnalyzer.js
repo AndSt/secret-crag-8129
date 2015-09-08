@@ -16,12 +16,8 @@ var getTextItemNumbers = function (convId, number) {
                     participants = conv.participants;
                     return Promise.resolve();
                 })
-                .then(function () {
-                    return circuitConn.getLastItems(convId, number);
-                })
+                .then(circuitConn.getLastItems(convId, number))
                 .then(function (items) {
-                    logger.info("Having items, Starting to analyze.. ");
-                    logger.info(JSON.stringify(participants));
                     var stats = [];
 
                     participants.forEach(function (participant) {
@@ -135,9 +131,8 @@ var saveTextStatistics = function (convId) {
     var stats;
 
     connection.query(
-            "INSERT INTO `TextStatistics`(`ID`, `convId`, " +
-            "`stats`, `TIMESTAMP`) " +
-            "VALUES ([value-1],[value-2],[value-3],[value-4])",
+            "INSERT INTO `TextStatistics`(`convId`, `stats`) " +
+            "VALUES ('" + convId +"', '" + JSON.stringify(stats) + "')",
             function (err, ret) {
                 //TODO what is ret
             });
