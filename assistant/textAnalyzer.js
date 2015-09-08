@@ -20,6 +20,8 @@ var saveNewTextStatistics = function (convId, number) {
                 .then(function (items) {
                     var stats = [];
 
+                    logger.info("Bin jetzt hier");
+
                     participants.forEach(function (participant) {
                         stats[participants.indexOf(participant)] =
                                 {
@@ -29,6 +31,7 @@ var saveNewTextStatistics = function (convId, number) {
                                 };
                     });
 
+                    logger.info("auch hier");
 
                     var text, index;
                     items.forEach(function (item) {
@@ -40,6 +43,8 @@ var saveNewTextStatistics = function (convId, number) {
                             stats[index].numLetters += text.length;
                         }
                     });
+                    
+                    logger.info("und hier");
 
                     stats.forEach(function (stat) {
                         dbConn.query(
@@ -78,7 +83,7 @@ var analyzeConversation = function (item, partials) {
     logger.info("Textanalyzer: started analyzeConversation");
 
     return new Promise(function (resolve, reject) {
-        var number = typeof partials[2] === 'undefined' ? 1000 : partials[2];
+        var number = typeof partials[2] === 'undefined' ? 100 : partials[2];
 
         saveNewTextStatistics(item.convId, number)
                 .then(function (data) {
