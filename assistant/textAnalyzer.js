@@ -1,12 +1,12 @@
 var mysql = require('mysql');
-var connection = require('./../utils/database').getConnection();
+var dbConn = require('./../utils/database').getConnection();
 var logger = require('./../utils/logger');
 var circuitConn = require('./communication');
 
 /*  
  * 
  */
-var getTextItemNumbers = function (convId, number) {
+var saveNewTextStatistics = function (convId, number) {
 
     var participants;
 
@@ -41,11 +41,24 @@ var getTextItemNumbers = function (convId, number) {
                         }
                     });
 
-                    var logText = "";
-                    for (var i = 0; i < participants.length; i++) {
-                        logText = logText + JSON.stringify(stats[i]);
-                    }
+                    logger.info("stats: " + JSON.stringify(stats));
 
+//                    dbConn.query(
+//                            "INSERT INTO `TextStatistics`(`convId`, `stats`) " +
+//                            "VALUES ('" + convId + "', '" + JSON.stringify(stats) + "')",
+//                            function (err) {
+//                                if (err) {
+//                                    logger.error("[textAnalyzer] Error while inserting " +
+//                                            +"text statistics: " + err);
+//                                    reject("Error while inserting text statistics. " +
+//                                            "Please try again.");
+//                                }
+//                                else {
+//                                    logger.info("[textAnalyzer] Inserting of " +
+//                                            "text statistics " + "went well");
+//                                    resolve(stats);
+//                                }
+//                            });
                     resolve(stats);
                 })
                 .catch(function (err) {
@@ -60,9 +73,9 @@ var analyzeConversation = function (item, partials) {
     logger.info("Textanalyzer: started analyzeConversation");
 
     return new Promise(function (resolve, reject) {
-        var number = typeof partials[2] === 'undefined' ? 100 : partials[2];
+        var number = typeof partials[2] === 'undefined' ? 1000 : partials[2];
 
-        getTextItemNumbers(item.convId, number)
+        saveNewTextStatistics(item.convId, number)
                 .then(function (data) {
 
                     var outputData = [];
@@ -127,12 +140,14 @@ var analyzeConversation = function (item, partials) {
     });
 };
 
-var saveTextStatistics = function (convId) {
+
+
+var getTextStatistics = function (convId) {
     var stats;
 
     connection.query(
             "INSERT INTO `TextStatistics`(`convId`, `stats`) " +
-            "VALUES ('" + convId +"', '" + JSON.stringify(stats) + "')",
+            "VALUES ('" + convId + "', '" + JSON.stringify(stats) + "')",
             function (err, ret) {
                 //TODO what is ret
             });
