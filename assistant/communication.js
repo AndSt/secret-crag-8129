@@ -35,8 +35,7 @@ var getLastItems = function (convId, number) {
     return new Promise(function (resolve, reject) {
         client.getConversationItems(convId, {numberOfItems: number})
                 .then(function (items) {
-                    logger.info("Successfully retrieved " + number + " items" +
-                            JSON.stringify(items));
+                    logger.info("Successfully retrieved " + number + " items");
                     resolve(items);
                 })
                 .catch(function (err) {

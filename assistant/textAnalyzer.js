@@ -54,7 +54,7 @@ var saveNewTextStatistics = function (convId, number) {
                                 "`userId`, `numMessages`, `numLetters`) " +
                                 "VALUES ('" + convId + "','" + stat.userId +
                                 "','" + stat.numMessages + "'," +
-                                "'" + convId + "')",
+                                "'" + stat.numLetters + "')",
                                 function (err) {
                                     if (err) {
                                         logger.error("[textAnalyzer] Error while inserting " +
@@ -70,8 +70,8 @@ var saveNewTextStatistics = function (convId, number) {
                                 });
                     });
 
-                    logger.info("stats: " + JSON.stringify(stats));
-                    resolve(stats);
+//                    logger.info("stats: " + JSON.stringify(stats));
+//                    resolve(stats);
                 })
                 .catch(function (err) {
                     reject(err);
@@ -143,7 +143,7 @@ var analyzeConversation = function (item, partials) {
                         outputData[i].label = data[i].userId;
                         i++;
                     }
-                    logger.log(JSON.stringify(outputData));
+                    logger.info(JSON.stringify(outputData));
                     resolve("läuft gut");
                 })
                 .catch(function (err) {
