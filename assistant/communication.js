@@ -73,7 +73,8 @@ var getUsersById = function (userIds) {
         client.getUsersById(userIds)
                 .then(function (users) {
                     logger.info("Successfully received the users [" +
-                            userIds.toString() + "]");
+                            userIds.toString() + "]: " +
+                            JSON.stringify(users));
                 })
                 .catch(function (err) {
                     logger.error("Failure while retrieving the users [" +
@@ -93,5 +94,5 @@ module.exports = {
     sendTextItem: sendTextItem,
     getLastItems: getLastItems,
     getConversation: getConversation,
-    getUsersById : getUsersById
+    getUsersById: getUsersById
 };
