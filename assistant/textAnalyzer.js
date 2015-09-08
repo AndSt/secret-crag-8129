@@ -15,9 +15,9 @@ var getTextItemNumbers = function (convId, number) {
                 .then(function (conv) {
 
                     participants = conv.participants;
-                    return new Promise.resolve();
+                    return new Promise.resolve('');
                 })
-                .then(function () {
+                .then(function (data) {
                     return circuitConn.getLastItems(convId, number);
                 })
                 .then(function (items) {
@@ -133,7 +133,15 @@ var analyzeConversation = function (item, partials) {
 };
 
 var saveTextStatistics = function (convId) {
+    var stats;
 
+    connection.query(
+            "INSERT INTO `TextStatistics`(`ID`, `convId`, " +
+            "`stats`, `TIMESTAMP`) " +
+            "VALUES ([value-1],[value-2],[value-3],[value-4])",
+            function (err, ret) {
+                //TODO what is ret
+            });
 };
 
 
