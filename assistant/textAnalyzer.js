@@ -13,12 +13,14 @@ var getTextItemNumbers = function (convId, number) {
     return new Promise(function (resolve, reject) {
         circuitConn.getConversation(convId)
                 .then(function (conv) {
+
                     participants = conv.participants;
                     return new Promise.resolve();
                 })
                 .then(circuitConn.getLastItems(convId, number))
                 .then(function (items) {
-
+                    logger.info("Having items, Starting to analyze.. " +
+                            JSON.stringify(participants));
                     var stats = [];
 
                     participants.forEach(function (participant) {
