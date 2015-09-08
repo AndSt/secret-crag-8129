@@ -11,13 +11,15 @@ var analyzeTextItems = function (item, partials) {
     return new Promise(function (resolve, reject) {
         circuitConn.getConversation(item.convId)
                 .then(function (conv) {
-                    
+
                     var number = typeof partials[2] === 'undefined' ? 25 : partials[2];
                     circuitConn.getLastItems(item.convId, number)
                             .then(function (items) {
                                 var participants = conv.participants;
                                 var stats = [];
 
+//                                var stats2 = 
+                                        
                                 for (var i = 0; i < participants.length; i++) {
                                     console.log("Participant " + participants[i]);
                                     stats[participants[i]] = {
@@ -42,8 +44,9 @@ var analyzeTextItems = function (item, partials) {
                                     logText = logText + JSON.stringify(stats[participants[i]]);
                                 }
 
-                                logger.info("Statistiken für " + items.length + "Items: " +
-                                        JSON.stringify(stats)) + ",!!! " + logText;
+                                logger.info("Statistiken für " + items.length +
+                                        "Items: " + JSON.stringify(stats)) +
+                                        ",!!! " + logText;
 
                                 resolve("Läuft gut");
                             })
