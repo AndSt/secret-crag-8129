@@ -17,8 +17,8 @@ var sendTextItem = function (convId, text) {
                 content: text
             }
     ).then(function (item) {
-        logger.info("Message to conversation " + convId + "was delivered " +
-                "correctly");
+        logger.info("Message '" + text + "' to conversation " + convId + 
+                "was delivered correctly");
     }).catch(function (err) {
         logger.error('Unable to answer. ' + err);
     });

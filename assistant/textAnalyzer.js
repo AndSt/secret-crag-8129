@@ -45,7 +45,7 @@ var analyzeTextItems = function (item, partials) {
 
                                 logger.info("Statistiken für " + items.length +
                                         "Items: " + ",!!! " + logText);
-                                resolve(Läuft);
+                                resolve("Läuft gut");
                             })
                             .catch(function (err) {
                                 reject(err);
