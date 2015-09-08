@@ -41,7 +41,8 @@ var getTextItemNumbers = function (convId, number) {
                                 }
 
                                 logger.info("Statistiken für " + items.length +
-                                        "Items: " + ",!!! " + logText);
+                                        "Items: " + ",!!! " + logText
+                                        + " und " + stats.toString());
                                 resolve(stats);
                             })
                             .catch(function (err) {
