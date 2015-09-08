@@ -173,12 +173,12 @@ var getNumMessagesForChart = function (convId) {
                                 .then(function (users) {
                                     //add user.displayName to the rows
                                     var ret = rows.map(function (row) {
-                                        var arrId = users.map(function (user) {
-                                            return user.userId;
-                                        }).indexOf(row.userId);
+//                                        var arrId = users.map(function (user) {
+//                                            return user.userId;
+//                                        }).indexOf(row.userId);
                                         return {
                                             userId: row.userId,
-                                            displayName: users[arrId].displayName,
+//                                            displayName: users[arrId].displayName,
                                             numMessages: row.numMessages
                                         };
                                     });
