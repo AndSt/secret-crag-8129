@@ -20,7 +20,7 @@ var saveNewTextStatistics = function (convId, number) {
                 .then(function (items) {
                     var stats = [];
 
-                    logger.info("Bin jetzt hier" + JSON.strinify(participants));
+                    logger.info("Bin jetzt hier" + participants.toString());
 
                     participants.forEach(function (participant) {
                         stats[participants.indexOf(participant)] =
