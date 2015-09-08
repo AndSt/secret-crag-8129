@@ -166,22 +166,23 @@ var getNumMessagesForChart = function (convId) {
                         reject(err);
                     }
                     else {
-                        userIds = rows.map(function (row) {
+                        var userIds = rows.map(function (row) {
                             return row.userId;
                         });
                         circuitConn.getUsersById(userIds)
                                 .then(function (users) {
                                     //add user.displayName to the rows
                                     var ret = rows.map(function (row) {
-//                                        var arrId = users.map(function (user) {
-//                                            return user.userId;
-//                                        }).indexOf(row.userId);
+                                        var arrId = users.map(function (user) {
+                                            return user.userId;
+                                        }).indexOf(row.userId);
                                         return {
                                             userId: row.userId,
-//                                            displayName: users[arrId].displayName,
+                                            displayName: users[arrId].displayName,
                                             numMessages: row.numMessages
                                         };
                                     });
+                                    
                                     resolve(ret);
                                 })
                                 .catch(function (err) {

@@ -75,6 +75,7 @@ var getUsersById = function (userIds) {
                     logger.info("Successfully received the users [" +
                             userIds.toString() + "]: " +
                             JSON.stringify(users));
+                    resolve(users);
                 })
                 .catch(function (err) {
                     logger.error("Failure while retrieving the users [" +
