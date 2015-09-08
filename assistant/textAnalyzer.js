@@ -19,8 +19,8 @@ var getTextItemNumbers = function (convId, number) {
                 })
                 .then(circuitConn.getLastItems(convId, number))
                 .then(function (items) {
-                    logger.info("Having items, Starting to analyze.. " +
-                            JSON.stringify(participants));
+                    logger.info("Having items, Starting to analyze.. ");
+                    logger.info(JSON.stringify(participants));
                     var stats = [];
 
                     participants.forEach(function (participant) {
