@@ -27,21 +27,33 @@ var registerEventListener = function (client) {
 
 
 var parseItem = function (item, callback) {
-    var text = item.text.content;
-    var partials = text.split("/");
-    switch (partials[1]) {
-        case "addMeetingDate":
-            meetingReminder.addMeeting(item, partials, function (err, val) {
-                callback(err, val);
-            });
-            break;
-        case "getTextStatistics":
-            textAnalyzer.analyzeTextItems(item, partials, function (err, val) {
-                callback(err, val);
-            });
-        default:
-            callback(true, "12345");
-    }
+    return new Promise(function (resolve, reject) {
+
+        var text = item.text.content;
+        var partials = text.split("/");
+        switch (partials[1]) {
+            case "addMeetingDate":
+                meetingReminder.addMeeting(item, partials)
+                        .then(function (val) {
+                            callback(false, val);
+                        })
+                        .catch(function (err) {
+                            callback(false, err);
+                        });
+                break;
+            case "getTextStatistics":
+                textAnalyzer.analyzeTextItems(item, partials)
+                        .then(function (val) {
+                            callback(false, val);
+                        })
+                        .catch(function (err) {
+                            callback(false, err);
+                        });
+            default:
+                callback(true, "12345");
+        }
+
+    });
 };
 var update = function () {
     meetingReminder.update();

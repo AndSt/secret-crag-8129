@@ -16,39 +16,43 @@ var comm = require('./communication');
  *          val - string, which will be sent to the user
  */
 var addMeeting = function (item, partials, callback) {
-    var now = Math.floor((new Date()).getTime() / 1000);
+    return new Promise(function (resolve, reject) {
 
-    var dat = partials[2].split(" ");
-    var dat2 = dat[0].split(".");
-    var date = new Date(dat2[1] + "." + dat2[0] + "." + dat2[2] + " " + dat[1]);
-    var unixDate = Math.floor(date.getTime() / 1000);
-    var reminderDate = unixDate - 300;
+        var now = Math.floor((new Date()).getTime() / 1000);
 
-    var title = typeof partials[3] === 'undefined' ? "" : partials[3];
-    var sentReminder = 0;
-    if (now >= unixDate - 20) {
-        sentReminder = 1;
-    }
+        var dat = partials[2].split(" ");
+        var dat2 = dat[0].split(".");
+        var date = new Date(dat2[1] + "." + dat2[0] + "." + dat2[2] +
+                " " + dat[1]);
+        var unixDate = Math.floor(date.getTime() / 1000);
+        var reminderDate = unixDate - 300;
 
-    dbConn.query(
-            "INSERT INTO `remindMeetings`(`convId`, `inputItemId`, " +
-            "`inputText`, `title`, `date`, `reminderDate`, `sentReminder`) " +
-            "VALUES ('" + item.convId + "', '" + item.itemId + "', '" +
-            item.text.content + "', '" + title + "', '" + unixDate +
-            "', " + reminderDate + ", " + sentReminder + ")",
-            function (err) {
-                if (err) {
-                    logger.error("[meetingReminder] Error while inserting " +
-                            +"a remindMeeting, because: " + err);
-                    callback(false, "Error while inserting a remindMeeting. " +
-                            "Please try again.");
-                }
-                else {
-                    logger.info("[meetingReminder] Inserting of remindMeeting " +
-                            "went well");
-                    callback(false, "Inserting of remindMeeting went well");
-                }
-            });
+        var title = typeof partials[3] === 'undefined' ? "" : partials[3];
+        var sentReminder = 0;
+        if (now >= unixDate - 20) {
+            sentReminder = 1;
+        }
+
+        dbConn.query(
+                "INSERT INTO `remindMeetings`(`convId`, `inputItemId`, " +
+                "`inputText`, `title`, `date`, `reminderDate`, `sentReminder`) " +
+                "VALUES ('" + item.convId + "', '" + item.itemId + "', '" +
+                item.text.content + "', '" + title + "', '" + unixDate +
+                "', " + reminderDate + ", " + sentReminder + ")",
+                function (err) {
+                    if (err) {
+                        logger.error("[meetingReminder] Error while inserting " +
+                                +"a remindMeeting, because: " + err);
+                        reject("Error while inserting a remindMeeting. " +
+                                "Please try again.");
+                    }
+                    else {
+                        logger.info("[meetingReminder] Inserting of " + 
+                                "remindMeeting " +"went well");
+                        resolve("Inserting of remindMeeting went well");
+                    }
+                });
+    });
 };
 
 

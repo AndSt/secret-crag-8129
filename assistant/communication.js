@@ -11,7 +11,6 @@ var client = require('./../utils/client').getClient();
  * @param text      text which will be sent
  */
 var sendTextItem = function (convId, text) {
-    
     client.addTextItem(convId,
             {
                 contentType: "RICH",
@@ -34,33 +33,37 @@ var sendTextItem = function (convId, text) {
  *            err - true, if retrieving of the items fails
  *            b - items, if err=true, error string otherwise
  */
-var getLastItems = function (convId, number, callback) {
-    client.getConversationItems(convId, {numberOfItems: number})
-            .then(function (items) {
-                logger.info("Successfully retrieved " + number + " items: " +
-                        JSON.stringify(items));
-                callback(false, items);
-            }, function (err) {
-                logger.error("Failure while retrieving items: " + err);
-                callback(true, "Failure while retrieving the items");
-            });
+var getLastItems = function (convId, number) {
+    return new Promise(function (resolve, reject) {
+        client.getConversationItems(convId, {numberOfItems: number})
+                .then(function (items) {
+                    logger.info("Successfully retrieved " + number + " items: " +
+                            JSON.stringify(items));
+                    resolve(items);
+                }, function (err) {
+                    logger.error("Failure while retrieving items: " + err);
+                    reject("Failure while retrieving the items");
+                });
+    });
 };
 
 /*
  * 
  */
-var getConversation = function (convId, callback) {
-    client.getConversationById(convId)
-            .then(function (conv) {
-                logger.info("Successfully retrieved the conversation " +
-                        convId + ": " + JSON.stringify(conv));
-                callback(false, conv);
-            }, function (err) {
-                logger.error("Failure while retrieving the conversation " +
-                        convId);
-                callback(true, "Failure while retrieving the conversation" +
-                        convId);
-            });
+var getConversation = function (convId) {
+    return new Promise(function (resolve, reject) {
+        client.getConversationById(convId)
+                .then(function (conv) {
+                    logger.info("Successfully retrieved the conversation " +
+                            convId + ": " + JSON.stringify(conv));
+                    resolve(conv);
+                })
+                .catch(function (err) {
+                    logger.error("Failure while retrieving the conversation " +
+                            convId);
+                    reject(err);
+                });
+    });
 };
 
 module.exports = {
