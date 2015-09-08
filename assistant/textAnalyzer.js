@@ -153,6 +153,8 @@ var analyzeConversation = function (item, partials) {
 };
 
 
+
+
 var getNumMessagesForChart = function (convId) {
     return new Promise(function (resolve, reject) {
         dbConn.query("SELECT * FROM  `TextStatistics` AS t1 " +
@@ -164,28 +166,27 @@ var getNumMessagesForChart = function (convId) {
                         reject(err);
                     }
                     else {
-                        resolve(rows);
-//                        userIds = rows.map(function (row) {
-//                            return row.userId;
-//                        });
-//                        circuitConn.getUsersById(userIds)
-//                                .then(function (users) {
-//                                    var ret = rows.map(function (row) {
-//                                        var arrId = users.map(function (user) {
-//                                            return user.userId;
-//                                        }).indexOf(row.userId);
-//                                        
-//                                        return {
-//                                            userId: row.userId,
-//                                            displayName: users[arrId].displayName,
-//                                            numMessages: row.numMessages
-//                                        };
-//                                    });
-//                                    resolve(ret);
-//                                })
-//                                .catch(function (err) {
-//                                    reject(err);
-//                                });
+                        userIds = rows.map(function (row) {
+                            return row.userId;
+                        });
+                        circuitConn.getUsersById(userIds)
+                                .then(function (users) {
+                                    //add user.displayName to the rows
+                                    var ret = rows.map(function (row) {
+                                        var arrId = users.map(function (user) {
+                                            return user.userId;
+                                        }).indexOf(row.userId);
+                                        return {
+                                            userId: row.userId,
+                                            displayName: users[arrId].displayName,
+                                            numMessages: row.numMessages
+                                        };
+                                    });
+                                    resolve(ret);
+                                })
+                                .catch(function (err) {
+                                    reject(err);
+                                });
                     }
 
                 });

@@ -92,5 +92,6 @@ var getUsersById = function (userIds) {
 module.exports = {
     sendTextItem: sendTextItem,
     getLastItems: getLastItems,
-    getConversation: getConversation
+    getConversation: getConversation,
+    getUsersById : getUsersById
 };
