@@ -35,7 +35,7 @@ app.get('/commandGeneratior', function (req, res) {
 app.get('/test', function (req, res) {
     textAnalyzer.getNumMessagesForChart('0a19d4c4-9819-40c0-a299-ee3ce8ccb8b5')
             .then(function (data) {
-                res.json(data);
+                res.send(data.toString());
             })
             .catch(function (err) {
                 res.send("hat leider nicht funktioniert");
