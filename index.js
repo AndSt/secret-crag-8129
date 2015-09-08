@@ -47,7 +47,9 @@ app.get('/test2', function (req, res) {
 });
 
 app.get('/statistics', function (req, res) {
-    res.render('pages/statistics');
+    res.render('pages/statistics',
+            {title: "Testtitel"}
+    );
 });
 
 app.get('/getStats/:convId', function (req, res) {

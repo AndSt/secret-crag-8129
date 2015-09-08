@@ -37,10 +37,10 @@ var getLastItems = function (convId, number) {
     return new Promise(function (resolve, reject) {
         client.getConversationItems(convId, {numberOfItems: number})
                 .then(function (items) {
-                    logger.info("Successfully retrieved " + number + " items: " +
-                            JSON.stringify(items));
+                    logger.info("Successfully retrieved " + number + " items");
                     resolve(items);
-                }, function (err) {
+                })
+                .catch(function (err) {
                     logger.error("Failure while retrieving items: " + err);
                     reject("Failure while retrieving the items");
                 });
@@ -55,7 +55,7 @@ var getConversation = function (convId) {
         client.getConversationById(convId)
                 .then(function (conv) {
                     logger.info("Successfully retrieved the conversation " +
-                            convId + ": " + JSON.stringify(conv));
+                            convId);
                     resolve(conv);
                 })
                 .catch(function (err) {
@@ -65,6 +65,12 @@ var getConversation = function (convId) {
                 });
     });
 };
+
+//var getLikes = function(convId){
+//    return new Promise(function(resolve, reject){
+//        client.
+//    })
+//}
 
 module.exports = {
     sendTextItem: sendTextItem,

@@ -4,6 +4,7 @@ var dbConn = require('./../utils/database').getConnection();
 var logger = require('./../utils/logger');
 var comm = require('./communication');
 
+
 /*
  * adds a new meeting to the table remindMeetings
  * 

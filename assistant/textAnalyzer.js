@@ -12,13 +12,13 @@ var analyzeTextItems = function (item, partials) {
         circuitConn.getConversation(item.convId)
                 .then(function (conv) {
 
-                    var number = typeof partials[2] === 'undefined' ? 25 : partials[2];
+                    var number = typeof partials[2] === 'undefined' ? 100 : partials[2];
                     circuitConn.getLastItems(item.convId, number)
                             .then(function (items) {
                                 var participants = conv.participants;
                                 var stats = [];
-//                                var stats2 = participants.map(function(participant){
-//                                );
+                                
+                               
                                 for (var i = 0; i < participants.length; i++) {
                                     console.log("Participant " + participants[i]);
                                     stats[participants[i]] = {
@@ -45,7 +45,7 @@ var analyzeTextItems = function (item, partials) {
 
                                 logger.info("Statistiken für " + items.length +
                                         "Items: " + ",!!! " + logText);
-                                resolve("Läuft gut");
+                                resolve(Läuft);
                             })
                             .catch(function (err) {
                                 reject(err);
@@ -57,7 +57,7 @@ var analyzeTextItems = function (item, partials) {
     });
 };
 var analyzeLikes = function () {
-
+    
 };
 module.exports = {
     analyzeTextItems: analyzeTextItems
