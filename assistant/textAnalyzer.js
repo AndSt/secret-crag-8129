@@ -199,8 +199,7 @@ var getNumLettersForChar = function (convId) {
 module.exports = {
     analyzeConversation: analyzeConversation,
     getNumMessagesForChart: getNumMessagesForChart,
-    getNumLettersForChar : getNumLettersForChar,
-    getNumMessagesOverTime : getNumMessagesOverTime
+    getNumLettersForChar : getNumLettersForChar
 };
 
 
