@@ -11,3 +11,10 @@ var options = {
             "<%}%>" +
             "</ul>"
 };
+
+
+var pieData = data;
+var ctx = document.getElementById("chart-area").getContext("2d");
+window.myPie = new Chart(ctx).Pie(pieData, options);
+var legend = myPie.generateLegend();
+
