@@ -153,16 +153,50 @@ var analyzeConversation = function (item, partials) {
 };
 
 
+var getNumMessagesForChart = function (convId) {
+    return new Promise(function (resolve, reject) {
+        dbConn.query("SELECT * FROM  `TextStatistics` AS t1 " +
+                "WHERE t1.`TIMESTAMP` = " +
+                "(SELECT MAX( t2.`TIMESTAMP` ) FROM  `TextStatistics` AS t2 " +
+                "WHERE t2.`convId` = t1.`convId` ) ORDER BY t1.numMessages DESC",
+                function (err, rows) {
+                    if (err) {
 
-var getTextStatistics = function (convId) {
-    var stats;
+                    }
+                    else {
+                        userIds = rows.map(function (row) {
+                            return row.userId;
+                        });
+                        circuitConn.getUsersById(userIds)
+                                .then(function (users) {
+                                    var ret = rows.map(function (row) {
+                                        var arrId = users.indexOf(function (user) {
+                                            user.userId = row.userId;
+                                        });
+                                        
+                                        return {
+                                            userId: row.userId,
+                                            displayName: users[arrId].displayName,
+                                            numMessages: row.numMessages
+                                        };
+                                    });
+                                    resolve(ret);
+                                })
+                                .catch(function (err) {
+                                    reject(err);
+                                });
+                    }
 
-    connection.query(
-            "INSERT INTO `TextStatistics`(`convId`, `stats`) " +
-            "VALUES ('" + convId + "', '" + JSON.stringify(stats) + "')",
-            function (err, ret) {
-                //TODO what is ret
-            });
+                });
+    });
+};
+
+var getNumLettersForChar = function (convId) {
+
+};
+
+var getNumMessagesOverTime = function (convId, userId) {
+
 };
 
 

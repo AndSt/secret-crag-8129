@@ -55,13 +55,29 @@ var getConversation = function (convId) {
     return new Promise(function (resolve, reject) {
         client.getConversationById(convId)
                 .then(function (conv) {
-                    logger.info("Successfully retrieved the conversation " +
+                    logger.info("Successfully received the conversation " +
                             convId);
                     resolve(conv);
                 })
                 .catch(function (err) {
-                    logger.error("Failure while retrieving the conversation " +
+                    logger.error("Failure while received the conversation " +
                             convId);
+                    reject(err);
+                });
+    });
+};
+
+
+var getUsersById = function (userIds) {
+    return new Promise(function (resolve, reject) {
+        client.getUsersById(userIds)
+                .then(function (users) {
+                    logger.info("Successfully received the users [" +
+                            userIds.toString() + "]");
+                })
+                .catch(function (err) {
+                    logger.error("Failure while retrieving the users [" +
+                            userIds.toString() + "]");
                     reject(err);
                 });
     });

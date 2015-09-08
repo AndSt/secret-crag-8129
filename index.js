@@ -5,6 +5,11 @@ var Circuit = require('circuit');
 var assistant = require('./assistant/main');
 var logger = require('./utils/logger');
 var client = require('./utils/client').getClient();
+
+var textAnalyzer = require('./assistant/textAnalyzer');
+
+
+
 app.set('port', (process.env.PORT || 5000));
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({// to support URL-encoded bodies
@@ -15,14 +20,9 @@ app.use('/bower_components', express.static(__dirname + '/bower_components'));
 // views is directory for all template files
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-var test = function () {
-    return new Promise(function (resolve, reject) {
-        if ("hi" === "hi") {
-            resolve("passt");
-        }
-        reject("shit");
-    });
-};
+
+
+
 
 app.get('/', function (request, response) {
     response.render('pages/index');
@@ -33,12 +33,12 @@ app.get('/commandGeneratior', function (req, res) {
 });
 
 app.get('/test', function (req, res) {
-    var h = test()
+    textAnalyzer.getNumMessagesForChart('0a19d4c4-9819-40c0-a299-ee3ce8ccb8b5')
             .then(function (data) {
-                res.send(data);
+                res.json(data);
             })
             .catch(function (err) {
-                res.send(err);
+                res.send("hat leider nicht funktioniert");
             });
 });
 
