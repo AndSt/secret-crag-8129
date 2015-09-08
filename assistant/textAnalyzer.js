@@ -6,19 +6,18 @@ var circuitConn = require('./communication');
 /*  
  * 
  */
-var analyzeTextItems = function (item, partials) {
-    logger.info("Textanalyzer: started analyzeTextItems");
+var getTextItemNumbers = function (convId, numer) {
+
     return new Promise(function (resolve, reject) {
-        circuitConn.getConversation(item.convId)
+        circuitConn.getConversation(convId)
                 .then(function (conv) {
 
-                    var number = typeof partials[2] === 'undefined' ? 100 : partials[2];
-                    circuitConn.getLastItems(item.convId, number)
+                    circuitConn.getLastItems(convId, number)
                             .then(function (items) {
                                 var participants = conv.participants;
                                 var stats = [];
-                                
-                               
+
+
                                 for (var i = 0; i < participants.length; i++) {
                                     console.log("Participant " + participants[i]);
                                     stats[participants[i]] = {
@@ -45,7 +44,7 @@ var analyzeTextItems = function (item, partials) {
 
                                 logger.info("Statistiken für " + items.length +
                                         "Items: " + ",!!! " + logText);
-                                resolve("Läuft gut");
+                                resolve(stats);
                             })
                             .catch(function (err) {
                                 reject(err);
@@ -56,11 +55,71 @@ var analyzeTextItems = function (item, partials) {
                 });
     });
 };
-var analyzeLikes = function () {
-    
+
+var analyzeConversation = function (item, partials) {
+    var number = typeof partials[2] === 'undefined' ? 100 : partials[2];
+
+    logger.info("Textanalyzer: started analyzeTextItems");
+
+    getTextItemNumbers(item.convId, number)
+            .then(function (data) {
+
+                var color = [];
+                color[0] = {value: 300,
+                    color: "#F7464A",
+                    highlight: "#FF5A5E",
+                    label: "Red"
+                };
+                color[1] =
+                        {
+                            value: 50,
+                            color: "#46BFBD",
+                            highlight: "#5AD3D1",
+                            label: "Green"
+                        };
+                color[2] =
+                        {
+                            value: 100,
+                            color: "#FDB45C",
+                            highlight: "#FFC870",
+                            label: "Yellow"
+                        };
+                color[3] =
+                        {
+                            value: 40,
+                            color: "#949FB1",
+                            highlight: "#A8B3C5",
+                            label: "Grey"
+                        };
+                color[4] =
+                        {
+                            value: 120,
+                            color: "#4D5360",
+                            highlight: "#616774",
+                            label: "Dark Grey"
+                        };
+
+                data.sort(function (a, b) {
+                    if (a.numMessages < b.numMessages) {
+                        return -1;
+                    }
+                    else if (a.numMessages > b.numMessages) {
+                        return 1;
+                    }
+                    else {
+                        return 0;
+                    }
+                });
+
+
+
+            })
+            .catch(function (err) {
+                reject(err);
+            });
 };
 module.exports = {
-    analyzeTextItems: analyzeTextItems
+    analyzeConversation: analyzeConversation
 };
 
 
