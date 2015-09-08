@@ -196,14 +196,11 @@ var getNumLettersForChar = function (convId) {
 
 };
 
-var getNumMessagesOverTime = function (convId, userId) {
-
-};
-
-
 module.exports = {
     analyzeConversation: analyzeConversation,
-    getNumMessagesForChart: getNumMessagesForChart
+    getNumMessagesForChart: getNumMessagesForChart,
+    getNumLettersForChar : getNumLettersForChar,
+    getNumMessagesOverTime : getNumMessagesOverTime
 };
 
 
