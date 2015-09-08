@@ -6,9 +6,10 @@ var circuitConn = require('./communication');
 /*  
  * 
  */
-var getTextItemNumbers = function (convId, numer) {
+var getTextItemNumbers = function (convId, number) {
 
     return new Promise(function (resolve, reject) {
+
         circuitConn.getConversation(convId)
                 .then(function (conv) {
 
@@ -17,25 +18,22 @@ var getTextItemNumbers = function (convId, numer) {
                                 var participants = conv.participants;
                                 var stats = [];
 
-
-                                for (var i = 0; i < participants.length; i++) {
-                                    console.log("Participant " + participants[i]);
-                                    stats[participants[i]] = {
-                                        userId: participants[i],
+                                participants.forEach(function (participant) {
+                                    stats[participants] = {
+                                        userId: participant[i],
                                         numMessages: 0,
                                         numLetters: 0
                                     };
-                                }
+                                });
 
                                 var text;
-                                for (var j = 0; j < items.length; j++) {
-                                    if (items[j].type === "TEXT") {
-                                        stats[items[j].creatorId].numMessages += 1;
-                                        text = items[j].text.content;
-                                        stats[items[j].creatorId].numLetters
-                                                += text.length;
+                                items.forEach(function (item) {
+                                    if (item.type === "TEXT") {
+                                        stats[item.creatorId].numMessages += 1;
+                                        text = item.text.content;
+                                        stats[item.creatorId].numLetters += text.length;
                                     }
-                                }
+                                });
 
                                 var logText = "";
                                 for (i = 0; i < participants.length; i++) {
@@ -64,36 +62,36 @@ var analyzeConversation = function (item, partials) {
     getTextItemNumbers(item.convId, number)
             .then(function (data) {
 
-                var color = [];
-                color[0] = {value: 300,
+                var outputData = [];
+                outputData[0] = {value: 300,
                     color: "#F7464A",
                     highlight: "#FF5A5E",
                     label: "Red"
                 };
-                color[1] =
+                outputData[1] =
                         {
-                            value: 50,
+                            value: 0,
                             color: "#46BFBD",
                             highlight: "#5AD3D1",
                             label: "Green"
                         };
-                color[2] =
+                outputData[2] =
                         {
-                            value: 100,
+                            value: 0,
                             color: "#FDB45C",
                             highlight: "#FFC870",
                             label: "Yellow"
                         };
-                color[3] =
+                outputData[3] =
                         {
-                            value: 40,
+                            value: 0,
                             color: "#949FB1",
                             highlight: "#A8B3C5",
                             label: "Grey"
                         };
-                color[4] =
+                outputData[4] =
                         {
-                            value: 120,
+                            value: 0,
                             color: "#4D5360",
                             highlight: "#616774",
                             label: "Dark Grey"
@@ -111,8 +109,13 @@ var analyzeConversation = function (item, partials) {
                     }
                 });
 
-
-
+                var i = 0;
+                while (i < data.length && i <= 4) {
+                    outputData[i].value = data[i].numMessages;
+                    outputData[i].label = data[i].userId;
+                    i++;
+                }
+                logger.log(JSON.stringify(outputData));
             })
             .catch(function (err) {
                 reject(err);

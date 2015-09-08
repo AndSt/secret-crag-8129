@@ -42,7 +42,7 @@ var parseItem = function (item, callback) {
                         });
                 break;
             case "getTextStatistics":
-                textAnalyzer.analyzeTextItems(item, partials)
+                textAnalyzer.analyzeConversation(item, partials)
                         .then(function (val) {
                             callback(false, val);
                         })
