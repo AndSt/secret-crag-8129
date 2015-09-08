@@ -47,11 +47,11 @@ var options = {
 };
 
 
-var ctx1 = document.getElementById("chart-area1").getContext("2d");
+var ctx1 = document.getElementById("chart-area-1").getContext("2d");
 window.myPie = new Chart(ctx1).Pie(pieData, options);
 
 
-var ctx2 = document.getElementById("chart-area2").getContext("2d");
+var ctx2 = document.getElementById("chart-area-2").getContext("2d");
 window.myPie = new Chart(ctx2).Pie(pieData, options);
 
 var legend = myPie.generateLegend();

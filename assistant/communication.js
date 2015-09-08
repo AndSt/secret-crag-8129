@@ -17,7 +17,7 @@ var sendTextItem = function (convId, text) {
                 content: text
             }
     ).then(function (item) {
-        logger.info("Message '" + text + "' to conversation " + convId + 
+        logger.info("Message '" + text + "' to conversation " + convId +
                 "was delivered correctly");
     }).catch(function (err) {
         logger.error('Unable to answer. ' + err);
@@ -35,7 +35,8 @@ var getLastItems = function (convId, number) {
     return new Promise(function (resolve, reject) {
         client.getConversationItems(convId, {numberOfItems: number})
                 .then(function (items) {
-                    logger.info("Successfully retrieved " + number + " items");
+                    logger.info("Successfully retrieved " + number + " items" +
+                            JSON.stringify(items));
                     resolve(items);
                 })
                 .catch(function (err) {

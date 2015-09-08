@@ -16,7 +16,9 @@ var saveNewTextStatistics = function (convId, number) {
                     participants = conv.participants;
                     return Promise.resolve();
                 })
-                .then(circuitConn.getLastItems(convId, number))
+                .then(function () {
+                    return circuitConn.getLastItems(convId, number);
+                })
                 .then(function (items) {
                     var stats = [];
 
@@ -31,7 +33,7 @@ var saveNewTextStatistics = function (convId, number) {
                                 };
                     });
 
-                    logger.info("auch hier" + JSON.stringify(items));
+                    logger.info("auch hier" + items.toString());
 
                     var text, index;
                     items.forEach(function (item) {
@@ -43,7 +45,7 @@ var saveNewTextStatistics = function (convId, number) {
                             stats[index].numLetters += text.length;
                         }
                     });
-                    
+
                     logger.info("und hier");
 
                     stats.forEach(function (stat) {
@@ -67,7 +69,7 @@ var saveNewTextStatistics = function (convId, number) {
                                     }
                                 });
                     });
-                    
+
                     logger.info("stats: " + JSON.stringify(stats));
                     resolve(stats);
                 })
