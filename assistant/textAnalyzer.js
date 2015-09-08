@@ -153,9 +153,7 @@ var analyzeConversation = function (item, partials) {
 };
 
 
-
-
-var getNumMessagesForChart = function (convId) {
+var loadChartData = function (convId) {
     return new Promise(function (resolve, reject) {
         dbConn.query("SELECT * FROM  `TextStatistics` AS t1 " +
                 "WHERE t1.`TIMESTAMP` = " +
@@ -172,18 +170,7 @@ var getNumMessagesForChart = function (convId) {
                         circuitConn.getUsersById(userIds)
                                 .then(function (users) {
                                     //add user.displayName to the rows
-                                    var ret = rows.map(function (row) {
-                                        var arrId = users.map(function (user) {
-                                            return user.userId;
-                                        }).indexOf(row.userId);
-                                        return {
-                                            userId: row.userId,
-                                            displayName: users[arrId].displayName,
-                                            numMessages: row.numMessages
-                                        };
-                                    });
-                                    
-                                    resolve(ret);
+                                    resolve({users: users, rows: rows});
                                 })
                                 .catch(function (err) {
                                     reject(err);
@@ -194,14 +181,58 @@ var getNumMessagesForChart = function (convId) {
     });
 };
 
-var getNumLettersForChar = function (convId) {
+var getNumMessagesForChart = function (convId) {
+    return new Promise(function (resolve, reject) {
+        loadChartData(convId)
+                .then(function (data) {
+                    var users = data.users;
+                    var rows = data.rows;
+                    var retData = rows.map(function (row) {
+                        var arrId = users.map(function (user) {
+                            return user.userId;
+                        }).indexOf(row.userId);
+                        return {
+                            userId: row.userId,
+                            displayName: users[arrId].displayName,
+                            numMessages: row.numMessages
+                        };
+                    });
+                    resolve(retData);
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
+    });
+};
 
+var getNumLettersForChart = function (convId) {
+    return new Promise(function (resolve, reject) {
+        loadChartData(convId)
+                .then(function (data) {
+                    var users = data.users;
+                    var rows = data.rows;
+                    var retData = rows.map(function (row) {
+                        var arrId = users.map(function (user) {
+                            return user.userId;
+                        }).indexOf(row.userId);
+                        return {
+                            userId: row.userId,
+                            displayName: users[arrId].displayName,
+                            numLetters: row.numLetters
+                        };
+                    });
+                    resolve(retData);
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
+    });
 };
 
 module.exports = {
     analyzeConversation: analyzeConversation,
     getNumMessagesForChart: getNumMessagesForChart,
-    getNumLettersForChar : getNumLettersForChar
+    getNumLettersForChart: getNumLettersForChar
 };
 
 
