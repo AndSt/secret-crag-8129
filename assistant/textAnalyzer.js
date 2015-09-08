@@ -13,11 +13,10 @@ var getTextItemNumbers = function (convId, number) {
     return new Promise(function (resolve, reject) {
         circuitConn.getConversation(convId)
                 .then(function (conv) {
-
                     participants = conv.participants;
-                    return new Promise.resolve('');
+                    return Promise.resolve();
                 })
-                .then(function (data) {
+                .then(function () {
                     return circuitConn.getLastItems(convId, number);
                 })
                 .then(function (items) {
