@@ -232,7 +232,7 @@ var getNumLettersForChart = function (convId) {
 module.exports = {
     analyzeConversation: analyzeConversation,
     getNumMessagesForChart: getNumMessagesForChart,
-    getNumLettersForChart: getNumLettersForChar
+    getNumLettersForChart: getNumLettersForChart
 };
 
 
