@@ -27,17 +27,20 @@ var getTextItemNumbers = function (convId, number) {
                                             };
                                 });
 
-                                var text;
+
+                                var text, index;
                                 items.forEach(function (item) {
                                     if (item.type === "TEXT") {
-                                        stats[item.creatorId].numMessages += 1;
+                                        index = participants.indexOf(item.creatorId);
+                                        stats[index].numMessages += 1;
+
                                         text = item.text.content;
-                                        stats[item.creatorId].numLetters += text.length;
+                                        stats[index].numLetters += text.length;
                                     }
                                 });
 
                                 var logText = "";
-                                for (i = 0; i < participants.length; i++) {
+                                for (var i = 0; i < participants.length; i++) {
                                     logText = logText + JSON.stringify(stats[i]);
                                 }
 
