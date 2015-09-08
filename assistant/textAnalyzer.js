@@ -20,7 +20,7 @@ var saveNewTextStatistics = function (convId, number) {
                 .then(function (items) {
                     var stats = [];
 
-                    logger.info("Bin jetzt hier");
+                    logger.info("Bin jetzt hier" + JSON.strinify(participants));
 
                     participants.forEach(function (participant) {
                         stats[participants.indexOf(participant)] =
@@ -31,7 +31,7 @@ var saveNewTextStatistics = function (convId, number) {
                                 };
                     });
 
-                    logger.info("auch hier");
+                    logger.info("auch hier" + JSON.stringify(items));
 
                     var text, index;
                     items.forEach(function (item) {
