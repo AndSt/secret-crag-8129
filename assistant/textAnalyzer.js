@@ -202,7 +202,8 @@ var getNumMessagesOverTime = function (convId, userId) {
 
 
 module.exports = {
-    analyzeConversation: analyzeConversation
+    analyzeConversation: analyzeConversation,
+    getNumMessagesForChart: getNumMessagesForChart
 };
 
 
