@@ -14,43 +14,33 @@ var registerEventListener = function (client) {
         if (item.type === "TEXT"
                 && item.creatorId !== client.loggedOnUser.userId)
         {
-            parseItem(item, function (err, val) {
-                // only send answer, if there's no error
-                // error handling is done in parseItem()
-                if (err === false) {
-                    comm.sendTextItem(item.convId, val);
-                }
-            });
+            parseItem(item)
+                    .then(function (text) {
+                        comm.sendTextItem(item.convId, text);
+                    })
+                    .catch(function (err) {
+                        logger.log("Parsing didn't work, because:" + err);
+                    });
         }
     });
 };
 
 
 var parseItem = function (item, callback) {
+
     return new Promise(function (resolve, reject) {
 
         var text = item.text.content;
         var partials = text.split("/");
+        
         switch (partials[1]) {
             case "addMeetingDate":
-                meetingReminder.addMeeting(item, partials)
-                        .then(function (val) {
-                            callback(false, val);
-                        })
-                        .catch(function (err) {
-                            callback(false, err);
-                        });
+                resolve(meetingReminder.addMeeting(item, partials));
                 break;
             case "getTextStatistics":
-                textAnalyzer.analyzeConversation(item, partials)
-                        .then(function (val) {
-                            callback(false, val);
-                        })
-                        .catch(function (err) {
-                            callback(false, err);
-                        });
+                resolve(textAnalyzer.analyzeConversation(item, partials));
             default:
-                callback(true, "12345");
+                resolve("12345");
         }
 
     });

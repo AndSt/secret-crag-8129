@@ -55,8 +55,10 @@ var getTextItemNumbers = function (convId, number) {
 };
 
 var analyzeConversation = function (item, partials) {
-    var number = typeof partials[2] === 'undefined' ? 100 : partials[2];
+    
 
+return new Promise(function(resolve, reject){
+    var number = typeof partials[2] === 'undefined' ? 100 : partials[2];
     logger.info("Textanalyzer: started analyzeTextItems");
 
     getTextItemNumbers(item.convId, number)
@@ -116,11 +118,15 @@ var analyzeConversation = function (item, partials) {
                     i++;
                 }
                 logger.log(JSON.stringify(outputData));
+                resolve("läuft gut");
             })
             .catch(function (err) {
                 reject(err);
             });
+        });
 };
+
+
 module.exports = {
     analyzeConversation: analyzeConversation
 };
