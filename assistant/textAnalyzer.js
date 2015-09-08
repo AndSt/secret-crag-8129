@@ -17,7 +17,9 @@ var getTextItemNumbers = function (convId, number) {
                     participants = conv.participants;
                     return new Promise.resolve();
                 })
-                .then(circuitConn.getLastItems(convId, number))
+                .then(function () {
+                    return circuitConn.getLastItems(convId, number);
+                })
                 .then(function (items) {
                     logger.info("Having items, Starting to analyze.. ");
                     logger.info(JSON.stringify(participants));
