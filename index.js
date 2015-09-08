@@ -37,7 +37,7 @@ app.get('/test', function (req, res) {
     textAnalyzer.getNumMessagesForChart('0a19d4c4-9819-40c0-a299-ee3ce8ccb8b5')
             .then(function (data) {
                 logger.info('I#m having data');
-                res.send(data.toString());
+                res.json(JSON.stringify(data));
             })
             .catch(function (err) {
                 logger.info("I#m not having data");
@@ -56,10 +56,22 @@ app.get('/statistics', function (req, res) {
 });
 
 app.get('/getStats/:convId/numMessages', function (req, res) {
+    textAnalyzer.getNumMessagesForChart(req.params.convId)
+            .then(function (data) {
+                logger.info('I#m having data');
+                res.send(data.toString());
+            })
+            .catch(function (err) {
+                logger.info("I#m not having data");
+                res.send("hat leider nicht funktioniert");
+            });
+});
+
+app.get('/getStats/:convId/numLetters', function (req, res) {
 
 });
 
-app.get('/getStats/:convId/user', function (req, res) {
+app.get('/getStats/:convId/userTimeLine', function (req, res) {
 
 });
 

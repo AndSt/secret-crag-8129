@@ -164,28 +164,27 @@ var getNumMessagesForChart = function (convId) {
                         reject(err);
                     }
                     else {
-                        resolve(rows);
-//                        userIds = rows.map(function (row) {
-//                            return row.userId;
-//                        });
-//                        circuitConn.getUsersById(userIds)
-//                                .then(function (users) {
-//                                    var ret = rows.map(function (row) {
-//                                        var arrId = users.indexOf(function (user) {
-//                                            user.userId = row.userId;
-//                                        });
-//                                        
-//                                        return {
-//                                            userId: row.userId,
-//                                            displayName: users[arrId].displayName,
-//                                            numMessages: row.numMessages
-//                                        };
-//                                    });
-//                                    resolve(ret);
-//                                })
-//                                .catch(function (err) {
-//                                    reject(err);
-//                                });
+                        userIds = rows.map(function (row) {
+                            return row.userId;
+                        });
+                        circuitConn.getUsersById(userIds)
+                                .then(function (users) {
+                                    var ret = rows.map(function (row) {
+                                        var arrId = users.indexOf(function (user) {
+                                            user.userId = row.userId;
+                                        });
+                                        
+                                        return {
+                                            userId: row.userId,
+                                            displayName: users[arrId].displayName,
+                                            numMessages: row.numMessages
+                                        };
+                                    });
+                                    resolve(ret);
+                                })
+                                .catch(function (err) {
+                                    reject(err);
+                                });
                     }
 
                 });
