@@ -1,13 +1,19 @@
 var Circuit = require('circuit');
 var logger = require('./logger');
 
+/*
+ * Login the client and return the object 
+ */
+
+
 var client = new Circuit.Client({domain: 'circuitsandbox.net'});
 client.logon('andreas-stephan@hotmail.de', 'andalos1')
         .then(function (user) {
             logger.info('Logged in as ' + user.displayName);
-        }).catch(function (e) {
-    logger.error('Unable to logon. ' + e);
-});
+        })
+        .catch(function (err) {
+            logger.error('Unable to logon. ' + err);
+        });
 
 var getClient = function () {
     return client;

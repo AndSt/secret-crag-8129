@@ -55,8 +55,10 @@ var analyzeTextItems = function (item, partials, callback) {
             });
         }
     });
+};
 
-
+var analyzeLikes = function(){
+    
 };
 
 module.exports = {

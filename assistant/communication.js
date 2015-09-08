@@ -11,6 +11,7 @@ var client = require('./../utils/client').getClient();
  * @param text      text which will be sent
  */
 var sendTextItem = function (convId, text) {
+    
     client.addTextItem(convId,
             {
                 contentType: "RICH",
