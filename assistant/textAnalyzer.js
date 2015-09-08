@@ -8,56 +8,53 @@ var circuitConn = require('./communication');
  */
 var getTextItemNumbers = function (convId, number) {
 
-    return new Promise(function (resolve, reject) {
+    var participants;
 
+    return new Promise(function (resolve, reject) {
         circuitConn.getConversation(convId)
                 .then(function (conv) {
+                    participants = conv.participants;
+                    return new Promise.resolve();
+                })
+                .then(circuitConn.getLastItems(convId, number))
+                .then(function (items) {
 
-                    circuitConn.getLastItems(convId, number)
-                            .then(function (items) {
-                                var participants = conv.participants;
-                                var stats = [];
+                    var stats = [];
 
-                                participants.forEach(function (participant) {
-                                    stats[participants.indexOf(participant)] =
-                                            {
-                                                userId: participant,
-                                                numMessages: 0,
-                                                numLetters: 0
-                                            };
-                                });
+                    participants.forEach(function (participant) {
+                        stats[participants.indexOf(participant)] =
+                                {
+                                    userId: participant,
+                                    numMessages: 0,
+                                    numLetters: 0
+                                };
+                    });
 
 
-                                var text, index;
-                                items.forEach(function (item) {
-                                    if (item.type === "TEXT") {
-                                        index = participants.indexOf(item.creatorId);
-                                        stats[index].numMessages += 1;
+                    var text, index;
+                    items.forEach(function (item) {
+                        if (item.type === "TEXT") {
+                            index = participants.indexOf(item.creatorId);
+                            stats[index].numMessages += 1;
 
-                                        text = item.text.content;
-                                        stats[index].numLetters += text.length;
-                                    }
-                                });
+                            text = item.text.content;
+                            stats[index].numLetters += text.length;
+                        }
+                    });
 
-                                var logText = "";
-                                for (var i = 0; i < participants.length; i++) {
-                                    logText = logText + JSON.stringify(stats[i]);
-                                }
+                    var logText = "";
+                    for (var i = 0; i < participants.length; i++) {
+                        logText = logText + JSON.stringify(stats[i]);
+                    }
 
-                                logger.info("Statistiken für " + items.length +
-                                        "Items: " + ",!!! " + logText
-                                        + " und " + stats.toString());
-                                resolve(stats);
-                            })
-                            .catch(function (err) {
-                                reject(err);
-                            });
+                    resolve(stats);
                 })
                 .catch(function (err) {
                     reject(err);
                 });
     });
 };
+
 
 var analyzeConversation = function (item, partials) {
 
@@ -129,6 +126,10 @@ var analyzeConversation = function (item, partials) {
                     reject(err);
                 });
     });
+};
+
+var saveTextStatistics = function (convId) {
+
 };
 
 
