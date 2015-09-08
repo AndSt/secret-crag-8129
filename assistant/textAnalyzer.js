@@ -41,9 +41,6 @@ var saveNewTextStatistics = function (convId, number) {
                         }
                     });
 
-                    logger.info("stats: " + JSON.stringify(stats));
-                    resolve(stats);
-
                     stats.forEach(function (stat) {
                         dbConn.query(
                                 "INSERT INTO `TextStatistics`(`convId`, " +
@@ -65,6 +62,9 @@ var saveNewTextStatistics = function (convId, number) {
                                     }
                                 });
                     });
+                    
+                    logger.info("stats: " + JSON.stringify(stats));
+                    resolve(stats);
                 })
                 .catch(function (err) {
                     reject(err);
