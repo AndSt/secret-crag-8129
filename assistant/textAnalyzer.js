@@ -170,9 +170,9 @@ var getNumMessagesForChart = function (convId) {
                         circuitConn.getUsersById(userIds)
                                 .then(function (users) {
                                     var ret = rows.map(function (row) {
-                                        var arrId = users.indexOf(function (user) {
-                                            user.userId = row.userId;
-                                        });
+                                        var arrId = users.map(function (user) {
+                                            return user.userId;
+                                        }).indexOf(row.userId);
                                         
                                         return {
                                             userId: row.userId,
