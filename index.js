@@ -55,7 +55,7 @@ app.get('/statistics', function (req, res) {
     );
 });
 
-app.get('/getStats/:convId', function (req, res) {
+app.get('/getStats/:convId/numMessages', function (req, res) {
 
 });
 
