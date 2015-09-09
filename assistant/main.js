@@ -43,7 +43,8 @@ var parseItem = function (item, callback) {
 //                resolve("12345");
 //        }
 
-        if (text.contains('meeting assistent')) {
+        if (text.contains('meeting assistant')) {
+            logger.info('The user speaks with the meeting assistant');
             optionParser.checkOptions(text).then(function (options) {
                 if (options.meetingReminder.isInUse === true) {
                     resolve(meetingReminder.addMeeting(item, partials));

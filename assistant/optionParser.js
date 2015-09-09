@@ -24,6 +24,7 @@ var checkOptions = function (text) {
         testMeetingReminder(text)
                 .then(function (remindMeeting) {
                     options.remindMeeting = remindMeeting;
+                    logger.info("Options are rendered: " + JSON.stringify(options));
                     resolve(options);
                 })
                 .catch(function (err) {
@@ -49,6 +50,7 @@ var testMeetingReminder = function (text) {
                             date: date,
                             remindEarlier: 300
                         };
+                        logger.info("meeting reminder ist in use");
                         resolve(meetingReminder);
                     })
                     .catch(function (err) {
