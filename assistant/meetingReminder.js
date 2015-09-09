@@ -27,7 +27,7 @@ var addMeeting = function (item, options) {
         if (time.getUnixTimeStamp(new Date()) >= unixDate - 20) {
             sentReminder = 1;
         }
-
+        logger.info("meeting will be added again");
         dbConn.query(
                 "INSERT INTO `remindMeetings`(`convId`, `inputItemId`, " +
                 "`inputText`, `date`, `reminderDate`, `sentReminder`) " +
