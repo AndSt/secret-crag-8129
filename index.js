@@ -45,6 +45,14 @@ app.get('/test', function (req, res) {
             });
 });
 
+app.get('/testParser', function(req, res){
+    res.render('pages/test');
+});
+
+app.post('/testParser', function(req, res){
+    
+});
+
 app.get('/test2', function (req, res) {
     res.render('pages/test2');
 });

@@ -3,7 +3,7 @@ var comm = require('./communication');
 
 var meetingReminder = require('./meetingReminder');
 var textAnalyzer = require('./textAnalyzer');
-
+var optionParser = require('./optionParser');
 
 
 var registerEventListener = function (client) {
@@ -32,15 +32,32 @@ var parseItem = function (item, callback) {
 
         var text = item.text.content;
         var partials = text.split("/");
-        
-        switch (partials[1]) {
-            case "addMeetingDate":
-                resolve(meetingReminder.addMeeting(item, partials));
-                break;
-            case "getTextStatistics":
-                resolve(textAnalyzer.analyzeConversation(item, partials));
-            default:
-                resolve("12345");
+
+//        switch (partials[1]) {
+//            case "addMeetingDate":
+//                resolve(meetingReminder.addMeeting(item, partials));
+//                break;
+//            case "getTextStatistics":
+//                resolve(textAnalyzer.analyzeConversation(item, partials));
+//            default:
+//                resolve("12345");
+//        }
+
+        if (text.contains('meeting assistent')) {
+            optionParser.checkOptions(text).then(function (options) {
+                if (options.meetingReminder.isInUse === true) {
+                    resolve(meetingReminder.addMeeting(item, partials));
+                }
+                else if (options.textAnalyzer.isInUse === true) {
+                    resolve(textAnalyzer.analyzeConversation(item, partials));
+                }
+                else {
+                    resolve("12345");
+                }
+            });
+        }
+        else {
+            reject("The assistent must not answer");
         }
 
     });
