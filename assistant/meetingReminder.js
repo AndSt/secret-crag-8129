@@ -2,8 +2,8 @@
 var mysql = require('mysql');
 var dbConn = require('./../utils/database').getConnection();
 var logger = require('./../utils/logger');
-var comm = require('./communication');
 var time = require('./../utils/time');
+var comm = require('./communication');
 
 /*
  * adds a new meeting to the table remindMeetings
@@ -18,14 +18,13 @@ var time = require('./../utils/time');
  */
 var addMeeting = function (item, options) {
     return new Promise(function (resolve, reject) {
-
-        var now = Math.floor((new Date()).getTime() / 1000);
+        logger.info('meeting will be added');
 
         var unixDate = time.getUnixTimeStamp(options.date);
         var reminderDate = unixDate - 300;
 
         var sentReminder = 0;
-        if (now >= unixDate - 20) {
+        if (time.getUnixTimeStamp(new Date()) >= unixDate - 20) {
             sentReminder = 1;
         }
 
