@@ -33,6 +33,19 @@ var searchDate = function (text) {
     });
 };
 
+var getMoment = function (date) {
+    var dateTime = moment(date);
+    dateTime.add(momment().utcOffset(), 'minutes');
+    return dateTime;
+};
+
+var getUnixTimeStamp = function (date) {
+    var moment = getMoment(date);
+    return moment.unix();
+};
+
 module.exports = {
-    searchDate: searchDate
+    searchDate: searchDate,
+    getMoment: getMoment,
+    getUnixTimeStamp: getUnixTimeStamp
 };

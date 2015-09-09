@@ -31,8 +31,6 @@ var parseItem = function (item, callback) {
     return new Promise(function (resolve, reject) {
 
         var text = item.text.content;
-        var partials = text.split("/");
-
 //        switch (partials[1]) {
 //            case "addMeetingDate":
 //                resolve(meetingReminder.addMeeting(item, partials));
@@ -47,10 +45,10 @@ var parseItem = function (item, callback) {
             logger.info('The user speaks with the meeting assistant');
             optionParser.checkOptions(text).then(function (options) {
                 if (options.meetingReminder.isInUse === true) {
-                    resolve(meetingReminder.addMeeting(item, partials));
+                    resolve(meetingReminder.addMeeting(item, options.meetingReminder));
                 }
                 else if (options.textAnalyzer.isInUse === true) {
-                    resolve(textAnalyzer.analyzeConversation(item, partials));
+                    resolve(textAnalyzer.analyzeConversation(item, options));
                 }
                 else {
                     resolve("12345");

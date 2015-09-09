@@ -3,7 +3,7 @@ var mysql = require('mysql');
 var dbConn = require('./../utils/database').getConnection();
 var logger = require('./../utils/logger');
 var comm = require('./communication');
-
+var time = require('./../utils/time');
 
 /*
  * adds a new meeting to the table remindMeetings
@@ -16,19 +16,14 @@ var comm = require('./communication');
  *          err - if true nothing will be answered to the user
  *          val - string, which will be sent to the user
  */
-var addMeeting = function (item, partials, callback) {
+var addMeeting = function (item, options) {
     return new Promise(function (resolve, reject) {
 
         var now = Math.floor((new Date()).getTime() / 1000);
 
-        var dat = partials[2].split(" ");
-        var dat2 = dat[0].split(".");
-        var date = new Date(dat2[1] + "." + dat2[0] + "." + dat2[2] +
-                " " + dat[1]);
-        var unixDate = Math.floor(date.getTime() / 1000);
+        var unixDate = time.getUnixTimeStamp(options.date);
         var reminderDate = unixDate - 300;
 
-        var title = typeof partials[3] === 'undefined' ? "" : partials[3];
         var sentReminder = 0;
         if (now >= unixDate - 20) {
             sentReminder = 1;
@@ -36,9 +31,9 @@ var addMeeting = function (item, partials, callback) {
 
         dbConn.query(
                 "INSERT INTO `remindMeetings`(`convId`, `inputItemId`, " +
-                "`inputText`, `title`, `date`, `reminderDate`, `sentReminder`) " +
+                "`inputText`, `date`, `reminderDate`, `sentReminder`) " +
                 "VALUES ('" + item.convId + "', '" + item.itemId + "', '" +
-                item.text.content + "', '" + title + "', '" + unixDate +
+                item.text.content + "', '" + unixDate +
                 "', " + reminderDate + ", " + sentReminder + ")",
                 function (err) {
                     if (err) {
@@ -48,8 +43,8 @@ var addMeeting = function (item, partials, callback) {
                                 "Please try again.");
                     }
                     else {
-                        logger.info("[meetingReminder] Inserting of " + 
-                                "remindMeeting " +"went well");
+                        logger.info("[meetingReminder] Inserting of " +
+                                "remindMeeting " + "went well");
                         resolve("Inserting of remindMeeting went well");
                     }
                 });
@@ -88,19 +83,10 @@ var update = function () {
                         dateString = date.getHours() + ":" + date.getMinutes();
                         id = meeting.ID;
                         // send text
-                        if (meeting.title === "") {
-                            comm.sendTextItem(meeting.convId,
-                                    "Um " + dateString + " Uhr beginnt " +
-                                    "ein Meeting."
-                                    );
-                        }
-                        else {
-                            comm.sendTextItem(meeting.convId,
-                                    "Um " + dateString + " Uhr beginnt " +
-                                    "das Meeting " + meeting.title
-                                    );
-                        }
-
+                        comm.sendTextItem(meeting.convId,
+                                "Um " + dateString + " Uhr beginnt " +
+                                "das Meeting " + meeting.title
+                                );
 
                         // update the sentReminder flag
                         dbConn.query("UPDATE `remindMeetings` " +
