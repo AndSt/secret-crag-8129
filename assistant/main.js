@@ -31,17 +31,8 @@ var parseItem = function (item, callback) {
     return new Promise(function (resolve, reject) {
 
         var text = item.text.content;
-//        switch (partials[1]) {
-//            case "addMeetingDate":
-//                resolve(meetingReminder.addMeeting(item, partials));
-//                break;
-//            case "getTextStatistics":
-//                resolve(textAnalyzer.analyzeConversation(item, partials));
-//            default:
-//                resolve("12345");
-//        }
 
-        if (text.contains('meeting assistant')) {
+        if (text.indexOf('meeting assistant')> -1) {
             logger.info('The user speaks with the meeting assistant');
             optionParser.checkOptions(text).then(function (options) {
                 if (options.meetingReminder.isInUse === true) {
