@@ -35,7 +35,6 @@ var searchDate = function (text) {
 
 var getMoment = function (date) {
     var dateTime = moment(date);
-    dateTime.add(momment().utcOffset(), 'minutes');
     return dateTime;
 };
 
