@@ -59,7 +59,7 @@ var parseItem = function (item, callback) {
 };
 
 var sendToGA = function (item) {
-    
+
     logger.info("sendToGA()");
     var channel = {
         id: item.convId
@@ -109,7 +109,7 @@ var sendToGA = function (item) {
         cm2: letterCount,
         cm3: exclaCount,
         cm4: questionCount, //need to set up in GA
-                t: "event",
+        t: "event",
         ec: "slack: " + channel.name + "|" + channel.id,
         ea: "post by " + user.id,
         el: msgText,
@@ -117,9 +117,13 @@ var sendToGA = function (item) {
     };
     logger.info(JSON.stringify(data));
     //Now Make Post Request!
-    request.post("https://www.google-analytics.com/collect?" + qs.stringify(data),
+    var string = "https://www.google-analytics.com/collect?" + qs.stringify(data);
+    logger.ino(string);
+    request.get("https://www.google-analytics.com/collect?" + qs.stringify(data),
             function (error, resp, body) {
-                logger.error(error);
+
+                logger.error(JSON.stringify(error) + JSON.stringify(resp)
+                        + JSON.stringify(body));
             });
 };
 
