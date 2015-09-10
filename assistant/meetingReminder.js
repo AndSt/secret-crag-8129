@@ -26,7 +26,7 @@ var addMeeting = function (item, options) {
         if (time.getUnixTimeStamp(new Date()) >= unixDate - 20) {
             sentReminder = 1;
         }
-        logger.info("meeting will be added again");
+        
         logger.info(item.convId);
         logger.info(item.itemId);
         logger.info(item.text.content);
@@ -34,14 +34,14 @@ var addMeeting = function (item, options) {
         logger.info(unixDate);
         logger.info(reminderDate);
         var query = "INSERT INTO `remindMeetings`(`convId`, `inputItemId`, " +
-                "`inputText`, `date`, `reminderDate`, `sentReminder` ) " +
+                "`inputText`, `date`, `reminderDate`, `sentReminder`) " +
                 "VALUES ('" + item.convId + "', '" + item.itemId + "', '" +
                 item.text.content + "', '" + unixDate + "', '" +
                 reminderDate + "', '" + sentReminder + "')";
 
         logger.info("Query: ");
-        logger.info(query.toString());
-
+        logger.info(query);
+        logger.info("jo");
         dbConn.query(query, function (err) {
             if (err) {
                 logger.error("[meetingReminder] Error while inserting " +

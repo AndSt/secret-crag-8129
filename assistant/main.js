@@ -8,9 +8,8 @@ var optionParser = require('./optionParser');
 
 var registerEventListener = function (client) {
 
-    client.addEventListener('itemAdded', function (event) {
-        var item = event.item;
-        logger.info('itemAdded ' + item.text.content);
+    client.addEventListener('itemAdded', function (item) {
+        logger.info('itemAdded ' + JSON.stringify(item));
         if (item.type === "TEXT"
                 && item.creatorId !== client.loggedOnUser.userId)
         {
