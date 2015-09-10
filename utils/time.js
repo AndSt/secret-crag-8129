@@ -34,12 +34,15 @@ var searchDate = function (text) {
 };
 
 var getMoment = function (date) {
+    logger.info('getMoment()' + date.toString());
     var dateTime = moment(date);
     return dateTime;
 };
 
 var getUnixTimeStamp = function (date) {
+    logger.info('getUnixTimeStamp()' + date.toString());
     var moment = getMoment(date);
+    logger.info('gotUnixTimeStamp()');
     return moment.unix();
 };
 

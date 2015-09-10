@@ -22,7 +22,7 @@ var addMeeting = function (item, options) {
 
         var unixDate = time.getUnixTimeStamp(options.date);
         var reminderDate = unixDate - 300;
-
+        logger.info('meeting will be added2');
         var sentReminder = 0;
         if (time.getUnixTimeStamp(new Date()) >= unixDate - 20) {
             sentReminder = 1;
