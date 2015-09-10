@@ -64,7 +64,7 @@ var parseItem = function (item, callback) {
 
 var addToDatabase = function (item) {
     logger.info("add item " + item.itemId + " to the database");
-    return new Promise(function (resove, reject) {
+    return new Promise(function (resolve, reject) {
 
         var query = "INSERT INTO `Items`(`itemId`, `convId`, `creatorId`, " +
                 " `text`) VALUES (" + item.itemId + ", " + item.convId +
