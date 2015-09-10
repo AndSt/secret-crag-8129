@@ -136,6 +136,5 @@ var update = function () {
 module.exports = {
     registerEventListener: registerEventListener,
     parseItem: parseItem,
-    sendToGA: sendToGA,
     update: update
 };
