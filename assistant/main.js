@@ -36,7 +36,7 @@ var parseItem = function (item, callback) {
             logger.info('The user speaks with the meeting assistant');
             optionParser.checkOptions(text).then(function (options) {
                 if (options.remindMeeting.isInUse === true) {
-                    resolve(meetingReminder.addMeeting(item, options.meetingReminder));
+                    resolve(meetingReminder.addMeeting(item, options.remindMeeting));
                 }
                 else if (options.textAnalyzer.isInUse === true) {
                     resolve(textAnalyzer.analyzeConversation(item, options));

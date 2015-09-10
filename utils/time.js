@@ -40,7 +40,7 @@ var getMoment = function (date) {
 
 var getUnixTimeStamp = function (date) {
     logger.info("timetime");
-    logger.info('getUnixTimeStamp()' + date.toString());
+    logger.info('getUnixTimeStamp()' + date);
     var moment = getMoment(date);
     logger.info('gotUnixTimeStamp()');
     return moment.unix();

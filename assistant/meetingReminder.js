@@ -18,7 +18,7 @@ var comm = require('./communication');
  */
 var addMeeting = function (item, options) {
     return new Promise(function (resolve, reject) {
-        logger.info('meeting will be added');
+        logger.info('meeting will be added' + JSON.stringify(options));
 
         var unixDate = time.getUnixTimeStamp(options.date);
         var reminderDate = unixDate - 300;
