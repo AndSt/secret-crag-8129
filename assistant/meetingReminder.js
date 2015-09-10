@@ -33,7 +33,8 @@ var addMeeting = function (item, options) {
                 item.text.content + "', '" + unixDate + "', '" +
                 reminderDate + "', '" + sentReminder + "')";
 
-        logger.info("Query: " + query);
+        logger.info("Query: ");
+        logger.info(JSON.stringify(query));
 
         dbConn.query(query, function (err) {
             if (err) {
