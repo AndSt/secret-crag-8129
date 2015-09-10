@@ -66,9 +66,12 @@ var addToDatabase = function (item) {
     logger.info("add item " + item.itemId + " to the database");
     return new Promise(function (resolve, reject) {
 
+        logger.info(JSON.stringify(item));
+        
         var query = "INSERT INTO `Items`(`itemId`, `convId`, `creatorId`, " +
                 " `text`) VALUES (" + item.itemId + ", " + item.convId +
                 " " + item.creatorId + ", '" + item.text.content + "')";
+        
         logger.info("Query to add new item to database: " + query);
 
         dbConn.query(query, function (err) {
