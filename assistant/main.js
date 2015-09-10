@@ -92,8 +92,7 @@ var sendToGA = function (item) {
     var wordCount = searchS(/\s+\b/);
     var exclaCount = searchM(/!/g);
     var questionCount = searchM(/\?/g);
-    var elipseCount = searchM(/\.\.\./g);
-    var lettetCount = msgText.length;
+    var letterCount = msgText.length;
     //The Structure Data! This is where are the pretty GA data gets gathered
     //before it is sent to the GA servers for us to analyse at a later time.
     var data = {
@@ -110,7 +109,7 @@ var sendToGA = function (item) {
         cm3: exclaCount,
         cm4: questionCount, //need to set up in GA
         t: "event",
-        ec: "slack: " + channel.name + "|" + channel.id,
+        ec: "slack: " + channel.id,
         ea: "post by " + user.id,
         el: msgText,
         ev: 1
