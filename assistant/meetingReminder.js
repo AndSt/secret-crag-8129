@@ -26,6 +26,8 @@ var addMeeting = function (item, options) {
         if (time.getUnixTimeStamp(new Date()) >= unixDate - 20) {
             sentReminder = 1;
         }
+        logger.info(JSON.stringify(item));
+        logger.info(item.text.content);
         var query = "INSERT INTO `remindMeetings`(`convId`, `inputItemId`, " +
                 "`inputText`, `date`, `reminderDate`, `sentReminder`) " +
                 "VALUES ('" + item.convId + "', '" + item.itemId + "', '" +
