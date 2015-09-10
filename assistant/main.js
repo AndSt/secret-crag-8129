@@ -65,7 +65,7 @@ var sendToGA = function (item) {
         id: item.convId
     };
     var user = {
-        id: item.userId
+        id: item.creatorId
     };
 
     var msgText = item.text.content;
