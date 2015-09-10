@@ -27,6 +27,12 @@ var addMeeting = function (item, options) {
             sentReminder = 1;
         }
         logger.info("meeting will be added again");
+        logger.info(item.convId);
+        logger.info(item.itemId);
+        logger.info(item.text.content);
+        logger.info(sentReminder);
+        logger.info(unixDate);
+        logger.info(reminderDate);
         var query = "INSERT INTO `remindMeetings`(`convId`, `inputItemId`, " +
                 "`inputText`, `date`, `reminderDate`, `sentReminder` ) " +
                 "VALUES ('" + item.convId + "', '" + item.itemId + "', '" +
