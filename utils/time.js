@@ -33,21 +33,13 @@ var searchDate = function (text) {
     });
 };
 
-var getMoment = function (date) {
-    logger.info('getMoment()' + date.toString());
-    return moment(date);
-};
-
 var getUnixTimeStamp = function (date) {
-    logger.info("timetime");
     logger.info('getUnixTimeStamp()' + date);
-    var moment = getMoment(date);
-    logger.info('gotUnixTimeStamp()');
+    var moment = moment(date);
     return moment.unix();
 };
 
 module.exports = {
     searchDate: searchDate,
-    getMoment: getMoment,
     getUnixTimeStamp: getUnixTimeStamp
 };
