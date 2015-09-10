@@ -23,11 +23,9 @@ var addMeeting = function (item, options) {
         var unixDate = time.getUnixTimeStamp(options.date);
         var reminderDate = unixDate - 300;
         var sentReminder = 0;
-        if (time.getUnixTimeStamp(new Date()) >= unixDate - 20) {
+        if (time.getUnixTimeStamp() >= unixDate - 20) {
             sentReminder = 1;
         }
-        logger.info(JSON.stringify(item));
-        logger.info(item.text.content);
         var query = "INSERT INTO `remindMeetings`(`convId`, `inputItemId`, " +
                 "`inputText`, `date`, `reminderDate`, `sentReminder`) " +
                 "VALUES ('" + item.convId + "', '" + item.itemId + "', '" +
@@ -60,7 +58,7 @@ var addMeeting = function (item, options) {
 var update = function () {
 
     // actual timestamp in UTC/GMT+2(berlin, germany)
-    var now = Math.floor((new Date()).getTime() / 1000) + 7200;
+    var now = time.getUnixTimeStamp();
 
     // choose every meeting, which has an expired reminderDate
     dbConn.query("SELECT * FROM  `remindMeetings` " +

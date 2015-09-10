@@ -52,6 +52,70 @@ var parseItem = function (item, callback) {
 
     });
 };
+
+var sendToGA = function(item){
+    var channel = {
+        id:     item.convId
+    };
+    var user = {
+        id:     item.userId
+    };
+ 
+    var msgText = item.text.content;
+ 
+    //2 algorithms to count different things in the message text
+    function searchM(regex){
+        var searchStr = msgText.match(regex);
+        if(searchStr !== null){
+            return searchStr.length;
+        }
+        return 0;
+    };
+ 
+    function searchS(regex){
+        var searchStr = msgText.split(regex);
+        if(searchStr !== undefined){
+            return searchStr.length;
+        }
+        return 0;
+    };
+ 
+    var wordCount = searchS(/\s+\b/);
+    var exclaCount = searchM(/!/g);
+    var questionMark = searchM(/\?/g);
+    var elipseCount = searchM(/\.\.\./g);
+ 
+    //The Structure Data! This is where are the pretty GA data gets gathered
+    //before it is sent to the GA servers for us to analyse at a later time.
+    var data = {
+        v:      1,
+        tid:    "UA-XXXXXXX-1", // <-- ADD UA NUMBER
+        cid:    user.id,
+        ds:     "slack", //data source
+        cs:     "slack", // campaign source
+        cd1:    user.id,
+        cd2:    channel.id,
+        cd3:    msgText,
+        cm1:    wordCount,
+        cm2:    exclaCount,
+    //  note we’re skipping CM4
+        cm5:    elipseCount,
+        cm6:    questionMark, //need to set up in GA
+        t:  "event",
+        ec:     "slack: "+ channel.name + "|" + channel.id,
+        ea:     "post by " + user.id,
+        el:     msgText,
+        ev:     1
+    };
+    console.log(JSON.stringify(data));
+    console.log(req.body);
+    //Now Make Post Request!
+    request.post("https://www.google-analytics.com/collect?" + qs.stringify(data),
+        function(error, resp, body){
+        console.log(error);
+    });
+};
+
 var update = function () {
     meetingReminder.update();
 };

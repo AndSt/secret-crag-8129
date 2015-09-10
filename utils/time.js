@@ -35,7 +35,15 @@ var searchDate = function (text) {
 
 var getUnixTimeStamp = function (date) {
     logger.info('getUnixTimeStamp()' + date);
-    var mom = moment(date);
+
+    var mom;
+    if (date === undefined) {
+        mom = moment();
+    }
+    else {
+        mom = moment(date);
+    }
+
     return mom.unix();
 };
 
