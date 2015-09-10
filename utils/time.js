@@ -17,7 +17,7 @@ var searchDate = function (text) {
             var dateTime = moment(dateStr + " " + timeStr, [
                 "MM-DD-YYYY HH:mm",
                 "YYYY-MM-DD HH:mm",
-                "DD.MM.YYYY HH:mm",
+                "MM.DD.YYYY HH:mm",
                 "YYYY.MM.DD HH:mm",
                 "MM/DD/YYYY HH:mm",
                 "YYYY/MM/DD HH:mm"
