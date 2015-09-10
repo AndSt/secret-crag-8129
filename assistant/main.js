@@ -67,16 +67,11 @@ var addToDatabase = function (item) {
     return new Promise(function (resolve, reject) {
 
         logger.info(JSON.stringify(item));
-
-        var query1 = "INSERT INTO `Items`(`itemId`, `convId`, `creatorId`, " +
-                " `text`) VALUES ("
-        logger.info(query1);
-        var query2 = item.itemId + ", " + item.convId +  ", " + 
-                item.creatorId + ", '" + item.text.content + "')";
-        logger.info(query2);
         
-        var query = query1 + query2;
-        logger.info(query);
+        var query = "INSERT INTO `Items`(`itemId`, `convId`, `creatorId`, " +
+                " `text`) VALUES ('" + item.itemId + "', '" + item.convId +
+                "', '" + item.creatorId + "', '" + item.text.content + "')";
+        
 //        logger.info("Query to add new item to database: " + query);
 
         dbConn.query(query, function (err) {
@@ -85,7 +80,7 @@ var addToDatabase = function (item) {
                 reject("Did not work");
             }
             else {
-                logger.info("Successfully added a text item to the database");
+                logger.info("Successfully added a text item to ")
                 resolve();
             }
         });
