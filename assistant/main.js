@@ -70,9 +70,11 @@ var addToDatabase = function (item) {
                 " `text`) VALUES (" + item.itemId + ", " + item.convId +
                 " " + item.creatorId + ", " + item.itemId + ", '" +
                 item.content.text + "')";
+        logger.info("Query to add new item to database: " + query);
 
         dbConn.query(query, function (err) {
             if (err) {
+                logger.error(err);
                 reject("Did not work");
             }
             else {
