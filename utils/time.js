@@ -35,8 +35,8 @@ var searchDate = function (text) {
 
 var getUnixTimeStamp = function (date) {
     logger.info('getUnixTimeStamp()' + date);
-    var moment = moment(date);
-    return moment.unix();
+    var mom = moment(date);
+    return mom.unix();
 };
 
 module.exports = {
