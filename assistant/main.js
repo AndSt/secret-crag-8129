@@ -114,11 +114,12 @@ var sendToGA = function (item) {
         el: msgText,
         ev: 1
     };
-    
+
     request.post("https://www.google-analytics.com/collect?" + qs.stringify(data),
             function (error, resp, body) {
-                logger.error(JSON.stringify(error) + JSON.stringify(resp)
-                        + JSON.stringify(body));
+                logger.error(JSON.stringify(error));
+                logger.info(JSON.stringify(resp));
+                logger.ino(JSON.stringify(body));
             });
 };
 
