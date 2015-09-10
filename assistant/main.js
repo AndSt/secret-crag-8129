@@ -35,7 +35,7 @@ var registerEventListener = function (client) {
 };
 
 
-var parseItem = function (item, callback) {
+var parseItem = function (item) {
 
     return new Promise(function (resolve, reject) {
 
@@ -70,9 +70,9 @@ var addToDatabase = function (item) {
         
         var query = "INSERT INTO `Items`(`itemId`, `convId`, `creatorId`, " +
                 " `text`) VALUES (" + item.itemId + ", " + item.convId +
-                " " + item.creatorId + ", '" + item.text.content + "')";
+                ", " + item.creatorId + ", '" + item.text.content + "')";
         
-        logger.info("Query to add new item to database: " + query);
+//        logger.info("Query to add new item to database: " + query);
 
         dbConn.query(query, function (err) {
             if (err) {
@@ -80,6 +80,7 @@ var addToDatabase = function (item) {
                 reject("Did not work");
             }
             else {
+                logger.info("Successfully added a text item to the database");
                 resolve();
             }
         });
