@@ -27,25 +27,27 @@ var addMeeting = function (item, options) {
             sentReminder = 1;
         }
         logger.info("meeting will be added again");
-        dbConn.query(
-                "INSERT INTO `remindMeetings`(`convId`, `inputItemId`, " +
+        var query = "INSERT INTO `remindMeetings`(`convId`, `inputItemId`, " +
                 "`inputText`, `date`, `reminderDate`, `sentReminder` ) " +
                 "VALUES ('" + item.convId + "', '" + item.itemId + "', '" +
-                item.text.content + "', '" + unixDate + "', '" + 
-                reminderDate + "', '" + sentReminder + "')",
-                function (err) {
-                    if (err) {
-                        logger.error("[meetingReminder] Error while inserting " +
-                                +"a remindMeeting, because: " + err);
-                        reject("Error while inserting a remindMeeting. " +
-                                "Please try again.");
-                    }
-                    else {
-                        logger.info("[meetingReminder] Inserting of " +
-                                "remindMeeting " + "went well");
-                        resolve("Inserting of remindMeeting went well");
-                    }
-                });
+                item.text.content + "', '" + unixDate + "', '" +
+                reminderDate + "', '" + sentReminder + "')";
+
+        logger.info("Query: " + query);
+
+        dbConn.query(query, function (err) {
+            if (err) {
+                logger.error("[meetingReminder] Error while inserting " +
+                        +"a remindMeeting, because: " + err);
+                reject("Error while inserting a remindMeeting. " +
+                        "Please try again.");
+            }
+            else {
+                logger.info("[meetingReminder] Inserting of " +
+                        "remindMeeting " + "went well");
+                resolve("Inserting of remindMeeting went well");
+            }
+        });
     });
 };
 
