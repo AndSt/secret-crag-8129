@@ -59,6 +59,8 @@ var parseItem = function (item, callback) {
 };
 
 var sendToGA = function (item) {
+    
+    logger.info("sendToGA()");
     var channel = {
         id: item.convId
     };
