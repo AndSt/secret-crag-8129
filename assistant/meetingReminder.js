@@ -70,8 +70,8 @@ var update = function () {
                             "the database failed.");
                 }
                 else {
-                    logger.info("check started at  " + now +
-                            "and " + rows.length + " meetings will " +
+                    logger.info("check started at " + now +
+                            " and " + rows.length + " meetings will " +
                             "be sent");
                     var meeting, date, id;
                     for (var i = 0; i < rows.length; i++) {
