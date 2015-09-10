@@ -19,7 +19,7 @@ var registerEventListener = function (client) {
                         comm.sendTextItem(item.convId, text);
                     })
                     .catch(function (err) {
-                        logger.log("Parsing didn't work, because:" + err);
+                        comm.sendTextItem(item.convId, err);
                     });
         }
     });
@@ -42,7 +42,7 @@ var parseItem = function (item, callback) {
                     resolve(textAnalyzer.analyzeConversation(item, options));
                 }
                 else {
-                    resolve("12345");
+                    reject("The assistent must not answer");
                 }
             });
         }
