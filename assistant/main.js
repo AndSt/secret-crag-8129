@@ -23,7 +23,9 @@ var registerEventListener = function (client) {
             logger.info("its a text message");
 //            sendToGA(item).then(
             addToDatabase(item)
-                    .then(parseItem(item))
+                    .then(function () {
+                        return parseItem(item);
+                    })
                     .then(function (text) {
                         comm.sendTextItem(item.convId, text);
                     })
@@ -67,12 +69,12 @@ var addToDatabase = function (item) {
     return new Promise(function (resolve, reject) {
 
         logger.info(JSON.stringify(item));
-        
+
         var query = "INSERT INTO `Items`(`itemId`, `convId`, `creatorId`, " +
                 " `text`) VALUES ('" + item.itemId + "', '" + item.convId +
                 "', '" + item.creatorId + "', '" + item.text.content + "')";
-        
-//        logger.info("Query to add new item to database: " + query);
+
+        logger.info("Query to add new item to database: " + query);
 
         dbConn.query(query, function (err) {
             if (err) {
@@ -80,7 +82,7 @@ var addToDatabase = function (item) {
                 reject("Did not work");
             }
             else {
-                logger.info("Successfully added a text item to ")
+                logger.info("Successfully added a text item to database.");
                 resolve();
             }
         });
