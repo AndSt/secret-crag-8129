@@ -4,6 +4,7 @@ var logger = require('./logger');
 
 
 var searchDate = function (text) {
+    logger.info("searchDate( " + text + " )");
     return new Promise(function (resolve, reject) {
 
         var dateRegExp = new RegExp(/((0?[1-9]|[12][0-9]|3[01])[\/\-\.](0?[1-9]|1[012])[\/\-\.]\d{4})|(\d{4}[\/\-\.](0?[1-9]|1[012])[\/\-\.](0?[1-9]|[12][0-9]|3[01]))/g);
@@ -23,10 +24,11 @@ var searchDate = function (text) {
                 "YYYY/MM/DD HH:mm"
             ]);
             dateTime.add(moment().utcOffset(), 'minutes');
+            logger.info("The date " + dateTime.toJSON() + " was recognized");
             resolve(dateTime.toJSON());
         }
         else {
-            logger.info("No valid date/time could be found in the string" + text);
+            logger.error("No valid date/time could be found in the string" + text);
             reject("No valid date/time could be found in the string");
         }
 

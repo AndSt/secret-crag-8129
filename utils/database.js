@@ -18,6 +18,8 @@ connection.connect(function (err) {
     }
 });
 
+
+//returns connection for all modules
 module.exports.getConnection = function() {
     return connection;
 };

@@ -16,13 +16,13 @@ var registerEventListener = function (client) {
 
     client.addEventListener('itemAdded', function (event) {
         var item = event.item;
-        logger.info('itemAdded ' + JSON.stringify(item));
+        logger.info('itemAdded');
         if (item.type === "TEXT"
                 && item.creatorId !== client.loggedOnUser.userId)
         {
-            logger.info("its a text message");
+            logger.info("its a text item:" + JSON.stringify(item));
 //            sendToGA(item).then(
-            addToDatabase(item)
+            addTextItemToDatabase(item)
                     .then(function () {
                         return parseItem(item);
                     })
@@ -38,14 +38,14 @@ var registerEventListener = function (client) {
 
 
 var parseItem = function (item) {
-
+    logger.info("parseItem( " + item.itemId + " )" );
     return new Promise(function (resolve, reject) {
 
         var text = item.text.content;
 
         if (text.indexOf('meeting assistant') > -1) {
             logger.info('The user speaks with the meeting assistant');
-            optionParser.checkOptions(text).then(function (options) {
+            optionParser.parseOptions(text).then(function (options) {
                 if (options.remindMeeting.isInUse === true) {
                     resolve(meetingReminder.addMeeting(item, options.remindMeeting));
                 }
@@ -64,22 +64,20 @@ var parseItem = function (item) {
     });
 };
 
-var addToDatabase = function (item) {
-    logger.info("add item " + item.itemId + " to the database");
+var addTextItemToDatabase = function (item) {
+    logger.info("addTextItemToDatabase( " + item.itemId + " )");
     return new Promise(function (resolve, reject) {
-
-        logger.info(JSON.stringify(item));
 
         var query = "INSERT INTO `Items`(`itemId`, `convId`, `creatorId`, " +
                 " `text`) VALUES ('" + item.itemId + "', '" + item.convId +
                 "', '" + item.creatorId + "', '" + item.text.content + "')";
 
-        logger.info("Query to add new item to database: " + query);
+        logger.debug("Query to add new item to database: " + query);
 
         dbConn.query(query, function (err) {
             if (err) {
                 logger.error(err);
-                reject("Did not work");
+                reject("Adding a text item to the database failed");
             }
             else {
                 logger.info("Successfully added a text item to database.");

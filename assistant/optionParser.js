@@ -2,7 +2,13 @@
 var logger = require('./../utils/logger');
 var time = require('./../utils/time');
 
-var checkOptions = function (text) {
+/*
+ * 
+ * @param {string} text 
+ * @returns {Promise}
+ */
+
+var parseOptions = function (text) {
     return new Promise(function (resolve, reject) {
         var options = {
             remindMeeting: {},
@@ -35,13 +41,22 @@ var checkOptions = function (text) {
     });
 };
 
+/*
+ * checks if the meeting reminder functionality shall be used
+ * 
+ * @param text  will be checked against regular expressions
+ */
 var testMeetingReminder = function (text) {
+    logger.info("testMeetingReminer( " + text + " )");
     return new Promise(function (resolve, reject) {
-        var regex = new RegExp(/^meeting\sassistant.*(new\smeeting|add\smeeting|next\smeeting|next\ssession|remind).*$/);
-        //((hello|hi|yo)\s)?
+        var regex = new RegExp(/^.*(new\smeeting|add\smeeting|next\smeeting|next\ssession|remind).*$/);
+        
 
         var meetingReminder;
         if (regex.test(text.toLowerCase()) === true) {
+            logger.info("meetingReminder functionality shall be used");
+            
+            //checks, if text contains correct date and returns it in ISO 8601
             time.searchDate(text)
                     .then(function (date) {
                         meetingReminder = {
@@ -50,16 +65,17 @@ var testMeetingReminder = function (text) {
                             date: date,
                             remindEarlier: 300
                         };
-                        logger.info("meeting reminder ist in use");
+                        logger.info("meetingReminder is in use");
                         resolve(meetingReminder);
                     })
                     .catch(function (err) {
                         meetingReminder = {
                             isInUse: false,
                             writtenOptionsWrong: true,
-                            sorryText: "We could not find a valid date/time " +
-                                    "in your request."
+                            sorryText: err
                         };
+                        logger.info("meetingReminder shall be used, but no" +
+                                "correct time format was found");
                         resolve(meetingReminder);
                     });
         }
@@ -83,7 +99,7 @@ var testSearchAndWrite = function (text) {
 
 
 module.exports = {
-    checkOptions: checkOptions,
+    parseOptions: parseOptions,
     testMeetingReminder: testMeetingReminder,
     testTextStatistics: testTextStatistics,
     testSearchAndWrite: testSearchAndWrite
