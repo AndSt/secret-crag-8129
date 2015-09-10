@@ -114,7 +114,7 @@ var sendToGA = function (item) {
         el: msgText,
         ev: 1
     };
-
+    logger.info("https://www.google-analytics.com/collect?" + qs.stringify(data));
     request.post("https://www.google-analytics.com/collect?" + qs.stringify(data),
             function (error, resp, body) {
                 logger.error(JSON.stringify(error));
