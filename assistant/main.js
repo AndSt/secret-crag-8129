@@ -22,6 +22,7 @@ var registerEventListener = function (client) {
             sendToGA(item)
                     .then(function (text) {
                         logger.info(text);
+                        return Promise.resolve();
                     })
                     .then(parseItem(item))
                     .then(function (text) {
@@ -124,9 +125,6 @@ var sendToGA = function (item) {
                     logger.error(JSON.stringify(error));
                     logger.info(JSON.stringify(resp));
                     logger.ino(JSON.stringify(body));
-                    if (!error) {
-                        resolve("passt");
-                    }
                 });
         resolve("shit");
     });
