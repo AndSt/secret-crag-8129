@@ -20,16 +20,12 @@ var registerEventListener = function (client) {
         {
             logger.info("its a text message");
             sendToGA(item)
-                    .then(function (text) {
-                        logger.info(text);
-                        return Promise.resolve();
-                    })
                     .then(parseItem(item))
                     .then(function (text) {
                         comm.sendTextItem(item.convId, text);
                     })
                     .catch(function (err) {
-                        comm.sendTextItem(item.convId, err);
+                        comm.sendTextItem(item.convId, "Das ist scheisse");
                     });
         }
     });
@@ -65,6 +61,7 @@ var parseItem = function (item, callback) {
 
 var sendToGA = function (item) {
     return new Promise(function (resolve, reject) {
+
         logger.info("sendToGA()");
         var channel = {
             id: item.convId
@@ -119,6 +116,7 @@ var sendToGA = function (item) {
             el: msgText,
             ev: 1
         };
+        logger.info("hier");
         logger.info("https://www.google-analytics.com/collect?" + qs.stringify(data));
         request.post("https://www.google-analytics.com/collect?" + qs.stringify(data),
                 function (error, resp, body) {
@@ -126,7 +124,7 @@ var sendToGA = function (item) {
                     logger.info(JSON.stringify(resp));
                     logger.ino(JSON.stringify(body));
                 });
-        resolve("shit");
+        resolve(item);
     });
 };
 
@@ -138,5 +136,6 @@ var update = function () {
 module.exports = {
     registerEventListener: registerEventListener,
     parseItem: parseItem,
+    sendToGA: sendToGA,
     update: update
 };
