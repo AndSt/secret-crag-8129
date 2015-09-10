@@ -68,8 +68,7 @@ var addToDatabase = function (item) {
 
         var query = "INSERT INTO `Items`(`itemId`, `convId`, `creatorId`, " +
                 " `text`) VALUES (" + item.itemId + ", " + item.convId +
-                " " + item.creatorId + ", " + item.itemId + ", '" +
-                item.content.text + "')";
+                " " + item.creatorId + ", '" + item.text.content + "')";
         logger.info("Query to add new item to database: " + query);
 
         dbConn.query(query, function (err) {
