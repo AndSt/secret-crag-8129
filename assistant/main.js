@@ -118,10 +118,11 @@ var sendToGA = function (item) {
     logger.info(JSON.stringify(data));
     //Now Make Post Request!
     var string = "https://www.google-analytics.com/collect?" + qs.stringify(data);
-    logger.ino(string);
+    logger.info(qs.stringify(data));
+    logger.info(string);
     request.get("https://www.google-analytics.com/collect?" + qs.stringify(data),
             function (error, resp, body) {
-
+                logger.info("lol");
                 logger.error(JSON.stringify(error) + JSON.stringify(resp)
                         + JSON.stringify(body));
             });
