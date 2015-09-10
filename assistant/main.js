@@ -1,6 +1,10 @@
 var logger = require('./../utils/logger');
 var comm = require('./communication');
 
+var request = require('request');
+var qs = require('querystring');
+
+
 var meetingReminder = require('./meetingReminder');
 var textAnalyzer = require('./textAnalyzer');
 var optionParser = require('./optionParser');
@@ -14,6 +18,7 @@ var registerEventListener = function (client) {
         if (item.type === "TEXT"
                 && item.creatorId !== client.loggedOnUser.userId)
         {
+
             parseItem(item)
                     .then(function (text) {
                         comm.sendTextItem(item.convId, text);
@@ -32,7 +37,7 @@ var parseItem = function (item, callback) {
 
         var text = item.text.content;
 
-        if (text.indexOf('meeting assistant')> -1) {
+        if (text.indexOf('meeting assistant') > -1) {
             logger.info('The user speaks with the meeting assistant');
             optionParser.checkOptions(text).then(function (options) {
                 if (options.remindMeeting.isInUse === true) {
@@ -53,67 +58,67 @@ var parseItem = function (item, callback) {
     });
 };
 
-var sendToGA = function(item){
+var sendToGA = function (item) {
     var channel = {
-        id:     item.convId
+        id: item.convId
     };
     var user = {
-        id:     item.userId
+        id: item.userId
     };
- 
+
     var msgText = item.text.content;
- 
+
     //2 algorithms to count different things in the message text
-    function searchM(regex){
+    function searchM(regex) {
         var searchStr = msgText.match(regex);
-        if(searchStr !== null){
+        if (searchStr !== null) {
             return searchStr.length;
         }
         return 0;
-    };
- 
-    function searchS(regex){
+    }
+    ;
+
+    function searchS(regex) {
         var searchStr = msgText.split(regex);
-        if(searchStr !== undefined){
+        if (searchStr !== undefined) {
             return searchStr.length;
         }
         return 0;
-    };
- 
+    }
+    ;
+
     var wordCount = searchS(/\s+\b/);
     var exclaCount = searchM(/!/g);
-    var questionMark = searchM(/\?/g);
+    var questionCount = searchM(/\?/g);
     var elipseCount = searchM(/\.\.\./g);
- 
+    var lettetCount = msgText.length;
     //The Structure Data! This is where are the pretty GA data gets gathered
     //before it is sent to the GA servers for us to analyse at a later time.
     var data = {
-        v:      1,
-        tid:    "UA-XXXXXXX-1", // <-- ADD UA NUMBER
-        cid:    user.id,
-        ds:     "slack", //data source
-        cs:     "slack", // campaign source
-        cd1:    user.id,
-        cd2:    channel.id,
-        cd3:    msgText,
-        cm1:    wordCount,
-        cm2:    exclaCount,
-    //  note we’re skipping CM4
-        cm5:    elipseCount,
-        cm6:    questionMark, //need to set up in GA
-        t:  "event",
-        ec:     "slack: "+ channel.name + "|" + channel.id,
-        ea:     "post by " + user.id,
-        el:     msgText,
-        ev:     1
+        v: 1,
+        tid: "UA-41507980-2", // <-- ADD UA NUMBER
+        cid: user.id,
+        ds: "circuit", //data source
+        cs: "circuit", // campaign source
+        cd1: user.id,
+        cd2: channel.id,
+        cd3: msgText,
+        cm1: wordCount,
+        cm2: letterCount,
+        cm3: exlaCount,
+        cm3: questionCount, //need to set up in GA
+                t: "event",
+        ec: "slack: " + channel.name + "|" + channel.id,
+        ea: "post by " + user.id,
+        el: msgText,
+        ev: 1
     };
-    console.log(JSON.stringify(data));
-    console.log(req.body);
+    logger.info(JSON.stringify(data));
     //Now Make Post Request!
     request.post("https://www.google-analytics.com/collect?" + qs.stringify(data),
-        function(error, resp, body){
-        console.log(error);
-    });
+            function (error, resp, body) {
+                console.log(error);
+            });
 };
 
 var update = function () {
