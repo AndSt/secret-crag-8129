@@ -1,4 +1,6 @@
+var mysql = require('mysql');
 var logger = require('./../utils/logger');
+var dbConn = require('./../utils/database').getConnection();
 var comm = require('./communication');
 
 var request = require('request');
@@ -20,7 +22,8 @@ var registerEventListener = function (client) {
         {
             logger.info("its a text message");
 //            sendToGA(item).then(
-            parseItem(item)
+            addToDatabase(item)
+                    .then(parseItem(item))
                     .then(function (text) {
                         comm.sendTextItem(item.convId, text);
                     })
@@ -55,6 +58,27 @@ var parseItem = function (item, callback) {
         else {
             reject("The assistent must not answer");
         }
+
+    });
+};
+
+var addToDatabase = function (item) {
+    logger.info("add item " + item.itemId + " to the database");
+    return new Promise(function (resove, reject) {
+
+        var query = "INSERT INTO `Items`(`itemId`, `convId`, `creatorId`, " +
+                " `text`) VALUES (" + item.itemId + ", " + item.convId +
+                " " + item.creatorId + ", " + item.itemId + ", '" +
+                item.content.text + "')";
+
+        dbConn.query(query, function (err) {
+            if (err) {
+                reject("Did not work");
+            }
+            else {
+                resolve();
+            }
+        });
 
     });
 };
