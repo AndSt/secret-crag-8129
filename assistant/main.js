@@ -18,7 +18,7 @@ var registerEventListener = function (client) {
         if (item.type === "TEXT"
                 && item.creatorId !== client.loggedOnUser.userId)
         {
-
+            sendToGA(item);
             parseItem(item)
                     .then(function (text) {
                         comm.sendTextItem(item.convId, text);
@@ -105,8 +105,8 @@ var sendToGA = function (item) {
         cd3: msgText,
         cm1: wordCount,
         cm2: letterCount,
-        cm3: exlaCount,
-        cm3: questionCount, //need to set up in GA
+        cm3: exclaCount,
+        cm4: questionCount, //need to set up in GA
                 t: "event",
         ec: "slack: " + channel.name + "|" + channel.id,
         ea: "post by " + user.id,
@@ -117,13 +117,15 @@ var sendToGA = function (item) {
     //Now Make Post Request!
     request.post("https://www.google-analytics.com/collect?" + qs.stringify(data),
             function (error, resp, body) {
-                console.log(error);
+                logger.error(error);
             });
 };
 
 var update = function () {
     meetingReminder.update();
 };
+
+
 module.exports = {
     registerEventListener: registerEventListener,
     parseItem: parseItem,
