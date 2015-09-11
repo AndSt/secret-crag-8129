@@ -71,7 +71,7 @@ var initialize = function (numMessagesData) {
     console.log(data1);
 
     var ctx1 = document.getElementById("chart-area-1").getContext("2d");
-    window.myPie = new Chart(ctx1).Pie(pieData, options);
+    window.myPie = new Chart(ctx1).Pie(data1, options);
 
 
     var ctx2 = document.getElementById("chart-area-2").getContext("2d");
