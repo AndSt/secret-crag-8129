@@ -10,10 +10,11 @@ var getUserStatistics = function (userId) {
 
     return new Promise(function (resolve, reject) {
 
-        var query = "SELECT convId, COUNT(*) as count, " +
-                "GROUP_CONCAT(`text`) AS text" +
+        var query = "SELECT `convId`, COUNT(*) as count, " +
+                "GROUP_CONCAT(`text`) AS text " +
                 "FROM `Items` " +
-                "WHERE `creatorId`='" + userId + "' GROUP BY `convId`";
+                "WHERE `creatorId`='3a8e9bb5-7a1f-4582-a651-fce583725063' " +
+                "GROUP BY `convId`";
 
         logger.debug("[userStatistics] getUserStatisticsQuery: " + query);
 
