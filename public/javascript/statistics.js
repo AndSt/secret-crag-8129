@@ -52,8 +52,7 @@ console.log("urlOptions: " + urlOptions);
 
 var numMessagesData;
 $.get("/getStats/" + urlOptions[2] + "/numMessages", function (data) {
-    $(".result").html(data);
-    alert("Load was performed.");
+    numMessagesData = data;
 });
 
 
@@ -68,8 +67,8 @@ for (i = 0; i < numMessagesData.length; i++) {
 
 i = 0;
 while (i < 4 && i < numMessagesData.length) {
-    data1.label = numMessagesData.displayName;
-    data1.value = numMessagesData.numMessages;
+    data1[i].label = numMessagesData.displayName;
+    data1[i].value = numMessagesData.numMessages;
     sum -= numMessagesData.numMessages;
     i++;
 }
