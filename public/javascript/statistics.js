@@ -1,5 +1,5 @@
 
-var initialize = function (numMessagesData) {
+var initialize = function () {
 
     var pieData = [
         {
@@ -49,26 +49,26 @@ var initialize = function (numMessagesData) {
                 "</ul>"
     };
 
-    var data1 = pieData.slice();
-    var i = 0;
-    var sum = 0;
-    for (i = 0; i < numMessagesData.length; i++) {
-        sum += numMessagesData.numMessages;
-    }
-
-    i = 0;
-    while (i < 4 && i < numMessagesData.length) {
-        data1[i].label = numMessagesData.displayName;
-        data1[i].value = numMessagesData.numMessages;
-        sum -= numMessagesData.numMessages;
-        i++;
-    }
-    if (i === 4) {
-        data1.label = "Rest";
-        data1.value = sum;
-    }
-
-    console.log(data1);
+//    var data1 = pieData.slice();
+//    var i = 0;
+//    var sum = 0;
+//    for (i = 0; i < numMessagesData.length; i++) {
+//        sum += numMessagesData.numMessages;
+//    }
+//
+//    i = 0;
+//    while (i < 4 && i < numMessagesData.length) {
+//        data1[i].label = numMessagesData.displayName;
+//        data1[i].value = numMessagesData.numMessages;
+//        sum -= numMessagesData.numMessages;
+//        i++;
+//    }
+//    if (i === 4) {
+//        data1.label = "Rest";
+//        data1.value = sum;
+//    }
+//
+//    console.log(data1);
 
     var ctx1 = document.getElementById("chart-area-1").getContext("2d");
     window.myPie = new Chart(ctx1).Pie(pieData, options);
@@ -83,12 +83,13 @@ var initialize = function (numMessagesData) {
 
 
 $(document).ready(function () {
-    var urlOptions = window.location.pathname.split('/');
-    console.log("urlOptions: " + urlOptions);
-    $.get("/getStats/" + urlOptions[2] + "/numMessages", function (data) {
-        console.log("data: " + data);
-        initialize(data);
-    });
+//    var urlOptions = window.location.pathname.split('/');
+//    console.log("urlOptions: " + urlOptions);
+//    $.get("/getStats/" + urlOptions[2] + "/numMessages", function (data) {
+//        console.log("data: " + data);
+//        initialize(data);
+//    });
+    initialize();
 });
 
 
