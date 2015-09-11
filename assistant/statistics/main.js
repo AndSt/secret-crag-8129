@@ -95,12 +95,13 @@ var getConversationStatistics = function (convId) {
                 questionCount: text.split('?').length - 1,
                 exclaCount: text.split('!').length - 1
             };
-            
+
             resolve(stats);
         });
     });
 };
 
 module.exports = {
-    getUserStatistics: getUserStatistics
+    getUserStatistics: getUserStatistics,
+    getConversationStatistics: getConversationStatistics
 };
