@@ -1,5 +1,5 @@
 
-var initialize = function (numMessages) {
+var initialize = function (numMessagesData) {
 
     var pieData = [
         {
@@ -49,12 +49,12 @@ var initialize = function (numMessages) {
                 "</ul>"
     };
 
-//    var data1 = pieData.slice();
-//    var i = 0;
-//    var sum = 0;
-//    for (i = 0; i < numMessagesData.length; i++) {
-//        sum += numMessagesData.numMessages;
-//    }
+    var data1 = pieData.slice();
+    var i = 0;
+    var sum = 0;
+    for (i = 0; i < numMessagesData.length; i++) {
+        sum += numMessagesData[i].numMessages;
+    }
 //
 //    i = 0;
 //    while (i < 4 && i < numMessagesData.length) {
