@@ -14,8 +14,8 @@ var getUserStatistics = function (userId) {
                 "GROUP_CONCAT(`text` SEPARATOR ' ') AS text" +
                 "FROM `Items` " +
                 "WHERE `creatorId`='" + userId + "' GROUP BY `convId`";
-        logger.debug("[Statistics] getUserStatisticsQuery: " + query);
-
+        logger.debug("[userStatistics] getUserStatisticsQuery: " + query);
+        
         dbConn.query(query, function (err, rows) {
             if (err) {
                 logger.error('getUserStatistics(): ' + err);
@@ -32,6 +32,9 @@ var getUserStatistics = function (userId) {
                 numItems += parseInt(row.count);
                 text = text + " " + row.text;
             });
+            
+            logger.info(numItems);
+            logger.info(text);
 
             if (numItems <= 0) {
                 reject('No rows got found');
