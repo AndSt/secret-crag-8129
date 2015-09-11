@@ -63,7 +63,6 @@ var initialize = function (numMessagesData) {
         data1[i].color = pieData[i].color;
         data1[i].highlight = pieData[i].highlight;
         data1[i].value = numMessagesData[i].numMessages;
-        data1.push(obj);
         sum -= numMessagesData[i].numMessages;
         i++;
     }
@@ -72,7 +71,6 @@ var initialize = function (numMessagesData) {
         data1[i].color = pieData[4].color;
         data1[i].highlight = pieData[4].highlight;
         data1[i].value = sum;
-        data1.push(obj);
     }
 
     console.log(JSON.stringify(data1));
