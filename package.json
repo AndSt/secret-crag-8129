@@ -17,8 +17,7 @@
     "moment-timezone": "^0.4.0",
     "mysql": "^2.9.0",
     "querystring": "^0.2.0",
-    "request": "^2.61.0",
-    "text-statistics": "^0.1.1"
+    "request": "^2.61.0"
   },
   "engines": {
     "node": "0.12.7"
