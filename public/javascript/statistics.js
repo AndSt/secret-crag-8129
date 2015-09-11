@@ -51,7 +51,7 @@ var urlOptions = window.location.pathname.split('/');
 console.log("urlOptions: " + urlOptions);
 
 var numMessagesData;
-$.get("getStats/" + urlOptions[2] + "/numMessages", function (data) {
+$.get("/getStats/" + urlOptions[2] + "/numMessages", function (data) {
     $(".result").html(data);
     alert("Load was performed.");
 });
