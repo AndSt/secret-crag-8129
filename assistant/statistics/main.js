@@ -76,6 +76,8 @@ var getConversationStatistics = function (convId) {
             if (err) {
                 reject(err);
             }
+            logger.info("[conversationStatistics] Successfully received " +
+                    "data from database " + JSON.stringify(rows));
 
             var text = rows[0].text;
 
@@ -89,7 +91,7 @@ var getConversationStatistics = function (convId) {
                 convId: convId,
                 numItems: rows[0].numItems,
                 letterCount: letterCount,
-                wordCount: text.split(' ').length - (1 + numItems),
+                wordCount: text.split(' ').length - (1 + rows[0].numItems),
                 sentenceCount: text.split('.').length - 1,
                 commaCount: text.split(',').length - 1,
                 questionCount: text.split('?').length - 1,
