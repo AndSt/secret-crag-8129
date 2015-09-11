@@ -47,7 +47,7 @@ var getUserStatistics = function (userId) {
                 userId: userId,
                 numConvs: rows.length,
                 numItems: numItems,
-//                letterCount: textStats.letterCount(text),
+                letterCount: letterCount,
                 wordCount: text.split(' ').length - (1 + numItems),
                 sentenceCount: text.split('.').length - 1,
                 commaCount: text.split(',').length - 1,
@@ -61,7 +61,20 @@ var getUserStatistics = function (userId) {
 };
 
 var getConversationStatistics = function (convId) {
-
+    logger.debug('getConversationStatistics( ' + convId + ' )');
+    
+    return new Promise(function(resolve, reject){
+       var query = '';
+       logger.debug("[conversationStatistics] getConversationStatisticsQuery: " +
+               query);
+       
+       dbConn.query(query, function(err, rows, fields){
+          if(err){
+              reject(err);
+          } 
+          
+       });
+    });
 };
 
 module.exports = {

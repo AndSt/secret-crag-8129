@@ -93,6 +93,16 @@ app.get('/getStats/user/:userId', function (req, res) {
             });
 });
 
+app.get('/getStats/conversation/:convId', function (req, res) {
+    statistics.getConversationStatistics(req.params.convId)
+            .then(function (data) {
+                res.json(data);
+            })
+            .catch(function (err) {
+                res.send("hat leider nicht funktioniert");
+            });
+});
+
 app.listen(app.get('port'), function () {
     console.log('Node app is running on port', app.get('port'));
 });
