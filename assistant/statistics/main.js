@@ -34,25 +34,19 @@ var getUserStatistics = function (userId) {
                 numItems += parseInt(row.count);
                 text = text + " " + row.text;
             });
-            
-            
-
-            logger.info(numItems);
-            logger.info(text);
 
 
             if (numItems <= 0) {
                 reject('No rows got found');
             }
             
-//
             var stats = {
                 userId: userId,
                 numConvs: rows.length,
                 numItems: numItems,
-//                letterCount: textStats.letterCount(text),
-//                wordCount: textStats.wordCount(text),
-//                sentenceCount: textStats.sentenceCount(text),
+                letterCount: textStats.letterCount(text),
+                wordCount: textStats.wordCount(text),
+                sentenceCount: textStats.sentenceCount(text),
                 commaCount: text.split(',').length - 1,
                 questionCount: text.split('?').length - 1,
                 exclaCount: text.split('!').length - 1
