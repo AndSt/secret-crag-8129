@@ -1,5 +1,5 @@
 
-var initialize = function (numMessagesData) {
+var initialize = function (numMessagesData, numLettersData) {
 
     var pieData = [
         {
@@ -50,10 +50,13 @@ var initialize = function (numMessagesData) {
     };
 
     var data1 = [];
+    var data2 = [];
     var i = 0;
-    var sum = 0;
+    var sum1 = 0;
+    var sum2 = 0;
     for (i = 0; i < numMessagesData.length; i++) {
-        sum += numMessagesData[i].numMessages;
+        sum1 += numMessagesData[i].numMessages;
+        sum2 += numLettersData[i].numLetters;
     }
 
     i = 0;
@@ -63,24 +66,38 @@ var initialize = function (numMessagesData) {
         data1[i].color = pieData[i].color;
         data1[i].highlight = pieData[i].highlight;
         data1[i].value = numMessagesData[i].numMessages;
-        sum -= numMessagesData[i].numMessages;
+        sum1 -= numMessagesData[i].numMessages;
+        
+        data2[i] = {};
+        data2[i].label = numLettersData[i].displayName;
+        data2[i].color = pieData[i].color;
+        data2[i].highlight = pieData[i].highlight;
+        data2[i].value = numLettersData[i].numLetters;
+        sum2 -= numLettersData[i].numLetters;
+        
         i++;
     }
     if (i === 4) {
         data1[i].label = "Rest";
         data1[i].color = pieData[4].color;
         data1[i].highlight = pieData[4].highlight;
-        data1[i].value = sum;
+        data1[i].value = sum1;
+        
+        data2[i].label = "Rest";
+        data2[i].color = pieData[4].color;
+        data2[i].highlight = pieData[4].highlight;
+        data2[i].value = sum2;
     }
 
     console.log(JSON.stringify(data1));
+    console.log(JSON.stringify(data2));
 
     var ctx1 = document.getElementById("chart-area-1").getContext("2d");
     window.myPie = new Chart(ctx1).Pie(data1, options);
 
 
     var ctx2 = document.getElementById("chart-area-2").getContext("2d");
-    window.myPie2 = new Chart(ctx2).Pie(pieData, options);
+    window.myPie2 = new Chart(ctx2).Pie(data2, options);
 
 //    var legend = myPie.generateLegend();
 
