@@ -49,7 +49,7 @@ app.get('/test2', function (req, res) {
     res.render('pages/test2');
 });
 
-app.get('/statistics', function (req, res) {
+app.get('/statistics/:convId', function (req, res) {
     res.render('pages/statistics',
             {title: "Testtitel"}
     );

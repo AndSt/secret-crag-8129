@@ -13,15 +13,16 @@ var optionParser = require('./optionParser');
 
 
 var registerEventListener = function (client) {
-    logger.info("registerEventListener()");
+    logger.debug("registerEventListener()");
 
     client.addEventListener('itemAdded', function (event) {
         var item = event.item;
-        logger.info('itemAdded');
+        logger.info('[eventListener] itemAdded');
         if (item.type === "TEXT"
                 && item.creatorId !== client.loggedOnUser.userId)
         {
-            logger.info("its a text item:" + JSON.stringify(item));
+            logger.info("[eventListener] text item detected:" +
+                    JSON.stringify(item));
 //            sendToGA(item).then(
             addTextItemToDatabase(item)
                     .then(function () {
@@ -39,7 +40,7 @@ var registerEventListener = function (client) {
 
 
 var parseItem = function (item) {
-    logger.info("parseItem( " + item.itemId + " )");
+    logger.debug("parseItem( " + item.itemId + " )");
     return new Promise(function (resolve, reject) {
 
         var text = item.text.content;
@@ -66,7 +67,7 @@ var parseItem = function (item) {
 };
 
 var addTextItemToDatabase = function (item) {
-    logger.info("addTextItemToDatabase( " + item.itemId + " )");
+    logger.debug("addTextItemToDatabase( " + item.itemId + " )");
     return new Promise(function (resolve, reject) {
 
         var query = "INSERT INTO `Items`(`itemId`, `convId`, `creatorId`, " +
