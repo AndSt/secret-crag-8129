@@ -14,9 +14,9 @@ var comm = require('./communication');
  */
 
 var addMeeting = function (item, options) {
-    logger.info("meetingReminder.addMeeting( " + item.itemId + " ) with " +
+    logger.debug("meetingReminder.addMeeting( " + item.itemId + " ) with " +
             "options: " + JSON.stringify(options));
-    
+
     return new Promise(function (resolve, reject) {
 
         var unixDate = time.getUnixTimeStamp(options.date);
@@ -31,8 +31,8 @@ var addMeeting = function (item, options) {
                 item.text.content + "', '" + unixDate + "', '" +
                 reminderDate + "', '" + sentReminder + "')";
 
-        logger.info("Query: " + query);
-        
+        logger.info("[meetingReminder] addMeetingQuery: " + query);
+
         dbConn.query(query, function (err) {
             if (err) {
                 logger.error("[meetingReminder] Error while inserting " +
@@ -70,15 +70,15 @@ var update = function () {
                             "the database failed.");
                 }
                 else {
-                    logger.info("check started at " + now +
+                    logger.info("[meetingReminder] check started at " + now +
                             " and " + rows.length + " meetings will " +
-                            "be sent");
-                    var meeting, date, id;
+                            "be updated");
+                    var meeting, id;
                     for (var i = 0; i < rows.length; i++) {
 
                         //send reminder messages
                         meeting = rows[i];
-                        dateString = time.getUserOutputDate(meeting.date);
+                        var dateString = time.getUserOutputDate(meeting.date);
                         id = meeting.ID;
                         // send text
                         comm.sendTextItem(meeting.convId,
@@ -92,12 +92,14 @@ var update = function () {
                                 "WHERE `ID` = '" + id + "'",
                                 function (err) {
                                     if (err) {
-                                        logger.error("sentReminder of ID " +
+                                        logger.error("[meetingReminder] " +
+                                                "sentReminder of ID " +
                                                 id + " couldn't be updated ," +
                                                 "because: " + err);
                                     }
                                     else {
-                                        logger.info("sentReminder of ID " +
+                                        logger.info("[meetingReminder] " +
+                                                "sentReminder of ID " +
                                                 id + " was updated " +
                                                 "successfully.");
                                     }

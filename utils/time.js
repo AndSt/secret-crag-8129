@@ -1,5 +1,5 @@
-var moment = require('moment');
-moment().utc().format();
+var moment = require('moment-timezone');
+moment.tz.setDefault("Etc/GMT+0");
 var logger = require('./logger');
 
 
@@ -18,8 +18,8 @@ var searchDate = function (text) {
             var dateTime = moment(dateStr + " " + timeStr, [
                 "MM-DD-YYYY HH:mm",
                 "YYYY-MM-DD HH:mm",
-                "MM.DD.YYYY HH:mm",
-                "YYYY.DD.MM HH:mm",
+                "DD.MM.YYYY HH:mm",
+                "YYYY.MM.DD HH:mm",
                 "MM/DD/YYYY HH:mm",
                 "YYYY/MM/DD HH:mm"
             ]);
@@ -48,11 +48,11 @@ var getUnixTimeStamp = function (date) {
     return mom.unix();
 };
 
-var getUserOutputDate = function(date){
+var getUserOutputDate = function (date) {
     logger.debug('getUserOutputDate(' + date + ")");
-    
-    var moment = moment.unix(date);
-    var ret = moment.format('dddd, D MMMM YYYY HH:mm');
+
+    var mom = moment(date * 1000);
+    var ret = mom.format('dddd, D MMMM YYYY HH:mm');
     logger.debug('The output date is: ' + ret);
     return ret;
 };
