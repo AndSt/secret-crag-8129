@@ -42,7 +42,7 @@ var getUserStatistics = function (userId) {
             
             var stats = {
                 userId: userId,
-                numConvs: rows.length,
+//                numConvs: rows.length,
                 numItems: numItems,
                 letterCount: textStats.letterCount(text),
                 wordCount: textStats.wordCount(text),
