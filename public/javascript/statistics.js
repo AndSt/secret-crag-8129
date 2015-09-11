@@ -49,7 +49,7 @@ var initialize = function (numMessagesData) {
                 "</ul>"
     };
 
-    var data1;
+    var data1 = [];
     var i = 0;
     var sum = 0;
     for (i = 0; i < numMessagesData.length; i++) {
