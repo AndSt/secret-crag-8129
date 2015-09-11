@@ -2,7 +2,6 @@ var mysql = require('mysql');
 var dbConn = require('./../../utils/database').getConnection();
 var logger = require('./../../utils/logger');
 
-var textStats = require('text-statistics');
 
 
 var getUserStatistics = function (userId) {
@@ -30,11 +29,15 @@ var getUserStatistics = function (userId) {
             var numItems = 0;
 
             rows.forEach(function (row) {
-                logger.info("läuft");
                 numItems += parseInt(row.count);
                 text = text + " " + row.text;
             });
 
+            var letterCount = 0;
+            var tmp = text.split(' ');
+            tmp.forEach(function (word) {
+                letterCount += word.length;
+            });
 
             if (numItems <= 0) {
                 reject('No rows got found');
