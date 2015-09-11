@@ -18,23 +18,22 @@ var registerEventListener = function (client) {
     client.addEventListener('itemAdded', function (event) {
         var item = event.item;
         logger.info('[eventListener] itemAdded');
-        if (item.type === "TEXT"
-                && item.creatorId !== client.loggedOnUser.userId)
-        {
-            logger.info("[eventListener] text item detected:" +
-                    JSON.stringify(item));
+        addTextItemToDatabase(item).then(function () {
+            if (item.type === "TEXT"
+                    && item.creatorId !== client.loggedOnUser.userId)
+            {
+                logger.info("[eventListener] text item detected:" +
+                        JSON.stringify(item));
 //            sendToGA(item).then(
-            addTextItemToDatabase(item)
-                    .then(function () {
-                        return parseItem(item);
-                    })
-                    .then(function (text) {
-                        comm.sendTextItem(item.convId, text);
-                    })
-                    .catch(function (err) {
-                        comm.sendTextItem(item.convId, "Das ist scheisse");
-                    });
-        }
+                parseItem(item)
+                        .then(function (text) {
+                            comm.sendTextItem(item.convId, text);
+                        })
+                        .catch(function (err) {
+                            comm.sendTextItem(item.convId, "Das ist scheisse");
+                        });
+            }
+        });
     });
 };
 

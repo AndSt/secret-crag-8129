@@ -48,17 +48,7 @@ var options = {
 
 var urlOptions = window.location.pathname.split('/');
 
-console.log("urlOptions: " + urlOptions);
-
-var numMessagesData;
-$.get("/getStats/" + urlOptions[2] + "/numMessages", function (data) {
-    numMessagesData = data;
-    alert('data loaded');
-    initialize();
-
-});
-
-var initialize = function () {
+var initialize = function (numMessagesData) {
 
     var data1 = pieData.slice();
     var i = 0;
@@ -91,3 +81,17 @@ var initialize = function () {
 //    var legend = myPie.generateLegend();
 
 };
+
+
+$(document).ready(function () {
+    $.get("/getStats/" + urlOptions[2] + "/numMessages", function (data) {
+        initialize(data);
+
+    });
+});
+
+console.log("urlOptions: " + urlOptions);
+
+
+
+
