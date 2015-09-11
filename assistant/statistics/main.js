@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 var dbConn = require('./../../utils/database').getConnection();
-var logger = require('./../utils/logger');
+var logger = require('./../../utils/logger');
 
 var textStats = require('text-statistics');
 
