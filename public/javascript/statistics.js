@@ -50,25 +50,26 @@ var initialize = function (numMessagesData) {
     };
 
     var data1 = pieData.slice();
+    var data2 = pieData.slice();
     var i = 0;
     var sum = 0;
     for (i = 0; i < numMessagesData.length; i++) {
         sum += numMessagesData[i].numMessages;
     }
-//
-//    i = 0;
-//    while (i < 4 && i < numMessagesData.length) {
-//        data1[i].label = numMessagesData.displayName;
-//        data1[i].value = numMessagesData.numMessages;
-//        sum -= numMessagesData.numMessages;
-//        i++;
-//    }
-//    if (i === 4) {
-//        data1.label = "Rest";
-//        data1.value = sum;
-//    }
-//
-//    console.log(data1);
+
+    i = 0;
+    while (i < 4 && i < numMessagesData.length) {
+        data1[i].label = numMessagesData.displayName;
+        data1[i].value = numMessagesData.numMessages;
+        sum -= numMessagesData.numMessages;
+        i++;
+    }
+    if (i === 4) {
+        data1.label = "Rest";
+        data1.value = sum;
+    }
+
+    console.log(data1);
 
     var ctx1 = document.getElementById("chart-area-1").getContext("2d");
     window.myPie = new Chart(ctx1).Pie(pieData, options);

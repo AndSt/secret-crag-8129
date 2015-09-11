@@ -23,7 +23,8 @@ var getUserStatistics = function (userId) {
             }
 
             logger.info("[userStatistics] Successfully received data from " +
-                    "database: " + JSON.stringify(rows) );
+                    "database: " + JSON.stringify(rows));
+            logger.info(rows.length);
             if (rows.length === 0) {
                 reject('No rows found');
             }
@@ -31,6 +32,7 @@ var getUserStatistics = function (userId) {
 
             var numItems = 0;
             var i = 0;
+            logger.info("hier");
             for (i = 0; i < rows.length; i++) {
                 numItems += rows[i].count;
                 text = text + " " + rows[i].text;
