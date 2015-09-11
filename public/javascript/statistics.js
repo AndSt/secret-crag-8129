@@ -57,8 +57,9 @@ var initialize = function (numMessagesData) {
     }
 
     i = 0;
-    var obj = {};
+    var obj;
     while (i < 4 && i < numMessagesData.length) {
+        obj = {};
         obj.label = numMessagesData[i].displayName;
         obj.color = pieData[i].color;
         obj.highlight = pieData[i].highlight;

@@ -25,11 +25,10 @@ var getUserStatistics = function (userId) {
             }
 
             logger.info("[userStatistics] Successfully received data from " +
-                    "database: " + JSON.stringify(rows) + ":" + JSON.stringify(fields));
-            logger.info("hier");
-            logger.info(rows.length);
+                    "database ");
             var text = "";
             var numItems = 0;
+            resolve("läuft");
             rows.forEach(function (row) {
                 logger.info("läuft");
                 numItems += parseInt(row.count);
