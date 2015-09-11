@@ -42,11 +42,11 @@ var getUserStatistics = function (userId) {
             
             var stats = {
                 userId: userId,
-//                numConvs: rows.length,
+                numConvs: rows.length,
                 numItems: numItems,
                 letterCount: textStats.letterCount(text),
                 wordCount: textStats.wordCount(text),
-                sentenceCount: textStats.sentenceCount(text),
+//                sentenceCount: textStats.sentenceCount(text),
                 commaCount: text.split(',').length - 1,
                 questionCount: text.split('?').length - 1,
                 exclaCount: text.split('!').length - 1
@@ -56,6 +56,10 @@ var getUserStatistics = function (userId) {
         });
     });
 };
+
+var getConversationStatistics = function(convId){
+    
+}
 
 module.exports = {
     getUserStatistics: getUserStatistics
