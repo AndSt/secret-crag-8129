@@ -82,8 +82,8 @@ var update = function () {
                         id = meeting.ID;
                         // send text
                         comm.sendTextItem(meeting.convId,
-                                "Um " + dateString + " Uhr beginnt " +
-                                "ein Meeting"
+                                "On " + dateString + " GMT starts a new " +
+                                "meeting"
                                 );
 
                         // update the sentReminder flag
