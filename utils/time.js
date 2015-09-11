@@ -23,7 +23,6 @@ var searchDate = function (text) {
                 "MM/DD/YYYY HH:mm",
                 "YYYY/MM/DD HH:mm"
             ]);
-            dateTime.add(moment().utcOffset(), 'minutes');
             logger.info("The date " + dateTime.toJSON() + " was recognized");
             resolve(dateTime.toJSON());
         }

@@ -8,17 +8,16 @@ var comm = require('./communication');
 /*
  * adds a new meeting to the table remindMeetings
  * 
- * @param item      the item to add
- * @param partials  array of strings containing information
- *      partials[2] - date, when the meeting will take place
- *      partials[3] - title of the meeting
- * @param callback  callback function with parameters
- *          err - if true nothing will be answered to the user
- *          val - string, which will be sent to the user
+ * @param {circuit.Item}        the item to add
+ * @param {object} options      see optionParser for overview over all options
+ * @returns {Promise}           string with true/false statement
  */
+
 var addMeeting = function (item, options) {
+    logger.info("meetingReminder.addMeeting( " + item.itemId + " ) with " +
+            "options: " + JSON.stringify(options));
+    
     return new Promise(function (resolve, reject) {
-        logger.info('meeting will be added' + JSON.stringify(options));
 
         var unixDate = time.getUnixTimeStamp(options.date);
         var reminderDate = unixDate - 300;
@@ -56,8 +55,9 @@ var addMeeting = function (item, options) {
  * Then it sends the remindings and updates the database
  */
 var update = function () {
+    logger.info('meetingReminder.update()');
 
-    // actual timestamp in UTC/GMT+2(berlin, germany)
+    // actual timestamp in UTC/GMT+0(berlin, germany)
     var now = time.getUnixTimeStamp();
 
     // choose every meeting, which has an expired reminderDate

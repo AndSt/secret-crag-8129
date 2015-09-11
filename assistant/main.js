@@ -13,7 +13,8 @@ var optionParser = require('./optionParser');
 
 
 var registerEventListener = function (client) {
-
+    logger.info("registerEventListener()");
+    
     client.addEventListener('itemAdded', function (event) {
         var item = event.item;
         logger.info('itemAdded');
@@ -158,6 +159,7 @@ var addTextItemToDatabase = function (item) {
 //};
 
 var update = function () {
+    logger.info("main.update()");
     meetingReminder.update();
 };
 

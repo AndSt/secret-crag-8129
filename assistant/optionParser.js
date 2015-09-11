@@ -3,11 +3,11 @@ var logger = require('./../utils/logger');
 var time = require('./../utils/time');
 
 /*
+ * fills the options object
  * 
- * @param {string} text 
- * @returns {Promise}
+ * @param {string} text     text, which shall be passed
+ * @returns {Promise}       options object or err string
  */
-
 var parseOptions = function (text) {
     return new Promise(function (resolve, reject) {
         var options = {
@@ -41,11 +41,12 @@ var parseOptions = function (text) {
     });
 };
 
-/*
- * checks if the meeting reminder functionality shall be used
+ /* checks if the meeting reminder functionality shall be used
  * 
  * @param text  will be checked against regular expressions
  */
+ 
+
 var testMeetingReminder = function (text) {
     logger.info("testMeetingReminer( " + text + " )");
     return new Promise(function (resolve, reject) {
