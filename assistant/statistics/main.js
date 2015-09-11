@@ -40,7 +40,6 @@ var getUserStatistics = function (userId) {
             logger.info(numItems);
             logger.info(text);
 
-            resolve("läuft");
 
             if (numItems <= 0) {
                 reject('No rows got found');

@@ -109,7 +109,10 @@ $(document).ready(function () {
     console.log("urlOptions: " + urlOptions);
     $.get("/getStats/" + urlOptions[2] + "/numMessages", function (data) {
         console.log("data: " + JSON.stringify(data));
-        initialize(data);
+        $.get("/getStats/" + urlOptions[2] + "/numLetters", function (data2) {
+        console.log("data: " + JSON.stringify(data2));
+        initialize(data, data2);
+    });
     });
 });
 
