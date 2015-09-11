@@ -17,14 +17,14 @@ var getUserStatistics = function (userId) {
 
         logger.debug("[userStatistics] getUserStatisticsQuery: " + query);
 
-        dbConn.query(query, function (err, rows) {
+        dbConn.query(query, function (err, rows, fields) {
             if (err) {
                 logger.error('getUserStatistics(): ' + err);
                 reject(err);
             }
 
             logger.info("[userStatistics] Successfully received data from " +
-                    "database: " + JSON.stringify(rows));
+                    "database: " + JSON.stringify(rows) + ":" + JSON.stringify(fields));
             var text = "";
             resolve(JSON.stringify(rows));
 //            var numItems = 0;
