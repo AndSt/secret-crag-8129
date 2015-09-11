@@ -8,6 +8,8 @@ var client = require('./utils/client').getClient();
 
 var textAnalyzer = require('./assistant/textAnalyzer');
 
+var statistics = require('./assistant/statistics/main');
+
 
 
 app.set('port', (process.env.PORT || 5000));
@@ -79,6 +81,16 @@ app.get('/getStats/:convId/numLetters', function (req, res) {
 
 app.get('/getStats/:convId/userTimeLine', function (req, res) {
 
+});
+
+app.get('/getStats/user/:userId', function (req, res) {
+    statistics.getUserStatistics(req.params.userId)
+            .then(function (data) {
+                res.json(data);
+            })
+            .catch(function (err) {
+                res.send("hat leider nicht funktioniert");
+            });
 });
 
 app.listen(app.get('port'), function () {

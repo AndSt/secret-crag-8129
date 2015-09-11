@@ -1,5 +1,5 @@
 
-var initialize = function () {
+var initialize = function (numMessages) {
 
     var pieData = [
         {
@@ -83,13 +83,12 @@ var initialize = function () {
 
 
 $(document).ready(function () {
-//    var urlOptions = window.location.pathname.split('/');
-//    console.log("urlOptions: " + urlOptions);
-//    $.get("/getStats/" + urlOptions[2] + "/numMessages", function (data) {
-//        console.log("data: " + data);
-//        initialize(data);
-//    });
-    initialize();
+    var urlOptions = window.location.pathname.split('/');
+    console.log("urlOptions: " + urlOptions);
+    $.get("/getStats/" + urlOptions[2] + "/numMessages", function (data) {
+        console.log("data: " + data);
+        initialize(data);
+    });
 });
 
 
