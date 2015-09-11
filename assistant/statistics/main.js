@@ -26,35 +26,35 @@ var getUserStatistics = function (userId) {
 
             logger.info("[userStatistics] Successfully received data from " +
                     "database: " + JSON.stringify(rows) + ":" + JSON.stringify(fields));
+            
             var text = "";
-            resolve(JSON.stringify(rows));
-//            var numItems = 0;
-//            rows.forEach(function (row) {
-//                logger.info("läuft");
-//                numItems += parseInt(row.count);
-//                text = text + " " + row.t;
-//            });
-//            
-//            logger.info(numItems);
-//            logger.info(text);
-//
-//            if (numItems <= 0) {
-//                reject('No rows got found');
-//            }
+            var numItems = 0;
+            rows.forEach(function (row) {
+                logger.info("läuft");
+                numItems += parseInt(row.count);
+                text = text + " " + row.t;
+            });
+            
+            logger.info(numItems);
+            logger.info(text);
 
-//            var stats = {
-//                userId: userId,
-////                numConvs: rows.length,
-//                numItems: numItems,
-//                letterCount: textStats.letterCount(text),
-//                wordCount: textStats.wordCount(text),
-//                sentenceCount: textStats.sentenceCount(text),
-//                commaCount: text.split(',').length - 1,
-//                questionCount: text.split('?').length - 1,
-//                exclaCount: text.split('!').length - 1
-//            };
+            if (numItems <= 0) {
+                reject('No rows got found');
+            }
 
-//            resolve(stats);
+            var stats = {
+                userId: userId,
+                numConvs: rows.length,
+                numItems: numItems,
+                letterCount: textStats.letterCount(text),
+                wordCount: textStats.wordCount(text),
+                sentenceCount: textStats.sentenceCount(text),
+                commaCount: text.split(',').length - 1,
+                questionCount: text.split('?').length - 1,
+                exclaCount: text.split('!').length - 1
+            };
+
+            resolve(stats);
         });
     });
 };
