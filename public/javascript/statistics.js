@@ -53,36 +53,42 @@ console.log("urlOptions: " + urlOptions);
 var numMessagesData;
 $.get("/getStats/" + urlOptions[2] + "/numMessages", function (data) {
     numMessagesData = data;
+    alert('data loaded');
+    initialize();
+
 });
 
+var initialize = function () {
+
+    var data1 = pieData.slice();
+    var i = 0;
+
+    var sum = 0;
+    for (i = 0; i < numMessagesData.length; i++) {
+        sum += numMessagesData.numMessages;
+    }
+
+    i = 0;
+    while (i < 4 && i < numMessagesData.length) {
+        data1[i].label = numMessagesData.displayName;
+        data1[i].value = numMessagesData.numMessages;
+        sum -= numMessagesData.numMessages;
+        i++;
+    }
+    if (i === 4) {
+        data1.label = "Rest";
+        data1.value = sum;
+    }
 
 
-var data1 = pieData.slice();
-var i = 0;
 
-var sum = 0;
-for (i = 0; i < numMessagesData.length; i++) {
-    sum += numMessagesData.numMessages;
+    var ctx1 = document.getElementById("chart-area-1").getContext("2d");
+    window.myPie = new Chart(ctx1).Pie(pieData, options);
+
+
+    var ctx2 = document.getElementById("chart-area-2").getContext("2d");
+    window.myPie = new Chart(ctx2).Pie(pieData, options);
+
+    var legend = myPie.generateLegend();
+
 }
-
-i = 0;
-while (i < 4 && i < numMessagesData.length) {
-    data1[i].label = numMessagesData.displayName;
-    data1[i].value = numMessagesData.numMessages;
-    sum -= numMessagesData.numMessages;
-    i++;
-}
-if (i === 4) {
-    data1.label = "Rest";
-    data1.value = sum;
-}
-
-var ctx1 = document.getElementById("chart-area-1").getContext("2d");
-window.myPie = new Chart(ctx1).Pie(pieData, options);
-
-
-var ctx2 = document.getElementById("chart-area-2").getContext("2d");
-window.myPie = new Chart(ctx2).Pie(pieData, options);
-
-var legend = myPie.generateLegend();
-
