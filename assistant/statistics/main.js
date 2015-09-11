@@ -46,21 +46,20 @@ var getUserStatistics = function (userId) {
                 reject('No rows got found');
             }
             
-            resolve("läuft");
 //
-//            var stats = {
-//                userId: userId,
+            var stats = {
+                userId: userId,
 //                numConvs: rows.length,
-//                numItems: numItems,
+                numItems: numItems,
 //                letterCount: textStats.letterCount(text),
 //                wordCount: textStats.wordCount(text),
 //                sentenceCount: textStats.sentenceCount(text),
-//                commaCount: text.split(',').length - 1,
-//                questionCount: text.split('?').length - 1,
-//                exclaCount: text.split('!').length - 1
-//            };
-//
-//            resolve(stats);
+                commaCount: text.split(',').length - 1,
+                questionCount: text.split('?').length - 1,
+                exclaCount: text.split('!').length - 1
+            };
+
+            resolve(stats);
         });
     });
 };
