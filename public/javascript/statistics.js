@@ -62,7 +62,6 @@ var initialize = function () {
 
     var data1 = pieData.slice();
     var i = 0;
-
     var sum = 0;
     for (i = 0; i < numMessagesData.length; i++) {
         sum += numMessagesData.numMessages;
@@ -80,7 +79,7 @@ var initialize = function () {
         data1.value = sum;
     }
 
-
+    console.log(data1);
 
     var ctx1 = document.getElementById("chart-area-1").getContext("2d");
     window.myPie = new Chart(ctx1).Pie(pieData, options);
@@ -89,6 +88,6 @@ var initialize = function () {
     var ctx2 = document.getElementById("chart-area-2").getContext("2d");
     window.myPie = new Chart(ctx2).Pie(pieData, options);
 
-    var legend = myPie.generateLegend();
+//    var legend = myPie.generateLegend();
 
-}
+};
