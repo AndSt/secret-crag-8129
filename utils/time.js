@@ -4,7 +4,7 @@ var logger = require('./logger');
 
 
 var searchDate = function (text) {
-    logger.info("searchDate( " + text + " )");
+    logger.debug("searchDate( " + text + " )");
     return new Promise(function (resolve, reject) {
 
         var dateRegExp = new RegExp(/((0?[1-9]|[12][0-9]|3[01])[\/\-\.](0?[1-9]|1[012])[\/\-\.]\d{4})|(\d{4}[\/\-\.](0?[1-9]|1[012])[\/\-\.](0?[1-9]|[12][0-9]|3[01]))/g);
@@ -19,7 +19,7 @@ var searchDate = function (text) {
                 "MM-DD-YYYY HH:mm",
                 "YYYY-MM-DD HH:mm",
                 "MM.DD.YYYY HH:mm",
-                "YYYY.MM.DD HH:mm",
+                "YYYY.DD.MM HH:mm",
                 "MM/DD/YYYY HH:mm",
                 "YYYY/MM/DD HH:mm"
             ]);
@@ -35,7 +35,7 @@ var searchDate = function (text) {
 };
 
 var getUnixTimeStamp = function (date) {
-    logger.info('getUnixTimeStamp()' + date);
+    logger.debug('getUnixTimeStamp()' + date);
 
     var mom;
     if (date === undefined) {
@@ -48,7 +48,17 @@ var getUnixTimeStamp = function (date) {
     return mom.unix();
 };
 
+var getUserOutputDate = function(date){
+    logger.debug('getUserOutputDate(' + date + ")");
+    
+    var moment = moment.unix(date);
+    var ret = moment.format('dddd, D MMMM YYYY HH:mm');
+    logger.debug('The output date is: ' + ret);
+    return ret;
+};
+
 module.exports = {
     searchDate: searchDate,
-    getUnixTimeStamp: getUnixTimeStamp
+    getUnixTimeStamp: getUnixTimeStamp,
+    getUserOutputDate: getUserOutputDate
 };

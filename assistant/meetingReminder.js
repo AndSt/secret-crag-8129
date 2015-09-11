@@ -55,7 +55,7 @@ var addMeeting = function (item, options) {
  * Then it sends the remindings and updates the database
  */
 var update = function () {
-    logger.info('meetingReminder.update()');
+    logger.debug('meetingReminder.update()');
 
     // actual timestamp in UTC/GMT+0(berlin, germany)
     var now = time.getUnixTimeStamp();
@@ -78,13 +78,12 @@ var update = function () {
 
                         //send reminder messages
                         meeting = rows[i];
-                        date = new Date(meeting.date);
-                        dateString = date.getHours() + ":" + date.getMinutes();
+                        dateString = time.getUserOutputDate(meeting.date);
                         id = meeting.ID;
                         // send text
                         comm.sendTextItem(meeting.convId,
                                 "Um " + dateString + " Uhr beginnt " +
-                                "das Meeting " + meeting.title
+                                "ein Meeting"
                                 );
 
                         // update the sentReminder flag
