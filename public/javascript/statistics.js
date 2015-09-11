@@ -57,22 +57,21 @@ var initialize = function (numMessagesData) {
     }
 
     i = 0;
-    var obj;
     while (i < 4 && i < numMessagesData.length) {
-        obj = {};
-        obj.label = numMessagesData[i].displayName;
-        obj.color = pieData[i].color;
-        obj.highlight = pieData[i].highlight;
-        obj.value = numMessagesData[i].numMessages;
+        data1[i] = {};
+        data1[i].label = numMessagesData[i].displayName;
+        data1[i].color = pieData[i].color;
+        data1[i].highlight = pieData[i].highlight;
+        data1[i].value = numMessagesData[i].numMessages;
         data1.push(obj);
         sum -= numMessagesData[i].numMessages;
         i++;
     }
     if (i === 4) {
-        obj.label = "Rest";
-        obj.color = pieData[4].color;
-        obj.highlight = pieData[4].highlight;
-        obj.value = sum;
+        data1[i].label = "Rest";
+        data1[i].color = pieData[4].color;
+        data1[i].highlight = pieData[4].highlight;
+        data1[i].value = sum;
         data1.push(obj);
     }
 
