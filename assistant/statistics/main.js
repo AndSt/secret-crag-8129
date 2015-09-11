@@ -25,26 +25,28 @@ var getUserStatistics = function (userId) {
             }
 
             logger.info("[userStatistics] Successfully received data from " +
-                    "database ");
+                    "database " + JSON.stringify(rows));
             var text = "";
             var numItems = 0;
+            
             rows.forEach(function (row) {
                 logger.info("läuft");
                 numItems += parseInt(row.count);
                 text = text + " " + row.text;
             });
             
-            resolve("läuft");
             
-//
-//            logger.info(numItems);
-//            logger.info(text);
-//
-//            resolve("läuft");
-//
-//            if (numItems <= 0) {
-//                reject('No rows got found');
-//            }
+
+            logger.info(numItems);
+            logger.info(text);
+
+            resolve("läuft");
+
+            if (numItems <= 0) {
+                reject('No rows got found');
+            }
+            
+            resolve("läuft");
 //
 //            var stats = {
 //                userId: userId,
