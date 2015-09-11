@@ -32,7 +32,7 @@ var getUserStatistics = function (userId) {
             rows.forEach(function (row) {
                 logger.info("läuft");
                 numItems += parseInt(row.count);
-                text = text + " " + row.t;
+                text = text + " " + row.text;
             });
             
             logger.info(numItems);
