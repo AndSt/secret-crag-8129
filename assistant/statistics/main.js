@@ -23,26 +23,26 @@ var getUserStatistics = function (userId) {
 
             logger.info("[userStatistics] Successfully received data from " +
                     "database: " + JSON.stringify(rows));
-            var text = "";
+            var text = "jo";
 
-            var numItems = 0;
-            rows.forEach(function (row) {
-                logger.info("läuft");
-                numItems += parseInt(row.count);
-                text = text + " " + row.t;
-            });
-            
-            logger.info(numItems);
-            logger.info(text);
-
-            if (numItems <= 0) {
-                reject('No rows got found');
-            }
+//            var numItems = 0;
+//            rows.forEach(function (row) {
+//                logger.info("läuft");
+//                numItems += parseInt(row.count);
+//                text = text + " " + row.t;
+//            });
+//            
+//            logger.info(numItems);
+//            logger.info(text);
+//
+//            if (numItems <= 0) {
+//                reject('No rows got found');
+//            }
 
             var stats = {
                 userId: userId,
-                numConvs: rows.length,
-                numItems: numItems,
+//                numConvs: rows.length,
+//                numItems: numItems,
                 letterCount: textStats.letterCount(text),
                 wordCount: textStats.wordCount(text),
                 sentenceCount: textStats.sentenceCount(text),

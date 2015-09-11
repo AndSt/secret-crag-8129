@@ -68,7 +68,7 @@ var initialize = function (numMessagesData) {
         data1.value = sum;
     }
 
-    console.log(data1);
+    console.log(JSON.stringify(data1));
 
     var ctx1 = document.getElementById("chart-area-1").getContext("2d");
     window.myPie = new Chart(ctx1).Pie(data1, options);
@@ -86,7 +86,7 @@ $(document).ready(function () {
     var urlOptions = window.location.pathname.split('/');
     console.log("urlOptions: " + urlOptions);
     $.get("/getStats/" + urlOptions[2] + "/numMessages", function (data) {
-        console.log("data: " + data);
+        console.log("data: " + JSON.stringify(data));
         initialize(data);
     });
 });
