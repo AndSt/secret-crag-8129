@@ -75,7 +75,7 @@ var initialize = function (numMessagesData) {
 
 
     var ctx2 = document.getElementById("chart-area-2").getContext("2d");
-    window.myPie = new Chart(ctx2).Pie(pieData, options);
+    window.myPie2 = new Chart(ctx2).Pie(pieData, options);
 
 //    var legend = myPie.generateLegend();
 

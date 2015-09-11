@@ -10,8 +10,7 @@ var getUserStatistics = function (userId) {
 
     return new Promise(function (resolve, reject) {
 
-        var query = "SELECT COUNT(*) as count, " +
-                "GROUP_CONCAT(`text` SEPARATOR ' ')" +
+        var query = "SELECT COUNT(*) as count, GROUP_CONCAT(`text` SEPARATOR ' ') AS t" +
                 "FROM `Items` " +
                 "WHERE `creatorId`='" + userId + "' GROUP BY `convId`";
         logger.debug("[userStatistics] getUserStatisticsQuery: " + query);
@@ -30,7 +29,7 @@ var getUserStatistics = function (userId) {
             rows.forEach(function (row) {
                 logger.info("läuft");
                 numItems += parseInt(row.count);
-                text = text + " " + row.text;
+                text = text + " " + row.t;
             });
             
             logger.info(numItems);
