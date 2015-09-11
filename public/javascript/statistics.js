@@ -49,7 +49,7 @@ var initialize = function (numMessagesData) {
                 "</ul>"
     };
 
-    var data1 = pieData.slice();
+    var data1;
     var i = 0;
     var sum = 0;
     for (i = 0; i < numMessagesData.length; i++) {
@@ -58,7 +58,10 @@ var initialize = function (numMessagesData) {
 
     i = 0;
     while (i < 4 && i < numMessagesData.length) {
+        
         data1[i].label = numMessagesData[i].displayName;
+        data1[i].color = pieData[i].color;
+        data1[i].highlight = pieData[i].highlight;
         data1[i].value = numMessagesData[i].numMessages;
         sum -= numMessagesData[i].numMessages;
         i++;
