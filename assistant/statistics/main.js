@@ -24,11 +24,12 @@ var getUserStatistics = function (userId) {
 
             logger.info("[userStatistics] Successfully received data from " +
                     "database: " + JSON.stringify(rows));
-            var text = '';
+            var text = "";
 
             var numItems = 0;
             rows.forEach(function (row) {
-                numItems += row.count;
+                logger.info("läuft");
+                numItems += parseInt(row.count);
                 text = text + " " + row.text;
             });
 
