@@ -11,7 +11,7 @@ var getUserStatistics = function (userId) {
     return new Promise(function (resolve, reject) {
 
         var query = "SELECT COUNT(*) as count, " +
-                "GROUP_CONCAT(`text` SEPARATOR ' ') " +
+                "GROUP_CONCAT(`text` SEPARATOR ' ') AS text" +
                 "FROM `Items` " +
                 "WHERE `creatorId`='" + userId + "' GROUP BY `convId`";
         logger.debug("[Statistics] getUserStatisticsQuery: " + query);
@@ -36,9 +36,6 @@ var getUserStatistics = function (userId) {
             if (numItems <= 0) {
                 reject('No rows got found');
             }
-
-            logger.info("numItems: " + numItems);
-            logger.info("text:" + text);
 
             var stats = {
                 userId: userId,
