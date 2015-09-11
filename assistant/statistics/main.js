@@ -10,11 +10,11 @@ var getUserStatistics = function (userId) {
 
     return new Promise(function (resolve, reject) {
 
-        var query = "SELECT COUNT( * ) AS count, " +
-                "GROUP_CONCAT(`text` SEPARATOR  ' ') as text " +
-                "FROM `Items` WHERE `creatorId` = '" + userId + "' " +
-                "GROUP BY `convId`";
-        logger.debug('[Statistics] getUserStatisticsQuery: ' + query);
+        var query = "SELECT COUNT(*) as count, " +
+                "GROUP_CONCAT(`text` SEPARATOR ' ') " +
+                "FROM `Items` " +
+                "WHERE `creatorId`='" + userId + "' GROUP BY `convId`";
+        logger.debug("[Statistics] getUserStatisticsQuery: " + query);
 
         dbConn.query(query, function (err, rows) {
             if (err) {
@@ -22,11 +22,16 @@ var getUserStatistics = function (userId) {
                 reject(err);
             }
 
+            logger.info("[userStatistics] Successfully received data from " +
+                    "database.");
+            if (rows.length === 0) {
+                reject('No rows found');
+            }
             var text = rows[0].text;
-            
+
             var numItems = 0;
             var i = 0;
-            for(i = 0; i < rows.length; i++){
+            for (i = 0; i < rows.length; i++) {
                 numItems += rows[i].count;
             }
 
