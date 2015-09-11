@@ -44,7 +44,7 @@ var getUserStatistics = function (userId) {
                 userId: userId,
 //                numConvs: rows.length,
                 numItems: numItems,
-                letterCount: textStats.letterCount(text),
+//                letterCount: textStats.letterCount(text),
                 wordCount: text.split(' ').length - (1 + numItems),
                 sentenceCount: text.split('.').length - 1,
                 commaCount: text.split(',').length - 1,
@@ -59,7 +59,7 @@ var getUserStatistics = function (userId) {
 
 var getConversationStatistics = function (convId) {
 
-}
+};
 
 module.exports = {
     getUserStatistics: getUserStatistics
