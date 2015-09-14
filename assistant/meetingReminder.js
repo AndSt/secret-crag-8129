@@ -108,8 +108,8 @@ var processRepetitionAnswer = function (item, status) {
         if (text.indexOf("meeting assistant: yes") > -1
                 || text.indexOf("meeting assistant: no") > -1) {
             logger.debug("[meetingReminder] repetitionAnswer was made");
-            
-            
+
+
             var query = "UPDATE `ConversationStatus` " +
                     "SET `active` = 0 WHERE `ID` = '" + status.ID + "'";
             logger.debug("[meetingReminder]: updateConversation" +
@@ -142,7 +142,7 @@ var processRepetitionAnswer = function (item, status) {
         }
         else {
             logger.debug("[meetingReminder]: No answer was given for " +
-                    "status " + status.ID);
+                    "status " + status.ID + " for conversation " + item.convId);
             resolve({useOptionParser: true});
         }
     });
