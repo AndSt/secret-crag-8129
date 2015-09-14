@@ -69,21 +69,21 @@ var askForRepetition = function (item) {
                 "Please answer: 'meeting assistant: yes' or " +
                 "'meeting assistant: no'");
 
-//        var information = {
-//            oldDate: finishedMeetingBegin,
-//            newDate: newDate,
-//            addedQuestionTime: time.getUnixTimeStamp()
-//        };
+        var information = {
+            oldDate: finishedMeetingBegin,
+            newDate: newDate,
+            addedQuestionTime: time.getUnixTimeStamp()
+        };
 
         var query = "INSERT INTO `ConversationStatus`(`convId`, " +
                 "`status`, `information`, `active`) " +
                 "VALUES ('" + item.convId + "', '1', " +
-                "'test', '0')";
+                "'" + JSON.stringify(information) + "', '0')";
         console.debug("[meetingReminder]: askForRepetitionQuery: " + query);
 
         dbConn.query(query, function (err) {
             if (err) {
-                console.error("[meetingReminder]: Error while inserting " +
+                logger.error("[meetingReminder]: Error while inserting " +
                         "status 1 into ConversationStatus: " + err);
                 reject("Error while inserting " +
                         "status 1 into ConversationStatus");
