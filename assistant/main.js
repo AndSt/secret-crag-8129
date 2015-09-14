@@ -65,34 +65,6 @@ var registerEventListener = function (client) {
 };
 
 
-var parseItem = function (item) {
-    logger.debug("parseItem( " + item.itemId + " )");
-    return new Promise(function (resolve, reject) {
-
-        var text = item.text.content;
-
-        if (text.indexOf('meeting assistant') > -1) {
-            logger.debug('[parser] The user speaks with the ' +
-                    'meeting assistant');
-            optionParser.parseOptions(text).then(function (options) {
-                if (options.remindMeeting.isInUse === true) {
-                    resolve(meetingReminder.addMeeting(item, options.remindMeeting));
-                }
-                else if (options.textAnalyzer.isInUse === true) {
-                    resolve(textAnalyzer.analyzeConversation(item, options));
-                }
-                else {
-                    reject("The assistent must not answer");
-                }
-            });
-        }
-        else {
-            reject("The assistent must not answer");
-        }
-
-    });
-};
-
 
 var checkConversationStatus = function (item) {
     logger.debug("checkConversationStatus( " + item.convId + " )");
@@ -124,6 +96,35 @@ var checkConversationStatus = function (item) {
                     resolve({useOptionParser: true});
             }
         });
+    });
+};
+
+
+var parseItem = function (item) {
+    logger.debug("parseItem( " + item.itemId + " )");
+    return new Promise(function (resolve, reject) {
+
+        var text = item.text.content;
+
+        if (text.indexOf('meeting assistant') > -1) {
+            logger.debug('[parser] The user speaks with the ' +
+                    'meeting assistant');
+            optionParser.parseOptions(text).then(function (options) {
+                if (options.remindMeeting.isInUse === true) {
+                    resolve(meetingReminder.addMeeting(item, options.remindMeeting));
+                }
+                else if (options.textAnalyzer.isInUse === true) {
+                    resolve(textAnalyzer.analyzeConversation(item, options));
+                }
+                else {
+                    reject("The assistent must not answer");
+                }
+            });
+        }
+        else {
+            reject("The assistent must not answer");
+        }
+
     });
 };
 

@@ -65,7 +65,7 @@ var askForRepetition = function (item) {
         var dateString = time.getUserOutputDate(newDate);
 
         comm.sendTextItem(item.convId, "Do you want to assign a new meeting " +
-                "on " + dateString + " ? \n " +
+                "on " + dateString + " ? " +
                 "Please answer: 'meeting assistant: yes' or " +
                 "'meeting assistant: no'");
 
