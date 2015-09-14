@@ -23,7 +23,7 @@ var registerEventListener = function (client) {
 
             addTextItemToDatabase(item).then(function () {
                 if (item.creatorId !== client.loggedOnUser.userId) {
-                    
+
                     logger.info("[eventListener] text item detected:" +
                             JSON.stringify(item));
 //            sendToGA(item).then(
@@ -39,6 +39,9 @@ var registerEventListener = function (client) {
                     logger.info("ITEMTYPE: " + item.type);
                 }
             });
+        }
+        else if (item.type === "RTC") {
+            logger.info("RTCInfo " + JSON.stringify(item));
         }
         else {
             logger.info("ITEMTYPE: " + item.type);
