@@ -51,7 +51,7 @@ var addMeeting = function (item, options) {
 
 
 var askForRepetition = function (item) {
-    console.debug("meetingReminder.askForRepetition( " + item.itemId + " )");
+    logger.debug("meetingReminder.askForRepetition( " + item.itemId + " )");
 
     return new Promise(function (resolve, reject) {
 
