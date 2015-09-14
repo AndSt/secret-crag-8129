@@ -65,7 +65,9 @@ var askForRepetition = function (item) {
         var dateString = time.getUserOutputDate(newDate);
 
         comm.sendTextItem(item.convId, "Do you want to assign a new meeting " +
-                "on " + dateString + " ?");
+                "on " + dateString + " ? \n " +
+                "Please answer: 'meeting assistant: yes' or " +
+                "'meeting assistant: no'");
 
         var information = {
             oldDate: finishedMeetingBegin,
@@ -73,7 +75,7 @@ var askForRepetition = function (item) {
             addedQuestionTime: time.getUnixTimeStamp()
         };
 
-        query = "INSERT INTO `ConversationStatus`(`convId`, " +
+        var query = "INSERT INTO `ConversationStatus`(`convId`, " +
                 "`status`, `information`, `active`) " +
                 "VALUES ('" + item.convId + "', '1', " +
                 "'" + JSON.stringify(information) + "', '0')";
@@ -87,8 +89,20 @@ var askForRepetition = function (item) {
                         "status 1 into ConversationStatus");
             }
 
-        resolve();
+            logger.debug("[meetingReminder] Successfully inserted a " +
+                    "status 1 into ConversationStatus");
+            resolve();
         });
+    });
+};
+
+
+var processRepetitionAnswer = function (item) {
+    logger.debug("meetingReminder.processRepetitionAnswer( " +
+            item.itemId + " )");
+
+    return new Promise(function (resolve, reject) {
+        resolve({useOptionParser: false});
     });
 };
 
@@ -154,5 +168,6 @@ var update = function () {
 module.exports = {
     addMeeting: addMeeting,
     askForRepetition: askForRepetition,
+    processRepetitionAnswer: processRepetitionAnswer,
     update: update
 };

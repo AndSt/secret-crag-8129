@@ -37,7 +37,6 @@ var parseOptions = function (text) {
                     logger.error(err);
                     reject(err);
                 });
-
     });
 };
 
@@ -45,11 +44,10 @@ var parseOptions = function (text) {
  * 
  * @param text  will be checked against regular expressions
  */
- 
-
 var testMeetingReminder = function (text) {
     logger.info("testMeetingReminer( " + text + " )");
     return new Promise(function (resolve, reject) {
+        
         var regex = new RegExp(/^.*(new\smeeting|add\smeeting|next\smeeting|next\ssession|remind).*$/);
         
 

@@ -26,18 +26,25 @@ var registerEventListener = function (client) {
 
                     logger.info("[eventListener] text item detected:" +
                             JSON.stringify(item));
+
+                    checkConversationStatus(item).then(function (options) {
+                        if (options.useOptionParser === true) {
+                            parseItem(item)
+                                    .then(function (text) {
+                                        comm.sendTextItem(item.convId, text);
+                                    })
+                                    .catch(function (err) {
+                                        comm.sendTextItem(item.convId, "Das ist scheisse");
+                                    });
+                        }
+                    }).catch(function (err) {
+
+                    });
 //            sendToGA(item).then(
-                    parseItem(item)
-                            .then(function (text) {
-                                comm.sendTextItem(item.convId, text);
-                            })
-                            .catch(function (err) {
-                                comm.sendTextItem(item.convId, "Das ist scheisse");
-                            });
+
                 }
-                else {
-                    logger.info("ITEMTYPE: " + item.type);
-                }
+            }).catch(function (err) {
+                logger.error("[main]addTextItemToDatabase() went wrong: " + err);
             });
         }
         else if (item.type === "RTC" && item.rtc.type === "ENDED") {
@@ -85,6 +92,41 @@ var parseItem = function (item) {
 
     });
 };
+
+
+var checkConversationStatus = function (item) {
+    logger.debug("checkConversationStatus( " + item.convId + " )");
+
+    return new Promise(function (resolve, reject) {
+
+        var query = "SELECT * FROM `ConversationStatus` " +
+                "WHERE `convId`='" + item.convId + "' AND `active`='1'";
+        logger.debug("[main] checkConversationStatusQuery: " + query);
+
+        dbConn.query(query, function (err, rows, fields) {
+            if (err) {
+                logger.error("[main] Error while selecting " +
+                        "ConversationStatus: " + err);
+                reject("Error while selecting ConversationStatus");
+            }
+
+            if (rows.length > 1) {
+                reject("Too much statuses for conversation " + item.convId);
+            }
+            else if(rows.length === 0){
+                resolve({useOptionParser: true});
+            }
+            switch (rows[0]) {
+                case 1 :
+                    resolve(meetingReminder.processRepetitionAnswer(item));
+                    break;
+                default:
+                    resolve({useOptionParser: true});
+            }
+        });
+    });
+};
+
 
 var addTextItemToDatabase = function (item) {
     logger.debug("addTextItemToDatabase( " + item.itemId + " )");
@@ -183,6 +225,7 @@ var update = function () {
 module.exports = {
     registerEventListener: registerEventListener,
     parseItem: parseItem,
+    checkConversationStatus: checkConversationStatus,
     sendToGA: sendToGA,
     update: update
 };
