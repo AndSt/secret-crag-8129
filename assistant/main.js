@@ -20,12 +20,12 @@ var registerEventListener = function (client) {
         logger.info('[eventListener] itemAdded');
 
         if (item.type === "TEXT") {
-
+            logger.info("[eventListener] text item detected:" +
+                    JSON.stringify(item));
             addTextItemToDatabase(item).then(function () {
                 if (item.creatorId !== client.loggedOnUser.userId) {
 
-                    logger.info("[eventListener] text item detected:" +
-                            JSON.stringify(item));
+
 
                     checkConversationStatus(item).then(function (options) {
                         if (options.useOptionParser === true) {
@@ -43,8 +43,6 @@ var registerEventListener = function (client) {
 //            sendToGA(item).then(
 
                 }
-            }).catch(function (err) {
-                logger.error("[main]addTextItemToDatabase() went wrong: " + err);
             });
         }
         else if (item.type === "RTC" && item.rtc.type === "ENDED") {
@@ -85,7 +83,7 @@ var checkConversationStatus = function (item) {
             if (rows.length > 1) {
                 reject("Too much statuses for conversation " + item.convId);
             }
-            else if(rows.length === 0){
+            else if (rows.length === 0) {
                 resolve({useOptionParser: true});
             }
             switch (rows[0]) {
@@ -133,9 +131,9 @@ var addTextItemToDatabase = function (item) {
     logger.debug("addTextItemToDatabase( " + item.itemId + " )");
     return new Promise(function (resolve, reject) {
 
-        var query = "INSERT INTO `Items`(`itemId`, `convId`, `creatorId`, " +
-                " `text`) VALUES ('" + item.itemId + "', '" + item.convId +
-                "', '" + item.creatorId + "', '" + item.text.content + "')";
+        var query = "INSERT INTO \`Items\`(\`itemId\`, \`convId\`, \`creatorId\`, " +
+                " \`text\`) VALUES (\'" + item.itemId + "\', \'" + item.convId +
+                "\', \'" + item.creatorId + "\', \'" + item.text.content + "\')";
 
         logger.debug("Query to add new item to database: " + query);
 
