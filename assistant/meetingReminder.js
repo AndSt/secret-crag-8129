@@ -5,6 +5,7 @@ var logger = require('./../utils/logger');
 var time = require('./../utils/time');
 var comm = require('./communication');
 
+var underscore_string = require("underscore.string");
 /*
  * adds a new meeting to the table remindMeetings
  * 
@@ -97,12 +98,43 @@ var askForRepetition = function (item) {
 };
 
 
-var processRepetitionAnswer = function (item) {
+var processRepetitionAnswer = function (item, status) {
     logger.debug("meetingReminder.processRepetitionAnswer( " +
             item.itemId + " )");
 
     return new Promise(function (resolve, reject) {
-        resolve({useOptionParser: false});
+        var text = underscore_string.clean(item.content.text);
+
+        if (text.contains("meeting assistant: yes")
+                || text.contains("meeting assistant: no")) {
+            var query = "UPDATE `ConversationStatus` " +
+                    "SET `active` = 0 WHERE `ID` = '" + status.ID + "'";
+            logger.debug("[meetingReminder]: updateConversation" +
+                    "StatusQuery: " + query);
+
+            dbConn.query(query, function (err) {
+                if (err) {
+                    logger.error("[meetingReminder]: Error while updating " +
+                            "conversation status: " + err);
+                }
+                if (text.contains("meeting assistant: no")) {
+                    resolve({useOptionParser: true});
+                }
+                else {
+                    var information = JSON.parse(status.information);
+                    addMeeting(item, {date: information.newDate})
+                            .then(function (text) {
+                                resolve({useOptionParser: false});
+                            })
+                            .catch(function (err) {
+                                resolve({useOptionParser: false});
+                            });
+                }
+            });
+        }
+        else {
+            resolve({useOptionParser: true});
+        }
     });
 };
 

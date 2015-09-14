@@ -73,8 +73,7 @@ var checkConversationStatus = function (item) {
                         "ConversationStatus: " + err);
                 reject("Error while selecting ConversationStatus");
             }
-
-            if (rows.length > 1) {
+            else if (rows.length > 1) {
                 reject("Too much statuses for conversation " + item.convId);
             }
             else if (rows.length === 0) {
@@ -84,10 +83,12 @@ var checkConversationStatus = function (item) {
             logger.info("rows of convStatus: " + JSON.stringify(rows));
             switch (rows[0]) {
                 case 1 :
-                    resolve(meetingReminder.processRepetitionAnswer(item));
+                    resolve(meetingReminder.processRepetitionAnswer(item, rows[0]));
                     break;
                 default:
-                    resolve({useOptionParser: true});
+                    logger.error("[main]: Wrong data in the database, " +
+                            "as the conversation status is not set");
+                    reject("wrong conversation status");
             }
         });
     });
