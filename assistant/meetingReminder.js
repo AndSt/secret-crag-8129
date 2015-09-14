@@ -88,7 +88,7 @@ var askForRepetition = function (item) {
 //                        "status 1 into ConversationStatus");
 //            }
 
-        resolve();
+        resolve("Läuft");
 //        });
     });
 };

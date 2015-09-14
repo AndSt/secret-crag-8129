@@ -44,8 +44,8 @@ var registerEventListener = function (client) {
 
             logger.info("RTCInfo " + JSON.stringify(item));
             meetingReminder.askForRepetition(item)
-                    .then(function () {
-                        logger.info("asked for repetition");
+                    .then(function (text) {
+                        comm.sendTextItem(text);
                     })
                     .catch(function (err) {
                         comm.sendTextItem(item.covId, "ERROR: " + err);
