@@ -55,41 +55,40 @@ var askForRepetition = function (item) {
 
     return new Promise(function (resolve, reject) {
 
-        comm.sendTextItem(item.convId, "Test lol");
-//        var finishedMeetingBegin = time.getUnixTimeStamp() -
-//                Math.floor(item.rtc.ended.duration / 1000);
-//
-//
-//        //Same date one week later
-//        var newDate = finishedMeetingBegin + (7 * 24 * 60 * 60);
-//
-//        var dateString = time.getUserOutputDate(newDate);
-//
-//        comm.sendTextItem(item.convId, "Do you want to assign a new meeting " +
-//                "on " + dateString + " ?");
+        var finishedMeetingBegin = time.getUnixTimeStamp() -
+                Math.floor(item.rtc.ended.duration / 1000);
 
-//        var information = {
-//            oldDate: finishedMeetingBegin,
-//            newDate: newDate,
-//            addedQuestionTime: time.getUnixTimeStamp()
-//        };
-//
-//        query = "INSERT INTO `ConversationStatus`(`convId`, " +
-//                "`status`, `information`, `active`) " +
-//                "VALUES ('" + item.convId + "', '1', " +
-//                "'" + JSON.stringify(information) + "', '0')";
-//        console.debug("[meetingReminder]: askForRepetitionQuery: " + query);
-//
-//        dbConn.query(query, function (err) {
-//            if (err) {
-//                console.error("[meetingReminder]: Error while inserting " +
-//                        "status 1 into ConversationStatus: " + err);
-//                reject("Error while inserting " +
-//                        "status 1 into ConversationStatus");
-//            }
 
-        resolve("Läuft");
-//        });
+        //Same date one week later
+        var newDate = finishedMeetingBegin + (7 * 24 * 60 * 60);
+
+        var dateString = time.getUserOutputDate(newDate);
+
+        comm.sendTextItem(item.convId, "Do you want to assign a new meeting " +
+                "on " + dateString + " ?");
+
+        var information = {
+            oldDate: finishedMeetingBegin,
+            newDate: newDate,
+            addedQuestionTime: time.getUnixTimeStamp()
+        };
+
+        query = "INSERT INTO `ConversationStatus`(`convId`, " +
+                "`status`, `information`, `active`) " +
+                "VALUES ('" + item.convId + "', '1', " +
+                "'" + JSON.stringify(information) + "', '0')";
+        console.debug("[meetingReminder]: askForRepetitionQuery: " + query);
+
+        dbConn.query(query, function (err) {
+            if (err) {
+                console.error("[meetingReminder]: Error while inserting " +
+                        "status 1 into ConversationStatus: " + err);
+                reject("Error while inserting " +
+                        "status 1 into ConversationStatus");
+            }
+
+        resolve();
+        });
     });
 };
 

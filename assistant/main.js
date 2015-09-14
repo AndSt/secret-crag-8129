@@ -42,10 +42,9 @@ var registerEventListener = function (client) {
         }
         else if (item.type === "RTC" && item.rtc.type === "ENDED") {
 
-            logger.info("RTCInfo ");
+            logger.info("RTCInfo " + JSON.stringify(item));
             meetingReminder.askForRepetition(item)
-                    .then(function (text) {
-                        comm.sendTextItem(text);
+                    .then(function () {
                     })
                     .catch(function (err) {
                         comm.sendTextItem(item.covId, "ERROR: " + err);
