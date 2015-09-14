@@ -79,7 +79,7 @@ var askForRepetition = function (item) {
                 "`status`, `information`, `active`) " +
                 "VALUES ('" + item.convId + "', '1', " +
                 "'" + JSON.stringify(information) + "', '0')";
-        console.debug("[meetingReminder]: askForRepetitionQuery: " + query);
+        logger.debug("[meetingReminder]: askForRepetitionQuery: " + query);
 
         dbConn.query(query, function (err) {
             if (err) {
