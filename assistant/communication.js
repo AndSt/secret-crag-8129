@@ -69,6 +69,7 @@ var getConversation = function (convId) {
 };
 
 
+
 var getUsersById = function (userIds) {
     return new Promise(function (resolve, reject) {
         client.getUsersById(userIds)

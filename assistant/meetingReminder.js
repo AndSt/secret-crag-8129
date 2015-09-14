@@ -50,7 +50,7 @@ var addMeeting = function (item, options) {
 
             comm.sendTextItem(item.convId, "A new meeting was added. " +
                     "You will be reminded on " +
-                    time.getUserOutputDate(reminderDate));
+                    time.getUserOutputDate(reminderDate) + " GMT.");
 
             resolve("Inserting of remindMeeting went well");
         });
@@ -63,8 +63,8 @@ var addMeeting = function (item, options) {
  * 2) Set status '1' in the table ConversationStatus, which means that the
  *      assistant waits for an answer in this conversation
  * 
- * @param {circuit.Item} item
- * @returns {Promise}
+ * @param {circuit.Item} item   the item witch the rtcItem data
+ * @returns {Promise}           returns true/false string
  */
 
 var askForRepetition = function (item) {
@@ -132,6 +132,7 @@ var processRepetitionAnswer = function (item, status) {
             item.itemId + " )");
 
     return new Promise(function (resolve, reject) {
+        //get rid of unneccessary blanks
         var text = underscore_string.clean(item.text.content);
 
         if (text.indexOf("meeting assistant: yes") > -1
