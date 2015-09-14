@@ -5,15 +5,17 @@ var logger = require('./../utils/logger');
 var time = require('./../utils/time');
 var comm = require('./communication');
 
+
 var underscore_string = require("underscore.string");
+
+
 /*
- * adds a new meeting to the table remindMeetings
+ * addMeeting() adds a new meeting to the table remindMeetings
  * 
  * @param {circuit.Item}        the item to add
  * @param {object} options      see optionParser for overview over all options
  * @returns {Promise}           string with true/false statement
  */
-
 var addMeeting = function (item, options) {
     logger.debug("meetingReminder.addMeeting( " + item.itemId + " ) with " +
             "options: " + JSON.stringify(options));
@@ -41,15 +43,27 @@ var addMeeting = function (item, options) {
                 reject("Error while inserting a remindMeeting. " +
                         "Please try again.");
             }
-            else {
-                logger.info("[meetingReminder] Inserting of " +
-                        "remindMeeting " + "went well");
-                resolve("Inserting of remindMeeting went well");
-            }
+            logger.info("[meetingReminder] Inserting of " +
+                    "remindMeeting " + "went well");
+
+            comm.sendTextItem(item.convId, "A new meeting was added. " +
+                    "You will be reminded on " +
+                    time.getUserOutputDate(reminderDate));
+
+            resolve("Inserting of remindMeeting went well");
         });
     });
 };
 
+/*
+ * askForRepetition() does 2 things:
+ * 1) Ask the user, if a new meeting shall be scheduled one week later
+ * 2) Set status '1' in the table ConversationStatus, which means that the
+ *      assistant waits for an answer in this conversation
+ * 
+ * @param {circuit.Item} item
+ * @returns {Promise}
+ */
 
 var askForRepetition = function (item) {
     logger.debug("meetingReminder.askForRepetition( " + item.itemId + " )");
@@ -63,6 +77,7 @@ var askForRepetition = function (item) {
         //Same date one week later
         var newDate = finishedMeetingBegin + (7 * 24 * 60 * 60);
 
+        //ouput version of the string
         var dateString = time.getUserOutputDate(newDate);
 
         comm.sendTextItem(item.convId, "Do you want to assign a new meeting " +
@@ -82,6 +97,7 @@ var askForRepetition = function (item) {
                 "'" + JSON.stringify(information) + "', '1')";
         logger.debug("[meetingReminder]: askForRepetitionQuery: " + query);
 
+
         dbConn.query(query, function (err) {
             if (err) {
                 logger.error("[meetingReminder]: Error while inserting " +
@@ -92,11 +108,21 @@ var askForRepetition = function (item) {
 
             logger.debug("[meetingReminder] Successfully inserted a " +
                     "status 1 into ConversationStatus");
-            resolve("Läuft");
+            resolve("Successfully asked for repetition.");
         });
     });
 };
 
+/*
+ * processRepetitionAnswer() gets called, if status '1' is set in the
+ *  ConversationStatus table. 
+ *  If an correct answer is given the status will be set unactive and 
+ *  corresponding to the answer a new meeting will be scheduled or not
+ * 
+ * @param {type} item
+ * @param {type} status
+ * @returns {Promise}
+ */
 
 var processRepetitionAnswer = function (item, status) {
     logger.debug("meetingReminder.processRepetitionAnswer( " +
@@ -130,7 +156,7 @@ var processRepetitionAnswer = function (item, status) {
                     logger.debug("[meetingReminder]: status '" + status.ID +
                             "' was answered with true");
                     var information = JSON.parse(status.information);
-                    addMeeting(item, {date: information.newDate})
+                    addMeeting(item, {date: information.newDate * 1000})
                             .then(function (text) {
                                 resolve({useOptionParser: false});
                             })

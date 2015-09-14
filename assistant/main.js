@@ -40,7 +40,6 @@ var registerEventListener = function (client) {
                         if (options.useOptionParser === true) {
                             parseItem(item)
                                     .then(function (text) {
-                                        comm.sendTextItem(item.convId, text);
                                     })
                                     .catch(function (err) {
                                         comm.sendTextItem(item.convId, "Das ist scheisse");
@@ -52,15 +51,9 @@ var registerEventListener = function (client) {
             });
         }
         else if (item.type === "RTC" && item.rtc.type === "ENDED") {
-
+            
             logger.info("RTCInfo " + JSON.stringify(item));
-            meetingReminder.askForRepetition(item)
-                    .then(function (text) {
-                    })
-                    .catch(function (err) {
-                        comm.sendTextItem(item.convId, "ERROR: " + err);
-                    });
-
+            meetingReminder.askForRepetition(item);
         }
         else {
             logger.info("ITEM: " + JSON.stringify(item));
