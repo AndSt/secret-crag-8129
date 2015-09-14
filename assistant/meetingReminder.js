@@ -105,8 +105,8 @@ var processRepetitionAnswer = function (item, status) {
     return new Promise(function (resolve, reject) {
         var text = underscore_string.clean(item.text.content);
 
-        if (text.contains("meeting assistant: yes")
-                || text.contains("meeting assistant: no")) {
+        if (text.indexOf("meeting assistant: yes") > -1
+                || text.indexOf("meeting assistant: no") > -1) {
             logger.debug("[meetingReminder] repetitionAnswer was made");
             
             
@@ -121,7 +121,7 @@ var processRepetitionAnswer = function (item, status) {
                             "conversation status: " + err);
                     reject("Error while updating conversation status");
                 }
-                if (text.contains("meeting assistant: no")) {
+                if (text.indexOf("meeting assistant: no") > -1) {
                     logger.debug("[meetingReminder]: status '" + status.ID +
                             "' was answered with false");
                     resolve({useOptionParser: true});
