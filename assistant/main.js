@@ -18,10 +18,12 @@ var registerEventListener = function (client) {
     client.addEventListener('itemAdded', function (event) {
         var item = event.item;
         logger.info('[eventListener] itemAdded');
-        addTextItemToDatabase(item).then(function () {
-            if (item.type === "TEXT")
-            {
+
+        if (item.type === "TEXT") {
+
+            addTextItemToDatabase(item).then(function () {
                 if (item.creatorId !== client.loggedOnUser.userId) {
+                    
                     logger.info("[eventListener] text item detected:" +
                             JSON.stringify(item));
 //            sendToGA(item).then(
@@ -33,11 +35,14 @@ var registerEventListener = function (client) {
                                 comm.sendTextItem(item.convId, "Das ist scheisse");
                             });
                 }
-            }
-            else {
-                logger.info("ITEMTYPE: " + item.type);
-            }
-        });
+                else {
+                    logger.info("ITEMTYPE: " + item.type);
+                }
+            });
+        }
+        else {
+            logger.info("ITEMTYPE: " + item.type);
+        }
     });
 };
 
