@@ -6,10 +6,10 @@ var comm = require('./communication');
 var request = require('request');
 var qs = require('querystring');
 
-
 var meetingReminder = require('./meetingReminder');
 var textAnalyzer = require('./textAnalyzer');
 var optionParser = require('./optionParser');
+
 
 
 var registerEventListener = function (client) {
@@ -20,7 +20,7 @@ var registerEventListener = function (client) {
         logger.info('[eventListener] itemAdded' + JSON.stringify(item));
 
         if (item.type === "TEXT") {
-
+            // add text to database for statistics
             addTextItemToDatabase(item).then(function () {
                 if (item.creatorId !== client.loggedOnUser.userId) {
 
@@ -68,6 +68,7 @@ var checkConversationStatus = function (item) {
         logger.debug("[main] checkConversationStatusQuery: " + escape(query));
 
         dbConn.query(query, function (err, rows, fields) {
+            logger.info("[important] " + rows.length);
             if (err) {
                 logger.error("[main] Error while selecting " +
                         "ConversationStatus: " + err);
