@@ -153,5 +153,6 @@ var update = function () {
 
 module.exports = {
     addMeeting: addMeeting,
+    askForRepetition: askForRepetition,
     update: update
 };
