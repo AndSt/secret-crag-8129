@@ -75,15 +75,17 @@ var checkConversationStatus = function (item) {
                 reject("Error while selecting ConversationStatus");
             }
             else if (rows.length > 1) {
+                logger.error("[main] to much conversation statuses set")
                 reject("Too much statuses for conversation " + item.convId);
             }
             else if (rows.length === 0) {
-                logger.debug("No status set for the conversation");
+                logger.debug("[main] No status set for the conversation");
                 resolve({useOptionParser: true});
             }
+            
             logger.info("rows of convStatus: " + JSON.stringify(rows));
-            switch (rows[0]) {
-                case 1 :
+            switch (rows[0].status) {
+                case '1' :
                     resolve(meetingReminder.processRepetitionAnswer(item, rows[0]));
                     break;
                 default:
