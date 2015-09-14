@@ -37,6 +37,7 @@ var registerEventListener = function (client) {
                 if (item.creatorId !== client.loggedOnUser.userId) {
 
                     checkConversationStatus(item).then(function (options) {
+                        logger.debug("hier");
                         if (options.useOptionParser === true) {
                             parseItem(item)
                                     .then(function (text) {
@@ -45,13 +46,16 @@ var registerEventListener = function (client) {
                                         comm.sendTextItem(item.convId, "Das ist scheisse");
                                     });
                         }
+                        else {
+                            logger.debug("[main] no answer shall be given");
+                        }
                     }).catch(function (err) {
                     });
                 }
             });
         }
         else if (item.type === "RTC" && item.rtc.type === "ENDED") {
-            
+
             logger.info("RTCInfo " + JSON.stringify(item));
             meetingReminder.askForRepetition(item);
         }
@@ -62,18 +66,18 @@ var registerEventListener = function (client) {
 };
 
 
-
 var checkConversationStatus = function (item) {
     logger.debug("checkConversationStatus( " + item.convId + " )");
 
     return new Promise(function (resolve, reject) {
 
-        var query = "SELECT * FROM `ConversationStatus` " +
-                "WHERE `convId`='" + item.convId + "' AND `active`='1'";
-        logger.debug("[main] checkConversationStatusQuery: " + escape(query));
+        var query = "SELECT * FROM \`ConversationStatus\` " +
+                "WHERE \`convId\`=\'" + item.convId + "\' " +
+                "AND \`active\`=\'1\'";
+        logger.debug("[main] checkConversationStatusQuery: " + query);
+
 
         dbConn.query(query, function (err, rows, fields) {
-            
             if (err) {
                 logger.error("[main] Error while selecting " +
                         "ConversationStatus: " + err);

@@ -22,12 +22,14 @@ var addMeeting = function (item, options) {
 
     return new Promise(function (resolve, reject) {
 
+        //time setup
         var unixDate = time.getUnixTimeStamp(options.date);
         var reminderDate = unixDate - 300;
         var sentReminder = 0;
         if (time.getUnixTimeStamp() >= unixDate - 20) {
             sentReminder = 1;
         }
+        //query to insert new meeting
         var query = "INSERT INTO `remindMeetings`(`convId`, `inputItemId`, " +
                 "`inputText`, `date`, `reminderDate`, `sentReminder`) " +
                 "VALUES ('" + item.convId + "', '" + item.itemId + "', '" +
@@ -91,6 +93,7 @@ var askForRepetition = function (item) {
             addedQuestionTime: time.getUnixTimeStamp()
         };
 
+        //query to insert new Conversation status
         var query = "INSERT INTO `ConversationStatus`(`convId`, " +
                 "`status`, `information`, `active`) " +
                 "VALUES ('" + item.convId + "', '1', " +
