@@ -78,7 +78,7 @@ var askForRepetition = function (item) {
         var query = "INSERT INTO `ConversationStatus`(`convId`, " +
                 "`status`, `information`, `active`) " +
                 "VALUES ('" + item.convId + "', '1', " +
-                "'" + JSON.stringify(information) + "', '0')";
+                "'test', '0')";
         console.debug("[meetingReminder]: askForRepetitionQuery: " + query);
 
         dbConn.query(query, function (err) {

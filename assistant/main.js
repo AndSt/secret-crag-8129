@@ -17,15 +17,12 @@ var registerEventListener = function (client) {
 
     client.addEventListener('itemAdded', function (event) {
         var item = event.item;
-        logger.info('[eventListener] itemAdded');
+        logger.info('[eventListener] itemAdded' + JSON.stringify(item));
 
         if (item.type === "TEXT") {
-            logger.info("[eventListener] text item detected:" +
-                    JSON.stringify(item));
+            
             addTextItemToDatabase(item).then(function () {
                 if (item.creatorId !== client.loggedOnUser.userId) {
-
-
 
                     checkConversationStatus(item).then(function (options) {
                         if (options.useOptionParser === true) {
@@ -38,10 +35,7 @@ var registerEventListener = function (client) {
                                     });
                         }
                     }).catch(function (err) {
-
                     });
-//            sendToGA(item).then(
-
                 }
             });
         }
@@ -52,7 +46,7 @@ var registerEventListener = function (client) {
                     .then(function () {
                     })
                     .catch(function (err) {
-                        comm.sendTextItem(item.covId, "ERROR: " + err);
+                        comm.sendTextItem(item.convId, "ERROR: " + err);
                     });
 
         }
