@@ -69,11 +69,11 @@ var askForRepetition = function (item) {
                 "Please answer: 'meeting assistant: yes' or " +
                 "'meeting assistant: no'");
 
-        var information = {
-            oldDate: finishedMeetingBegin,
-            newDate: newDate,
-            addedQuestionTime: time.getUnixTimeStamp()
-        };
+//        var information = {
+//            oldDate: finishedMeetingBegin,
+//            newDate: newDate,
+//            addedQuestionTime: time.getUnixTimeStamp()
+//        };
 
         var query = "INSERT INTO `ConversationStatus`(`convId`, " +
                 "`status`, `information`, `active`) " +
@@ -91,7 +91,7 @@ var askForRepetition = function (item) {
 
             logger.debug("[meetingReminder] Successfully inserted a " +
                     "status 1 into ConversationStatus");
-            resolve();
+            resolve("Läuft");
         });
     });
 };

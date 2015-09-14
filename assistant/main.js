@@ -43,7 +43,7 @@ var registerEventListener = function (client) {
 
             logger.info("RTCInfo " + JSON.stringify(item));
             meetingReminder.askForRepetition(item)
-                    .then(function () {
+                    .then(function (text) {
                     })
                     .catch(function (err) {
                         comm.sendTextItem(item.convId, "ERROR: " + err);
