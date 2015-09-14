@@ -123,9 +123,13 @@ var processRepetitionAnswer = function (item, status) {
                     reject("Error while updating conversation status");
                 }
                 if (text.contains("meeting assistant: no")) {
+                    logger.debug("[meetingReminder]: status '" + status.ID +
+                            "' was answered with false");
                     resolve({useOptionParser: true});
                 }
                 else {
+                    logger.debug("[meetingReminder]: status '" + status.ID +
+                            "' was answered with true");
                     var information = JSON.parse(status.information);
                     addMeeting(item, {date: information.newDate})
                             .then(function (text) {
@@ -138,6 +142,8 @@ var processRepetitionAnswer = function (item, status) {
             });
         }
         else {
+            logger.debug("[meetingReminder]: No answer was given for " +
+                    "status " + status.ID);
             resolve({useOptionParser: true});
         }
     });
