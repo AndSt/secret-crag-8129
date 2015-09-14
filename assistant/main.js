@@ -19,19 +19,23 @@ var registerEventListener = function (client) {
         var item = event.item;
         logger.info('[eventListener] itemAdded');
         addTextItemToDatabase(item).then(function () {
-            if (item.type === "TEXT"
-                    && item.creatorId !== client.loggedOnUser.userId)
+            if (item.type === "TEXT")
             {
-                logger.info("[eventListener] text item detected:" +
-                        JSON.stringify(item));
+                if (item.creatorId !== client.loggedOnUser.userId) {
+                    logger.info("[eventListener] text item detected:" +
+                            JSON.stringify(item));
 //            sendToGA(item).then(
-                parseItem(item)
-                        .then(function (text) {
-                            comm.sendTextItem(item.convId, text);
-                        })
-                        .catch(function (err) {
-                            comm.sendTextItem(item.convId, "Das ist scheisse");
-                        });
+                    parseItem(item)
+                            .then(function (text) {
+                                comm.sendTextItem(item.convId, text);
+                            })
+                            .catch(function (err) {
+                                comm.sendTextItem(item.convId, "Das ist scheisse");
+                            });
+                }
+            }
+            else {
+                logger.info("ITEMTYPE: " + item.type);
             }
         });
     });
