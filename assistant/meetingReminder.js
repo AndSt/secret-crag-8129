@@ -103,7 +103,7 @@ var processRepetitionAnswer = function (item, status) {
             item.itemId + " )");
 
     return new Promise(function (resolve, reject) {
-        var text = underscore_string.clean(item.content.text);
+        var text = underscore_string.clean(item.text.content);
 
         if (text.contains("meeting assistant: yes")
                 || text.contains("meeting assistant: no")) {
@@ -114,7 +114,6 @@ var processRepetitionAnswer = function (item, status) {
                     "SET `active` = 0 WHERE `ID` = '" + status.ID + "'";
             logger.debug("[meetingReminder]: updateConversation" +
                     "StatusQuery: " + query);
-
 
             dbConn.query(query, function (err) {
                 if (err) {

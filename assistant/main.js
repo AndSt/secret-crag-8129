@@ -80,7 +80,7 @@ var checkConversationStatus = function (item) {
         logger.debug("[main] checkConversationStatusQuery: " + escape(query));
 
         dbConn.query(query, function (err, rows, fields) {
-            logger.info("[important] " + rows.length);
+            
             if (err) {
                 logger.error("[main] Error while selecting " +
                         "ConversationStatus: " + err);
