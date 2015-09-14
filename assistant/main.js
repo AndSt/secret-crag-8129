@@ -43,7 +43,8 @@ var registerEventListener = function (client) {
                                     .then(function (text) {
                                     })
                                     .catch(function (err) {
-                                        comm.sendTextItem(item.convId, "Das ist scheisse");
+                                        comm.sendTextItem(item.convId,
+                                                "Das ist scheisse");
                                     });
                         }
                         else {
@@ -83,22 +84,25 @@ var checkConversationStatus = function (item) {
                         "ConversationStatus: " + err);
                 reject("Error while selecting ConversationStatus");
             } else if (rows.length > 1) {
-                logger.error("[main] to much conversation statuses set")
+                logger.error("[main] too much conversation statuses set");
                 reject("Too much statuses for conversation " + item.convId);
             } else if (rows.length === 0) {
                 logger.debug("[main] No status set for the conversation");
                 resolve({useOptionParser: true});
             }
+            else {
 
-            logger.info("rows of convStatus: " + JSON.stringify(rows));
-            switch (rows[0].status) {
-                case '1' :
-                    resolve(meetingReminder.processRepetitionAnswer(item, rows[0]));
-                    break;
-                default:
-                    logger.error("[main]: Wrong data in the database, " +
-                            "as the conversation status is not set");
-                    reject("wrong conversation status");
+                logger.info("rows of convStatus: " + JSON.stringify(rows));
+                switch (rows[0].status) {
+                    case '1' :
+                        resolve(meetingReminder.processRepetitionAnswer(item,
+                                rows[0]));
+                        break;
+                    default:
+                        logger.error("[main]: Wrong data in the database, " +
+                                "as the conversation status is not set");
+                        reject("wrong conversation status");
+                }
             }
         });
     });
