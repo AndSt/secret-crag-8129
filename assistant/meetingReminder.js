@@ -55,17 +55,18 @@ var askForRepetition = function (item) {
 
     return new Promise(function (resolve, reject) {
 
-        var finishedMeetingBegin = time.getUnixTimeStamp() -
-                Math.floor(item.rtc.ended.duration / 1000);
-
-
-        //Same date one week later
-        var newDate = finishedMeetingBegin + (7 * 24 * 60 * 60);
-
-        var dateString = time.getUserOutputDate(newDate);
-
-        comm.sendTextItem(item.convId, "Do you want to assign a new meeting " +
-                "on " + dateString + " ?");
+        comm.sendTextItem(item.convId, "Test lol");
+//        var finishedMeetingBegin = time.getUnixTimeStamp() -
+//                Math.floor(item.rtc.ended.duration / 1000);
+//
+//
+//        //Same date one week later
+//        var newDate = finishedMeetingBegin + (7 * 24 * 60 * 60);
+//
+//        var dateString = time.getUserOutputDate(newDate);
+//
+//        comm.sendTextItem(item.convId, "Do you want to assign a new meeting " +
+//                "on " + dateString + " ?");
 
 //        var information = {
 //            oldDate: finishedMeetingBegin,
@@ -87,7 +88,7 @@ var askForRepetition = function (item) {
 //                        "status 1 into ConversationStatus");
 //            }
 
-            resolve();
+        resolve();
 //        });
     });
 };
