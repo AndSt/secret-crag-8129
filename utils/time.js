@@ -35,13 +35,14 @@ var searchDate = function (text) {
 };
 
 var getUnixTimeStamp = function (date) {
-    logger.debug('getUnixTimeStamp(' + date + ')');
 
     var mom;
     if (date === undefined) {
+        logger.debug('getUnixTimeStamp()');
         mom = moment();
     }
     else {
+        logger.debug('getUnixTimeStamp(' + date + ')');
         mom = moment(date);
     }
 

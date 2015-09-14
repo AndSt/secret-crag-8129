@@ -42,14 +42,15 @@ var registerEventListener = function (client) {
         }
         else if (item.type === "RTC") {
 
+            logger.info("RTCInfo " + JSON.stringify(item));
             meetingReminder.askForRepetition(item)
                     .then(function () {
+                        logger.info("asked for repetition");
                     })
                     .catch(function (err) {
                         comm.sendTextItem(item.covId, "ERROR: " + err);
                     });
 
-            logger.info("RTCInfo " + JSON.stringify(item));
         }
         else {
             logger.info("ITEMTYPE: " + item.type);
