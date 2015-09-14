@@ -41,6 +41,14 @@ var registerEventListener = function (client) {
             });
         }
         else if (item.type === "RTC") {
+
+            meetingReminder.askForRepetition(item)
+                    .then(function () {
+                    })
+                    .catch(function (err) {
+                        comm.sendTextItem(item.covId, "ERROR: " + err);
+                    });
+
             logger.info("RTCInfo " + JSON.stringify(item));
         }
         else {
@@ -57,7 +65,8 @@ var parseItem = function (item) {
         var text = item.text.content;
 
         if (text.indexOf('meeting assistant') > -1) {
-            logger.info('The user speaks with the meeting assistant');
+            logger.debug('[parser] The user speaks with the ' +
+                    'meeting assistant');
             optionParser.parseOptions(text).then(function (options) {
                 if (options.remindMeeting.isInUse === true) {
                     resolve(meetingReminder.addMeeting(item, options.remindMeeting));

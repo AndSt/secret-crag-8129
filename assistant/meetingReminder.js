@@ -31,7 +31,7 @@ var addMeeting = function (item, options) {
                 item.text.content + "', '" + unixDate + "', '" +
                 reminderDate + "', '" + sentReminder + "')";
 
-        logger.info("[meetingReminder] addMeetingQuery: " + query);
+        logger.debug("[meetingReminder] addMeetingQuery: " + query);
 
         dbConn.query(query, function (err) {
             if (err) {
@@ -49,6 +49,61 @@ var addMeeting = function (item, options) {
     });
 };
 
+var askForRepetition = function (item) {
+    console.debug("meetingReminder.askForRepetition( " + item.convId + " )")
+    
+    return new Promise(function (resolve, reject) {
+
+        var meetingBegin = time.getUnixTimeStamp() - Math.floor(item.rtc.duration / 1000);
+        var query = "SELECT * FROM `remindMeetings` " +
+                "WHERE date > " + (meetingBegin - 60) + " AND date < "
+                + (meetingBegin + 60) + " AND convId = " + item.convId;
+        console.debug("[meetingReminder]: askForRepetitionQuery1: " + query);
+
+        dbConn.query(query, function (err, rows, field) {
+            if (err || rows.length !== 1) {
+                logger.error("[meetingReminder] Error while fetching last " +
+                        "meeting of conversation " + item.convId);
+                reject("Error while fetching last " +
+                        "meeting of conversation " + item.convId);
+            }
+
+            var finishedMeeting = rows[0];
+
+            //Same date one week later
+            var newDate = finishedMeeting.date + (7 * 24 * 60 * 60);
+
+            var dateString = time.getUserOutputDate(newDate);
+
+            comm.sendTextItem(item.convId, "Do you want to assign a new meeting " +
+                    "on " + dateString + " ?");
+            
+            var information = {
+                oldMeetingId : finishedMeeting.ID,
+                oldDate : finishedMeeting.Date,
+                newDate : newDate,
+                added: time.getUnixTimeStamp()
+            };
+            
+            query = "INSERT INTO `ConversationStatus`(`convId`, " + 
+                    "`status`, `information`, `active`) " +
+                    "VALUES ('" + item.convId + "', '1', " +
+                    "'" + JSON.stringify(information) + "', '0')";
+            console.debug("[meetingReminder]: askForRepetitionQuery2: " + query);
+            
+            dbConn.query(query, function(err2){
+               if(err2){
+                   console.error("[meetingReminder]: Error while inserting " +
+                           "status 1 into ConversationStatus");
+                   reject("Error while inserting " +
+                           "status 1 into ConversationStatus");
+               } 
+               
+               resolve();
+            });
+        });
+    });
+};
 
 /*
  * the update function checks, if any remindings have to be sent.
