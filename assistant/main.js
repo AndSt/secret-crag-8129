@@ -40,7 +40,7 @@ var registerEventListener = function (client) {
                 }
             });
         }
-        else if (item.type === "RTC") {
+        else if (item.type === "RTC" && item.rtc.type === "ENDED") {
 
             logger.info("RTCInfo " + JSON.stringify(item));
             meetingReminder.askForRepetition(item)

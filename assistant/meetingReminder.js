@@ -56,7 +56,7 @@ var askForRepetition = function (item) {
     return new Promise(function (resolve, reject) {
 
         var finishedMeetingBegin = time.getUnixTimeStamp() -
-                Math.floor(item.rtc.duration / 1000);
+                Math.floor(item.rtc.ended.duration / 1000);
 
 
         //Same date one week later
@@ -77,12 +77,12 @@ var askForRepetition = function (item) {
                 "`status`, `information`, `active`) " +
                 "VALUES ('" + item.convId + "', '1', " +
                 "'" + JSON.stringify(information) + "', '0')";
-        console.debug("[meetingReminder]: askForRepetitionQuery2: " + query);
+        console.debug("[meetingReminder]: askForRepetitionQuery: " + query);
 
-        dbConn.query(query, function (err2) {
-            if (err2) {
+        dbConn.query(query, function (err) {
+            if (err) {
                 console.error("[meetingReminder]: Error while inserting " +
-                        "status 1 into ConversationStatus");
+                        "status 1 into ConversationStatus: " + err);
                 reject("Error while inserting " +
                         "status 1 into ConversationStatus");
             }
