@@ -20,7 +20,7 @@ var registerEventListener = function (client) {
         logger.info('[eventListener] itemAdded' + JSON.stringify(item));
 
         if (item.type === "TEXT") {
-            
+
             addTextItemToDatabase(item).then(function () {
                 if (item.creatorId !== client.loggedOnUser.userId) {
 
@@ -65,7 +65,7 @@ var checkConversationStatus = function (item) {
 
         var query = "SELECT * FROM `ConversationStatus` " +
                 "WHERE `convId`='" + item.convId + "' AND `active`='1'";
-        logger.debug("[main] checkConversationStatusQuery: " + query);
+        logger.debug("[main] checkConversationStatusQuery: " + escape(query));
 
         dbConn.query(query, function (err, rows, fields) {
             if (err) {
@@ -78,8 +78,10 @@ var checkConversationStatus = function (item) {
                 reject("Too much statuses for conversation " + item.convId);
             }
             else if (rows.length === 0) {
+                logger.debug("No status set for the conversation");
                 resolve({useOptionParser: true});
             }
+            logger.info("rows of convStatus: " + JSON.stringify(rows));
             switch (rows[0]) {
                 case 1 :
                     resolve(meetingReminder.processRepetitionAnswer(item));
