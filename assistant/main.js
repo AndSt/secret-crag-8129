@@ -19,8 +19,20 @@ var registerEventListener = function (client) {
         var item = event.item;
         logger.info('[eventListener] itemAdded' + JSON.stringify(item));
 
+        /*
+         * Three options:
+         * ** react on text items
+         * ** react on rtc event items
+         * ** default
+         */
+
         if (item.type === "TEXT") {
-            // add text to database for statistics
+            /*
+             * add text item to database for statics
+             * -> then check if a conversation status is set and the assistant
+             *      waits for an answer
+             * -> then call parseItem() to parse options and process them 
+             */
             addTextItemToDatabase(item).then(function () {
                 if (item.creatorId !== client.loggedOnUser.userId) {
 
@@ -73,16 +85,14 @@ var checkConversationStatus = function (item) {
                 logger.error("[main] Error while selecting " +
                         "ConversationStatus: " + err);
                 reject("Error while selecting ConversationStatus");
-            }
-            else if (rows.length > 1) {
+            } else if (rows.length > 1) {
                 logger.error("[main] to much conversation statuses set")
                 reject("Too much statuses for conversation " + item.convId);
-            }
-            else if (rows.length === 0) {
+            } else if (rows.length === 0) {
                 logger.debug("[main] No status set for the conversation");
                 resolve({useOptionParser: true});
             }
-            
+
             logger.info("rows of convStatus: " + JSON.stringify(rows));
             switch (rows[0].status) {
                 case '1' :

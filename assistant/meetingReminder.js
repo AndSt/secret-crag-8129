@@ -107,15 +107,20 @@ var processRepetitionAnswer = function (item, status) {
 
         if (text.contains("meeting assistant: yes")
                 || text.contains("meeting assistant: no")) {
+            logger.debug("[meetingReminder] repetitionAnswer was made");
+            
+            
             var query = "UPDATE `ConversationStatus` " +
                     "SET `active` = 0 WHERE `ID` = '" + status.ID + "'";
             logger.debug("[meetingReminder]: updateConversation" +
                     "StatusQuery: " + query);
 
+
             dbConn.query(query, function (err) {
                 if (err) {
                     logger.error("[meetingReminder]: Error while updating " +
                             "conversation status: " + err);
+                    reject("Error while updating conversation status");
                 }
                 if (text.contains("meeting assistant: no")) {
                     resolve({useOptionParser: true});
