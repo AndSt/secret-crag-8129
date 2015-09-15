@@ -169,9 +169,6 @@ var processRepetitionAnswer = function (item, status) {
 var update = function () {
     logger.debug('meetingReminder.update()');
 
-    // actual timestamp in UTC/GMT+0(berlin, germany)
-    var now = time.getUnixTimeStamp();
-
     // choose every meeting, which has an expired reminderDate
     dbFunctions.selectToRemindMeetings()
             .then(function (rows) {

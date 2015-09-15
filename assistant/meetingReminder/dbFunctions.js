@@ -78,6 +78,8 @@ var updateConversationStatusActive = function (status) {
 };
 
 var selectToRemindMeetings = function () {
+
+    // actual timestamp in UTC/GMT+0(berlin, germany)
     var now = time.getUnixTimeStamp();
 
     return new Promise(function (resolve, reject) {
@@ -126,6 +128,7 @@ module.exports = {
     insertMeeting: insertMeeting,
     insertConversationStatus: insertConversationStatus,
     updateConversationStatusActive: updateConversationStatusActive,
+    selectToRemindMeetings: selectToRemindMeetings,
     updateRemindMeetingsSentReminder: updateRemindMeetingsSentReminder
 };
 
