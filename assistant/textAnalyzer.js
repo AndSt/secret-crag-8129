@@ -1,7 +1,7 @@
 var mysql = require('mysql');
 var dbConn = require('./../utils/database').getConnection();
 var logger = require('./../utils/logger');
-var circuitConn = require('./communication');
+var circuitConn = require('./../utils/communication');
 
 /*  
  * 

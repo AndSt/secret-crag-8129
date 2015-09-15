@@ -2,6 +2,7 @@
 var mysql = require('mysql');
 var connection = require('./database').getConnection();
 
+//var config = require('./../config/config.json');
 /*
  * We following loggin levels are proposed:
  * - DEBUG
@@ -9,6 +10,7 @@ var connection = require('./database').getConnection();
  * - ERROR 
  */
 var log = function (text, level) {
+//    if (config.online === true) {
     connection.query("INSERT INTO `Log`( `text`, `level`) " +
             "VALUES ('" + text + "', '" + level + "')",
             function (err) {
@@ -16,10 +18,13 @@ var log = function (text, level) {
                     console.log("[APP]: The logger collapsed");
                 }
                 else {
-                    console.log("[APP]: " + level + ". " + text);
+                    console.log("[APP]: " + level + ": " + text);
                 }
             });
-
+//    }
+//    else {
+//        console.log("[APP]: " + level + ": " + text);
+//    }
 };
 
 var debug = function (text) {

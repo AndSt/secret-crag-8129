@@ -11,7 +11,6 @@ var textAnalyzer = require('./assistant/textAnalyzer');
 var statistics = require('./assistant/statistics/main');
 
 
-
 app.set('port', (process.env.PORT || 5000));
 app.use(bodyParser.json()); // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({// to support URL-encoded bodies

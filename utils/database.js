@@ -1,13 +1,22 @@
 var mysql = require('mysql');
 
 
+//var connection = mysql.createConnection({
+//    host: 'sql2.freemysqlhosting.net',
+//    user: 'sql288857',
+//    password: 'vB6*pR5!',
+//    port: '3306',
+//    database: 'sql288857'
+//});
+
 var connection = mysql.createConnection({
-    host: 'sql2.freemysqlhosting.net',
-    user: 'sql288857',
-    password: 'vB6*pR5!',
+    host: 'localhost',
+    user: 'root',
+    password: 'test',
     port: '3306',
-    database: 'sql288857'
+    database: 'assistent'
 });
+
 
 connection.connect(function (err) {
     if (!err) {
@@ -20,6 +29,6 @@ connection.connect(function (err) {
 
 
 //returns connection for all modules
-module.exports.getConnection = function() {
+module.exports.getConnection = function () {
     return connection;
 };

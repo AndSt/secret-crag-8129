@@ -9,6 +9,7 @@
   "dependencies": {
     "body-parser": "^1.13.3",
     "bower": "^1.5.2",
+    "bunyan": "^1.5.1",
     "circuit": "file:circuit.tgz",
     "ejs": "2.3.3",
     "express": "4.13.3",

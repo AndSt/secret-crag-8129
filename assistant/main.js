@@ -1,12 +1,12 @@
 var mysql = require('mysql');
 var logger = require('./../utils/logger');
 var dbConn = require('./../utils/database').getConnection();
-var comm = require('./communication');
+var comm = require('./../utils/communication');
 
 var request = require('request');
 var qs = require('querystring');
 
-var meetingReminder = require('./meetingReminder');
+var meetingReminder = require('./meetingReminder/meetingReminder');
 var textAnalyzer = require('./textAnalyzer');
 var optionParser = require('./optionParser');
 
@@ -34,7 +34,7 @@ var registerEventListener = function (client) {
              * -> then call parseItem() to parse options and process them 
              */
             addTextItemToDatabase(item).then(function () {
-                if (item.creatorId !== client.loggedOnUser.userId) {
+                if (item.creatorId !== 'f6ce8cc5-e094-4ffa-9551-52192eca9cc4') {
 
                     checkConversationStatus(item).then(function (options) {
                         logger.debug("hier");
@@ -163,15 +163,9 @@ var addTextItemToDatabase = function (item) {
 };
 
 var sendToGA = function (item) {
-    return new Promise(function (resolve, reject) {
+    logger.info("sendToGA( " + item.itemId + ")");
 
-        logger.info("sendToGA()");
-        var channel = {
-            id: item.convId
-        };
-        var user = {
-            id: item.creatorId
-        };
+    return new Promise(function (resolve, reject) {
 
         var msgText = item.text.content;
 
@@ -194,28 +188,37 @@ var sendToGA = function (item) {
         }
         ;
 
-        var wordCount = searchS(/\s+\b/);
-        var exclaCount = searchM(/!/g);
-        var questionCount = searchM(/\?/g);
-        var letterCount = msgText.length;
+        var information = {
+            userId: item.creatorId,
+            convId: item.convId,
+            msgText: item.text.content,
+            wordCount: searchS(/\s+\b/),
+            exclaCount: searchM(/!/g),
+            questionCount: searchM(/\?/g),
+            letterCount: msgText.length
+        };
         //The Structure Data! This is where are the pretty GA data gets gathered
         //before it is sent to the GA servers for us to analyse at a later time.
         var data = {
             v: 1,
-            tid: "UA-41507980-2", // <-- ADD UA NUMBER
+            tid: "UA-41507980-3", // <-- ADD UA NUMBER
             cid: 'f7287266-12ee-41b8-8ca8-f9f9691eee01',
             t: "event",
-            cd1: user.id,
-            cd2: channel.id,
-            cd3: msgText,
-            cm1: wordCount,
-            cm2: letterCount,
-            cm3: exclaCount,
-            cm4: questionCount, //need to set up in GA
-            an: "meetingAssisant"
+            cd1: information.userId,
+            cd2: information.convId,
+            cm1: information.wordCount,
+            cm2: information.letterCount,
+            cm3: information.exclaCount,
+            cm4: information.questionCount, //need to set up in GA
+            an: "meetingAssisant",
+            ec: "circuit: " + information.convId,
+            ea: "post by " + information.userId,
+            el: msgText,
+            ev: 1
         };
-        logger.info("hier");
-        logger.info("https://www.google-analytics.com/collect?" + qs.stringify(data));
+
+        logger.info("[main] Sending to GA: " + JSON.stringify(data));
+
         request.post("https://www.google-analytics.com/collect?" + qs.stringify(data),
                 function (error, resp, body) {
                     logger.error(JSON.stringify(error));

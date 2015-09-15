@@ -2,6 +2,7 @@ var circuit = require('circuit');
 var logger = require('./../utils/logger');
 var client = require('./../utils/client').getClient();
 
+//var config = require('./../config/config.json');
 
 
 /*
@@ -12,6 +13,7 @@ var client = require('./../utils/client').getClient();
  */
 var sendTextItem = function (convId, text) {
     logger.debug("sendTextItem( " + convId + " )");
+//    if (config.online === true) {
     client.addTextItem(convId,
             {
                 contentType: "RICH",
@@ -23,6 +25,10 @@ var sendTextItem = function (convId, text) {
     }).catch(function (err) {
         logger.error('Unable to answer. ' + err);
     });
+//    }
+//    else {
+//        logger.debug("TextItem text is: " + text);
+//    }
 };
 
 /*
