@@ -7,6 +7,7 @@ var time = require('./../../utils/time');
 
 
 var insertMeeting = function (item, unixDate, reminderDate, sentReminder) {
+    logger.debug("meetingReminder.dbFunctions.insertMeeting()");
 
     return new Promise(function (resolve, reject) {
 
@@ -33,6 +34,7 @@ var insertMeeting = function (item, unixDate, reminderDate, sentReminder) {
 };
 
 var insertConversationStatus = function (item, information) {
+    logger.debug("meetingReminder.dbFunctions.insertConversationStatus()");
 
     return new Promise(function (resolve, reject) {
 
@@ -57,6 +59,7 @@ var insertConversationStatus = function (item, information) {
 };
 
 var updateConversationStatusActive = function (status) {
+    logger.debug("meetingReminder.dbFunctions.updateConversationStatus()");
 
     return new Promise(function (resolve, reject) {
         var query = "UPDATE `ConversationStatus` " +
@@ -78,6 +81,7 @@ var updateConversationStatusActive = function (status) {
 };
 
 var selectToRemindMeetings = function () {
+    logger.debug("meetingReminder.dbFunctions.selectToRemindMeetings()");
 
     // actual timestamp in UTC/GMT+0(berlin, germany)
     var now = time.getUnixTimeStamp();
@@ -103,6 +107,7 @@ var selectToRemindMeetings = function () {
 };
 
 var updateRemindMeetingsSentReminder = function (id) {
+    logger.debug("meetingReminder.dbFunctions.updateRemindMeetingsSentReminder()");
 
     var query = "UPDATE `remindMeetings` " +
             "SET `sentReminder`='1' " +
@@ -118,7 +123,7 @@ var updateRemindMeetingsSentReminder = function (id) {
                             id + " couldn't be updated ,because: " + err);
                 }
                 else {
-                    logger.info("[meetingReminder] sentReminder of ID " +
+                    logger.debug("[meetingReminder] sentReminder of ID " +
                             id + " was updated successfully.");
                 }
             });

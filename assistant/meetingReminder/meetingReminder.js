@@ -173,12 +173,11 @@ var update = function () {
     dbFunctions.selectToRemindMeetings()
             .then(function (rows) {
 
-                var meeting, id;
+                var meeting;
                 for (var i = 0; i < rows.length; i++) {
 
                     //send reminder messages
                     meeting = rows[i];
-                    id = meeting.ID;
                     // send text
                     var sendString = "On " + time.getUserOutputDate(meeting.date) +
                             " GMT starts a new meeting";
@@ -186,7 +185,7 @@ var update = function () {
                     comm.sendTextItem(meeting.convId, sendString);
 
                     //update sentReminder flags
-                    dbFunctions.updateRemindMeetingsSentReminder();
+                    dbFunctions.updateRemindMeetingsSentReminder(meeting.ID);
                 }
             });
 };

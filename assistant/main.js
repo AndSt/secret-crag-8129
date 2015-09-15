@@ -154,7 +154,7 @@ var addTextItemToDatabase = function (item) {
                 reject("Adding a text item to the database failed");
             }
             else {
-                logger.info("Successfully added a text item to database.");
+                logger.info("[main]Successfully added a text item to database.");
                 resolve();
             }
         });
