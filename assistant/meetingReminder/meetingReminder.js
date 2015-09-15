@@ -175,7 +175,7 @@ var update = function () {
     // choose every meeting, which has an expired reminderDate
     dbFunctions.selectToRemindMeetings()
             .then(function (rows) {
-                
+
                 var meeting, id;
                 for (var i = 0; i < rows.length; i++) {
 
@@ -183,9 +183,9 @@ var update = function () {
                     meeting = rows[i];
                     id = meeting.ID;
                     // send text
-                    var sendString = "On " + time.getUserOutputDate(meeting.date) + 
+                    var sendString = "On " + time.getUserOutputDate(meeting.date) +
                             " GMT starts a new meeting";
-                    
+
                     comm.sendTextItem(meeting.convId, sendString);
 
                     //update sentReminder flags

@@ -10,6 +10,7 @@ var textAnalyzer = require('./assistant/textAnalyzer');
 
 var statistics = require('./assistant/statistics/main');
 
+logger.info("Hashtag-läuft");
 
 app.set('port', (process.env.PORT || 5000));
 app.use(bodyParser.json()); // to support JSON-encoded bodies
@@ -21,7 +22,6 @@ app.use('/bower_components', express.static(__dirname + '/bower_components'));
 // views is directory for all template files
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-
 
 
 
