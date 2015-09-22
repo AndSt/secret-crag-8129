@@ -1,0 +1,7 @@
+{
+    "root": "/home/astephan/Praktikum-Andi/MeetingAssistent/node-js-getting-started/assistant",
+    "loggerPath": "/home/astephan/Praktikum-Andi/MeetingAssistent/node-js-getting-started/utils/logger",
+    "dbConnPath": "/home/astephan/Praktikum-Andi/MeetingAssistent/node-js-getting-started/utils/database",
+    "clientCommunicationPath": "/home/astephan/Praktikum-Andi/MeetingAssistent/node-js-getting-started/utils/communication",
+    "domain": "https://secret-crag-8129.herokuapp.com"
+}

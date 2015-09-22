@@ -1,0 +1,53 @@
+{
+    "assistantKeywords": [
+        "ma:",
+        "meeting assistant:",
+        "meeting assistent:",
+        "assistant:",
+        "assistent:"
+    ],
+    "services": {
+        "help": {
+            "keywords": [
+                "help",
+                "--h"
+            ],
+            "options": [
+            ]
+        },
+        "meetingReminder": {
+            "keywords": [
+                "remind",
+                "add a meeting",
+                "add meeting",
+                "new meeting",
+                "add a new meeting"
+            ],
+            "options": {
+                "ics": {
+                    "keywords": [
+                        "ics"
+                    ]
+                },
+                "timeBevor": {
+                    "keywords": [
+                    ]
+                }
+            }
+        },
+        "addFile": {
+            "keywords": [
+                "addfile",
+                "add file",
+                "add internet file",
+                "post file",
+                "upload file"
+            ],
+            "options": {
+            }
+        },
+        "textStatistics": [
+            "te"
+        ]
+    }
+}
