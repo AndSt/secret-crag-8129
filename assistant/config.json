@@ -1,7 +1,22 @@
 {
     "root": "/home/astephan/Praktikum-Andi/MeetingAssistent/node-js-getting-started/assistant",
-    "loggerPath": "/home/astephan/Praktikum-Andi/MeetingAssistent/node-js-getting-started/utils/logger",
-    "dbConnPath": "/home/astephan/Praktikum-Andi/MeetingAssistent/node-js-getting-started/utils/database",
+    "loggerPath": "/home/astephan/Praktikum-Andi/MeetingAssistent/node-js-getting-started/assistant/utils/logger",
+    "logLevel": {
+        "level": "DEBUG",
+        "description": "3 levels: ERROR, INFO, DEBUG"
+    },
+    "database": {
+        "dbHost": "localhost",
+        "dbUser": "root",
+        "dbPassword": "test",
+        "dbPort": "3306",
+        "dbDatabase": "assistent"
+    },
+    "client": {
+        "domain": "circuitsandbox.net",
+        "userName": "andreas-stephan@hotmail.de",
+        "password": "andalos1"
+    },
     "clientCommunicationPath": "/home/astephan/Praktikum-Andi/MeetingAssistent/node-js-getting-started/utils/communication",
     "domain": "https://secret-crag-8129.herokuapp.com"
 }

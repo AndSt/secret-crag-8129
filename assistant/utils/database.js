@@ -1,21 +1,22 @@
 var mysql = require('mysql');
 
-
-var connection = mysql.createConnection({
-    host: 'sql2.freemysqlhosting.net',
-    user: 'sql288857',
-    password: 'vB6*pR5!',
-    port: '3306',
-    database: 'sql288857'
-});
+var config = require("./../config.json").database;
 
 //var connection = mysql.createConnection({
-//    host: 'localhost',
-//    user: 'root',
-//    password: 'test',
+//    host: 'sql2.freemysqlhosting.net',
+//    user: 'sql288857',
+//    password: 'vB6*pR5!',
 //    port: '3306',
-//    database: 'assistent'
+//    database: 'sql288857'
 //});
+
+var connection = mysql.createConnection({
+    host: config.dbHost,
+    user: config.dbUser,
+    password: config.dbPassword,
+    port: config.dbPort,
+    database: config.dbDatabase
+});
 
 
 connection.connect(function (err) {

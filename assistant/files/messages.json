@@ -1,0 +1,94 @@
+{
+    "help": {
+        "text": "<ul><li>'<i>ma: remind DD.MM.YYYY hh:mm' to add a meeting</i></li><li>'<i>ma: list</i>' to list all meetings</li><li>'<i>ma: delete (Meeting Nr.)</i>' to delete a meeting. You can see the number by listing the meetings</li><li>'<i>ma: statistics</i>' to see statistics of the conversation</li></ul>",
+        "meetingReminder": {
+            "text": "<ul><li>'<i>ma: remind DD.MM.YYYY hh:mm' to add a meeting</i></li><li>'<i>ma: remind list</i>' to list all meetings</li><li>'<i>ma: delete meeting(Meeting Nr.)</i>' to delete a meeting. You can see the number by listing the meetings</li></ul>"
+        },
+        "textStatistics": {
+            "text": "By adding the assistant to the conversation, statistics are already made.<br>Goto http://localhost:5000/statistics to see them."
+        }
+    },
+    "meetingReminder": {
+        "remind": "In 5 minutes starts a meeting!",
+        "add": {
+            "text1": "A new meeting was added. You will be reminded on",
+            "text2": "GMT.<br> You can cancel by writing '<i>ma: delete meeting ",
+            "text3": "</i>'"
+        },
+        "list": {
+            "text": "The upcoming meetings are:",
+            "noMeetingsText": "No meetings are saved for reminding."
+        },
+        "delete": {
+            "text": "The meeting was canceled successfully."
+        },
+        "repetition": {
+            "text1": "Do you want to assign a new meeting ",
+            "text2": "? Please answer: '<i>ma: yes</i>' or '<i>ma: no</i>'. If you want to get a .ics file, just add '<i>ics</i>' at the end."
+        }
+    },
+    "feedback": {
+        "hi": {
+            "texts": [
+                "Hello! :)",
+                "Oh, it's you again. Hi!",
+                "Good morning!"
+            ]
+        },
+        "bye": {
+            "texts": [
+                "Good bye!",
+                "I won't say good bye to youu!.. so I'll just say good night to you.",
+                "See you later, aligator."
+            ]
+        },
+        "name": {
+            "texts": [
+                "Today I am the SUPER assistant!",
+                "Today you can call me MC Hammer",
+                "Today I'm Manuel Neuer(or not?!)"
+            ]
+        },
+        "how": {
+            "texts": [
+                "Everyday's a day..",
+                "Life couldn't get better, it's the best day ever"
+            ]
+        },
+        "fun": {
+            "texts": [
+                "Yeah man! Let's have FUN!! :D",
+                "Let's rock it!",
+                "PARTYTIME!!!"
+            ]
+        },
+        "music": {
+            "texts": [
+                "Avicii before he was Avicii: https://www.youtube.com/watch?v=_qfuBPgsgw4",
+                "Som chilling hip hop: https://www.youtube.com/watch?v=BmMZsVhGSAI"
+            ]
+        },
+        "thanks": {
+            "text": "You are welcome!"
+        },
+        "sorry": {
+            "text": "I'm very sorry!"
+        },
+        "angry": {
+            "text": "I don't care!"
+        }
+    },
+    "textStatistics": {
+        "description": "change text if URL changes",
+        "text": "Here are your statistics! More on http://localhost:5000/statistics"
+    },
+    "errors": {
+        "parsingErrors": {
+            "tooMuchServices": {
+                "text": "You want to you use more than one service parallel, that's not possible! Please try it again or ask for help with 'ma: help'"
+            },
+            "writtenOptionsWrong": "Your input format was wrong. Please ask for help with 'ma: help'"
+        },
+        "writtenOptionsWrong": "Your command is not correct. Please try again or ask for help by typing <b>'ma: help'</b>"
+    }
+}

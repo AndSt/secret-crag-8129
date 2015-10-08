@@ -6,12 +6,11 @@ var parsingOptions = require(config.root + "/files/parsingOptions.json");
 
 var logger = require(config.loggerPath);
 var time = require(config.root + '/utils/time');
-
-var helper = require("./helper");
+var helper = require(config.root + "/utils/stringHelper");
 
 
 var parse = function (text) {
-    logger.info("optionParser.testMeetingReminder( " + text + " )");
+    logger.debug("optionParser.testMeetingReminder( " + text + " )");
 
     var meetingReminder = meetingReminder = {
         isInUse: false,
@@ -24,12 +23,24 @@ var parse = function (text) {
 
         meetingReminder.isInUse = true;
         logger.debug("meetingReminder is in use");
+        //only use standard, if no other sercive is found
+        var useStandardFunctionality = true;
 
         var listKeywords = meetingReminderParsingOpts.options.list.keywords;
         var deleteKeywords = meetingReminderParsingOpts.options.delete.keywords;
 
+
         if (helper.textContains(text, listKeywords)) {
             meetingReminder.list = {isInUse: true};
+            useStandardFunctionality = false;
+        }
+        else if (helper.textContains(text, deleteKeywords)) {
+            meetingReminder.delete = parseDelete(text);
+            useStandardFunctionality = false;
+            if (meetingReminder.delete.writtenOptionsWrong === true) {
+                meetingReminder.isInUse = false;
+                meetingReminder.writtenOptionsWrong = true;
+            }
         }
 
 
@@ -44,12 +55,13 @@ var parse = function (text) {
                 }
             }
         });
-        if (numServices === 0) {
+
+        if (numServices === 0 && useStandardFunctionality === true) {
             var addMeeting = parseAddMeeting(text);
             if (addMeeting.isInUse === true) {
                 meetingReminder.addMeeting = addMeeting;
             }
-            else if (addMeeting.writtenOptionsWrong) {
+            else if (addMeeting.writtenOptionsWrong === true) {
                 meetingReminder.isInUse = false;
                 meetingReminder.writtenOptionsWrong = true;
                 meetingReminder.addMeeting = addMeeting;
@@ -59,6 +71,9 @@ var parse = function (text) {
             }
         }
     }
+
+    logger.debug("[optionParser] meetingReminderOpts: " + JSON.stringify(meetingReminder));
+    
 
     return meetingReminder;
 };
@@ -70,6 +85,9 @@ var parseAddMeeting = function (text) {
         isInUse: false
     };
     var addMeetingParsingOpts = parsingOptions.services.meetingReminder.options.addMeeting;
+
+
+
 
     var date = time.searchDate(text);
     if (date === false) {
@@ -94,8 +112,51 @@ var parseAddMeeting = function (text) {
     return addMeeting;
 };
 
+var parseDelete = function (text) {
+    logger.debug("optionParser.parseDelete()");
+
+    var meetingDeleter = {};
+
+    var partials = text.split(' ');
+
+    var use = partials.map(function (partial) {
+        if (new RegExp(/^[0-9]*$/).test(partial) === true) {
+            return {isCorrect: true, val: partial};
+        }
+        else {
+            return {isCorrect: false, val: partial};
+        }
+    }).reduce(function (val, newVal) {
+        if (val.hasCorrect === 0 && newVal.isCorrect === true) {
+            return {hasCorrect: 1, val: newVal.val};
+        }
+        else if (val.hasCorrect === 1 && newVal.isCorrect === true) {
+            return {hasCorrect: -1, val: -1};
+        }
+        else {
+            return val;
+        }
+    }, {hasCorrect: 0, val: -1});
+
+    if (use.hasCorrect === 1) {
+        meetingDeleter = {
+            isInUse: true,
+            id: use.val
+        };
+    }
+    else {
+        meetingDeleter = {
+            isInUse: false,
+            writtenOptionsWrong: true
+        };
+    }
+
+    return meetingDeleter;
+};
+
 var validate = function (meetingReminderOptions) {
     logger.debug("optionParser.meetingReminder.validate()");
+
     var numServices = 0;
     var services = ['addMeeting', 'list', 'delete'];
     services.forEach(function (service) {
@@ -117,5 +178,6 @@ var validate = function (meetingReminderOptions) {
 module.exports = {
     parse: parse,
     parseAddMeeting: parseAddMeeting,
+    parseDelete: parseDelete,
     validate: validate
 };

@@ -4,13 +4,13 @@ var parsingOptions = require(config.root + "/files/parsingOptions.json");
 
 var logger = require(config.loggerPath);
 var time = require(config.root + '/utils/time');
-
-var helper = require('./helper');
+var helper = require(config.root + "/utils/stringHelper");
 
 var helpParser = require("./help");
 var meetingReminderParser = require("./meetingReminder");
 var addFileParser = require("./addFile");
-
+var feedbackParser = require("./feedback");
+var textStatisticParser = require('./textStatistics');
 
 /*
  * fills the options object
@@ -27,6 +27,7 @@ var parseOptions = function (item) {
         modificationTime: item.modificationTime,
         creationTime: item.creationTime,
         isInUse: false,
+        writtenOptionsWrong: false,
         help: {
             isInUse: false
         },
@@ -35,37 +36,81 @@ var parseOptions = function (item) {
     };
 
 
-    if (helper.textContains(item.text, parsingOptions.assistantKeywords)) {
-        logger.debug("The meeting assistant is in use");
-        options.isInUse = true;
+    if (helper.textStartsWith(item.text, parsingOptions.assistantKeywords)) {
 
-        options.help = helpParser.parse(item.text);
+        options.isInUse = true;
+        var text = item.text.substr(item.text.indexOf(":"), item.text.length - 1);
+        logger.debug("[optionParser] Parsing text: " + text);
+
+        options.help = helpParser.parse(text);
         if (options.help.isInUse === true) {
             logger.debug("Help is in Use");
             return options;
         }
         else {
-            var meetingReminder = meetingReminderParser.parse(item.text);
-            if (meetingReminder.isInUse) {
-                options.services.meetingReminder = meetingReminder;
-            }
-
-            var addFile = addFileParser.parse(item.text);
-            if (addFile.isInUse) {
-                options.services.addFile = addFile;
+            
+            var services = {
+                meetingReminder: meetingReminderParser.parse(text),
+                feedback: feedbackParser.parse(text),
+                textStatistics: textStatisticParser.parse(text)
+            };
+            
+            for(var key in services){
+                if(services[key].isInUse){
+                    options.services[key] = services[key];
+                }
+                else if(services[key].writtenOptionsWrong){
+                    options.writtenOptionsWrong = true;
+                }
             }
         }
     }
-    logger.info("Options are rendered: " +
-            JSON.stringify(options));
+    logger.info("Options are rendered: " + JSON.stringify(options));
 
-    var result = validate(options);
-    if (result.hasOwnProperty("error")) {
-        return result;
+    return validate(options);
+};
+
+
+/**
+ * parseAnswer() gets called, if the assistant asked for something and waits for an answer
+ * @param {type} item       the newest item, which could be an answer
+ * @returns {undefined}     options object: {isInUse:'true, if answer given', answer:'yes or false, depending on answer}'
+ */
+var parseAnswer = function (item) {
+
+    var options = {
+        convId: item.convId,
+        itemId: item.itemId,
+        modificationTime: item.modificationTime,
+        creationTime: item.creationTime,
+        isInUse: false,
+        writtenOptionsWrong: false
+    };
+
+    if (helper.textStartsWith(item.text, parsingOptions.assistantKeywords)) {
+
+        if (helper.textContains(item.text, ['yes'])) {
+            if (helper.textContains(item.text, ['no'])) {
+                options.isInUse = false;
+                options.writtenOptionsWrong = true;
+            }
+            else {
+                options.isInUse = true;
+                options.answer = 'yes';
+            }
+        }
+        else {
+            if (helper.textContains(item.text, ['no'])) {
+                options.isInUse = true;
+                options.answer = 'no';
+            }
+            else {
+                options.isInUse = false;
+            }
+        }
     }
-    else {
-        return options;
-    }
+
+    return options;
 };
 
 var validate = function (options) {
@@ -81,30 +126,30 @@ var validate = function (options) {
             numServices++;
         }
     }
-    if(numServices === 0){
-        options.isInUse = false;
-        return true;
-    }
+
     if (numServices > 1) {
         return {error: "tooMuchServices"};
     }
-
-
-    if (options.services.meetingReminder.isInUse === true) {
-        var result = meetingReminderParser.validate(options.services.meetingReminder);
-        if (result === true) {
-            return options;
+    if (numServices === 1) {
+        if (options.services.hasOwnProperty('meetingReminder')
+                && options.services.meetingReminder.isInUse === true) {
+            var result = meetingReminderParser.validate(options.services.meetingReminder);
+            if (result === true) {
+                return options;
+            }
+            else {
+                return {error: result};
+            }
         }
-        else {
-            return {error: result};
-        }
+        return options;
     }
-
-    return {error: "optionsWrittenWrong"};
+//numServices == 0...
+    return {error: "writtenOptionsWrong"};
 };
 
 
 module.exports = {
     parseOptions: parseOptions,
+    parseAnswer: parseAnswer,
     validate: validate
 };

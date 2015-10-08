@@ -1,70 +1,116 @@
-var mysql = require('mysql');
-var logger = require('./../utils/logger');
-var dbConn = require('./../utils/database').getConnection();
-var comm = require('./../utils/communication');
 
-var request = require('request');
-var qs = require('querystring');
+var config = require('./config.json');
 
-var meetingReminder = require('./meetingReminder/meetingReminder');
-var textAnalyzer = require('./textAnalyzer');
-var optionParser = require('./optionParser');
+var fs = require('fs');
+
+var logger = require(config.loggerPath);
+var comm = require(config.root + '/utils/communicator');
+var htmlSanitize = require('sanitize-html');
+
+var help = require('./services/help/help');
+var meetingReminder = require('./services/meetingReminder/meetingReminder');
+var addFile = require('./services/addFile/addFile');
+var textStatistics = require('./services/textStatistics/main');
+var feedback = require('./services/feedback/feedback');
+
+var optionParser = require('./services/optionParser/optionParser');
+var dbFunctions = require('./dbFunctions');
+
+var messages = require("./files/messages.json");
 
 
+var addedToConversationEvent = function (item) {
+    logger.debug("addedToConversationEvent( " + item.convId + " )");
 
-var registerEventListener = function (client) {
-    logger.debug("registerEventListener()");
+    return new Promise(function (resolve, reject) {
 
-    client.addEventListener('itemAdded', function (event) {
-        var item = event.item;
-        logger.info('[eventListener] itemAdded' + JSON.stringify(item));
-
-        /*
-         * Three options:
-         * ** react on text items
-         * ** react on rtc event items
-         * ** default
-         */
-
-        if (item.type === "TEXT") {
-            /*
-             * add text item to database for statics
-             * -> then check if a conversation status is set and the assistant
-             *      waits for an answer
-             * -> then call parseItem() to parse options and process them 
-             */
-            addTextItemToDatabase(item).then(function () {
-                if (item.creatorId !== 'f6ce8cc5-e094-4ffa-9551-52192eca9cc4') {
-
-                    checkConversationStatus(item).then(function (options) {
-                        logger.debug("hier");
-                        if (options.useOptionParser === true) {
-                            parseItem(item)
-                                    .then(function (text) {
-                                    })
-                                    .catch(function (err) {
-                                        comm.sendTextItem(item.convId,
-                                                "Das ist scheisse");
-                                    });
-                        }
-                        else {
-                            logger.debug("[main] no answer shall be given");
-                        }
-                    }).catch(function (err) {
+        comm.getLastItems(item.convId, 1000)
+                .then(function (items) {
+                    var promises = [];
+                    items.forEach(function (itemm) {
+                        promises.push(textStatistics.insertTextItemIntoDatabase(itemm));
                     });
-                }
-            });
-        }
-        else if (item.type === "RTC" && item.rtc.type === "ENDED") {
 
-            logger.info("RTCInfo " + JSON.stringify(item));
-            meetingReminder.askForRepetition(item);
-        }
-        else {
-            logger.info("ITEM: " + JSON.stringify(item));
-        }
+                    Promise.all(promises)
+                            .then(function () {
+                                resolve(comm.sendTextItem(item.convId, "Here am I!!!"));
+                            });
+                });
     });
 };
+
+
+var textItemAddedEvent = function (item) {
+    logger.debug('textItemEvent( ' + ' )');
+
+    if (item.creatorId !== config.userId) {
+        textStatistics.insertTextItemIntoDatabase(item)
+                .then(textStatistics.sendToGA)
+                .then(checkConversationStatus)
+                .then(function (options) {
+                    if (options.useOptionParser === true) {
+                        parseItem(item)
+                                .catch(function (err) {
+                                    logger.debug("No answer needed, because: " + err);
+                                });
+                    }
+                    else {
+                        logger.debug("No answer will be given");
+                    }
+                });
+    }
+};
+
+var textItemUpdatedEvent = function (item) {
+    logger.debug('textItemEvent( ' + item.itemId + ' )');
+
+    if (item.creatorId !== config.userId) {
+        dbFunctions.selectItem(item.itemId)
+                .then(function (rows) {
+                    if (rows.length > 1) {
+                        logger.error("Failure in database. More than one item with id" + item.itemId);
+                        reject("Failure in database. More than one item with id" + item.itemId);
+                    }
+                    else if (rows.length === 0) {
+                        textItemAddedEvent(item);
+                    }
+                    else {
+                        if (rows[0].text === item.text.substring(0, rows[0].text.length)) {
+                            var text = htmlSanitize(item.text.substring(rows[0].text.length, item.text.length), {allowedTags: false});
+                            logger.info("updatedText: " + item.text);
+                            textStatistics.updateTextItem(item)
+                                    .then(function () {
+                                        item.text = text;
+                                        return checkConversationStatus(item);
+                                    })
+                                    .then(function (options) {
+                                        logger.info("updateOptions: " + JSON.stringify(options));
+                                        if (options.useOptionParser === true) {
+                                            parseItem(item).catch(function (err) {
+                                                logger.debug("No answer needed, because: " + err);
+                                            });
+                                        }
+                                        else {
+                                            logger.debug("No answer will be given");
+                                        }
+                                    });
+                        }
+                    }
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
+    }
+};
+
+
+var conferenceFinishedEvent = function (item) {
+    logger.debug('conferenceFinishedEvent( ' + ' )');
+    logger.debug('[eventListener] conference finished: ' + JSON.stringify(item));
+
+    meetingReminder.askForRepetition(item);
+};
+
 
 
 var checkConversationStatus = function (item) {
@@ -72,18 +118,8 @@ var checkConversationStatus = function (item) {
 
     return new Promise(function (resolve, reject) {
 
-        var query = "SELECT * FROM \`ConversationStatus\` " +
-                "WHERE \`convId\`=\'" + item.convId + "\' " +
-                "AND \`active\`=\'1\'";
-        logger.debug("[main] checkConversationStatusQuery: " + query);
-
-
-        dbConn.query(query, function (err, rows, fields) {
-            if (err) {
-                logger.error("[main] Error while selecting " +
-                        "ConversationStatus: " + err);
-                reject("Error while selecting ConversationStatus");
-            } else if (rows.length > 1) {
+        dbFunctions.selectConversationStatus(item).then(function (rows) {
+            if (rows.length > 1) {
                 logger.error("[main] too much conversation statuses set");
                 reject("Too much statuses for conversation " + item.convId);
             } else if (rows.length === 0) {
@@ -91,8 +127,7 @@ var checkConversationStatus = function (item) {
                 resolve({useOptionParser: true});
             }
             else {
-
-                logger.info("rows of convStatus: " + JSON.stringify(rows));
+                logger.debug("rows of convStatus: " + JSON.stringify(rows));
                 switch (rows[0].status) {
                     case '1' :
                         resolve(meetingReminder.processRepetitionAnswer(item,
@@ -104,6 +139,8 @@ var checkConversationStatus = function (item) {
                         reject("wrong conversation status");
                 }
             }
+        }).catch(function (err) {
+            reject(err);
         });
     });
 };
@@ -111,134 +148,93 @@ var checkConversationStatus = function (item) {
 
 var parseItem = function (item) {
     logger.debug("parseItem( " + item.itemId + " )");
+
     return new Promise(function (resolve, reject) {
 
-        var text = item.text.content;
-
-        if (text.indexOf('meeting assistant') > -1) {
-            logger.debug('[parser] The user speaks with the ' +
-                    'meeting assistant');
-            optionParser.parseOptions(text).then(function (options) {
-                if (options.remindMeeting.isInUse === true) {
-                    resolve(meetingReminder.addMeeting(item, options.remindMeeting));
+        var options = optionParser.parseOptions(item);
+        logger.debug(JSON.stringify(options));
+        if (options.hasOwnProperty("help") && options.help.isInUse === true) {
+            logger.info("The answer will be help");
+            resolve(help.parseHelp(options));
+        }
+        else if (options.hasOwnProperty("error")) {
+            logger.debug("The input text has the wrong format");
+            comm.sendTextItem(item.convId, messages.errors[options.error], item.itemId);
+        }
+        else if (options.isInUse === true) {
+            logger.debug("Service is used now");
+            if (options.services.hasOwnProperty("meetingReminder")) {
+                if (options.services.meetingReminder.isInUse === true) {
+                    resolve(meetingReminder.start(options));
                 }
-                else if (options.textAnalyzer.isInUse === true) {
-                    resolve(textAnalyzer.analyzeConversation(item, options));
+            }
+            else if (options.services.hasOwnProperty("addFile")) {
+                if (options.services.addFile.isInUse === true) {
+                    resolve(addFile.start(options));
                 }
-                else {
-                    reject("The assistent must not answer");
+            }
+            else if (options.services.hasOwnProperty("feedback")) {
+                if (options.services.feedback.isInUse) {
+                    resolve(feedback.start(options));
                 }
-            });
+            }
+            else if (options.services.hasOwnProperty("textStatistics")) {
+                if (options.services.textStatistics.isInUse) {
+                    resolve(textStatistics.start(options));
+                }
+            }
+            else {
+                reject("The assistent must not answer");
+            }
+        }
+        else if (options.writtenOptionsWrong === true) {
+            comm.sendTextItem(item.convId, messages.writtenOptionsWrong, item.itemId);
         }
         else {
             reject("The assistent must not answer");
         }
-
     });
 };
 
+/**
+ * deleteFiles() deletes temporary files
+ */
+var deleteFiles = function () {
+    logger.debug("main.deleteFiles()");
 
-var addTextItemToDatabase = function (item) {
-    logger.debug("addTextItemToDatabase( " + item.itemId + " )");
-    return new Promise(function (resolve, reject) {
+    var regExps = [/^meeting.*ics$/ig, /^pie.*png$/];
 
-        var query = "INSERT INTO \`Items\`(\`itemId\`, \`convId\`, \`creatorId\`, " +
-                " \`text\`) VALUES (\'" + item.itemId + "\', \'" + item.convId +
-                "\', \'" + item.creatorId + "\', \'" + item.text.content + "\')";
-
-        logger.debug("Query to add new item to database: " + query);
-
-        dbConn.query(query, function (err) {
-            if (err) {
-                logger.error(err);
-                reject("Adding a text item to the database failed");
-            }
-            else {
-                logger.info("[main]Successfully added a text item to database.");
-                resolve();
+    fs.readdir(config.root + "/files", function (err, files) {
+        if (err) {
+            logger.error("update.deleteFiles did not work: " + err);
+        }
+        files.forEach(function (file) {
+            for (var i = 0; i < regExps.length; i++) {
+                if (regExps[i].test(file)) {
+                    fs.unlink(config.root + '/files/' + file, function (err) {
+                        if (err) {
+                            logger.error("update.deleteFiles did not work: " + err);
+                        }
+                    });
+                    break;
+                }
             }
         });
-
-    });
-};
-
-var sendToGA = function (item) {
-    logger.info("sendToGA( " + item.itemId + ")");
-
-    return new Promise(function (resolve, reject) {
-
-        var msgText = item.text.content;
-
-        //2 algorithms to count different things in the message text
-        function searchM(regex) {
-            var searchStr = msgText.match(regex);
-            if (searchStr !== null) {
-                return searchStr.length;
-            }
-            return 0;
-        }
-        ;
-
-        function searchS(regex) {
-            var searchStr = msgText.split(regex);
-            if (searchStr !== undefined) {
-                return searchStr.length;
-            }
-            return 0;
-        }
-        ;
-
-        var information = {
-            userId: item.creatorId,
-            convId: item.convId,
-            msgText: item.text.content,
-            wordCount: searchS(/\s+\b/),
-            exclaCount: searchM(/!/g),
-            questionCount: searchM(/\?/g),
-            letterCount: msgText.length
-        };
-        //The Structure Data! This is where are the pretty GA data gets gathered
-        //before it is sent to the GA servers for us to analyse at a later time.
-        var data = {
-            v: 1,
-            tid: "UA-41507980-3", // <-- ADD UA NUMBER
-            cid: 'f7287266-12ee-41b8-8ca8-f9f9691eee01',
-            t: "event",
-            cd1: information.userId,
-            cd2: information.convId,
-            cm1: information.wordCount,
-            cm2: information.letterCount,
-            cm3: information.exclaCount,
-            cm4: information.questionCount, //need to set up in GA
-            an: "meetingAssisant",
-            ec: "circuit: " + information.convId,
-            ea: "post by " + information.userId,
-            el: msgText,
-            ev: 1
-        };
-
-        logger.info("[main] Sending to GA: " + JSON.stringify(data));
-
-        request.post("https://www.google-analytics.com/collect?" + qs.stringify(data),
-                function (error, resp, body) {
-                    logger.error(JSON.stringify(error));
-                    logger.info(JSON.stringify(resp));
-                    logger.ino(JSON.stringify(body));
-                });
-        resolve(item);
     });
 };
 
 var update = function () {
     logger.info("main.update()");
     meetingReminder.update();
+    deleteFiles();
 };
 
 
 module.exports = {
-    registerEventListener: registerEventListener,
+    textItemAddedEvent: textItemAddedEvent,
+    textItemUpdatedEvent: textItemUpdatedEvent,
+    conferenceFinishedEvent: conferenceFinishedEvent,
     parseItem: parseItem,
     checkConversationStatus: checkConversationStatus,
-    sendToGA: sendToGA,
     update: update
 };

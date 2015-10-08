@@ -1,0 +1,227 @@
+<html>
+
+    <% include ../partials/header.ejs %>
+
+    <body>
+
+        <% include ../partials/nav.ejs %>
+
+        <div id="wrap" class="container">
+            <div class="jumbotron">
+                <div class="container">
+                    <h1>
+                        Text Statistics
+                    </h1>
+                    <h2>
+                        Conversations
+                    </h2>
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <table class="table table-hover">
+                                <caption>
+                                    Most active last day
+                                </caption>
+                                <tr>
+                                    <th>
+                                        Type/Name
+                                    </th>
+                                    <th>
+                                        Teilnehmer
+                                    </th>
+                                    <th>
+                                        Link
+                                    </th>
+                                </tr>
+                                <% for(var i=0; i<convsD.length && i < 5; i++) {%>
+                                    <tr>
+                                        <td>
+                                            <% if(convsD[i].topic !== ''){ %>
+                                            Group: <%= convsD[i].topic %>
+                                            <% }  else if( convsD[i].participants.length === 2){ %>
+                                            Direct
+                                            <% }  else{ %>
+                                            Group
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <!-- Split button -->
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <%=convsD[i].participants.length %><span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <% for(var j=0; j < convsD[i].participants.length; j++) { %>
+                                                    <li><a><%= convsD[i].participants[j].displayName %></a></li>
+                                                    <% } %>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a href="/conv/<%=convsD[i].convId %>">
+                                                show statistics
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+
+                            <table class="table table-hover">
+                                <caption>
+                                    Most active last week
+                                </caption>
+                                <tr>
+                                    <th>
+                                        Type/Name
+                                    </th>
+                                    <th>
+                                        Anzahl Teilnehmer
+                                    </th>
+                                    <th>
+                                        Link
+                                    </th>
+                                </tr>
+                                <% for(var i=0; i<convsW.length && i < 5; i++) {%>
+                                    <tr>
+                                        <td>
+                                            <% if(convsW[i].topic !== ''){ %>
+                                            Group: <%= convsW[i].topic %>
+                                            <% }  else if( convsW[i].participants.length === 2){ %>
+                                            Direct
+                                            <% }  else{ %>
+                                            Group
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <!-- Split button -->
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <%=convsW[i].participants.length %><span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <% for(var j=0; j < convsW[i].participants.length; j++) { %>
+                                                    <li><a><%= convsW[i].participants[j].displayName %></a></li>
+                                                    <% } %>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a href="/conv/<%=convsW[i].convId %>">
+                                                show statistics
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <table class="table table-hover">
+                                <caption>
+                                    Most active last month
+                                </caption>
+                                <tr>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Anzahl Teilnehmer
+                                    </th>
+                                    <th>
+                                        Link
+                                    </th>
+                                </tr>
+                                <% for(var i=0; i<convsM.length && i < 5; i++) {%>
+                                    <tr>
+                                        <td>
+                                            <% if(convsM[i].topic !== ''){ %>
+                                            Group: <%= convsM[i].topic %>
+                                            <% }  else if( convsM[i].participants.length === 2){ %>
+                                            Direct
+                                            <% }  else{ %>
+                                            Group
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <!-- Split button -->
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <%=convsM[i].participants.length %><span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <% for(var j=0; j < convsM[i].participants.length; j++) { %>
+                                                    <li><a><%= convsM[i].participants[j].displayName %></a></li>
+                                                    <% } %>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a href="/conv/<%=convsM[i].convId %>">
+                                                show statistics
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+
+                            <table class="table table-hover">
+                                <caption>
+                                    Most active overall
+                                </caption>
+                                <tr>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Anzahl Teilnehmer
+                                    </th>
+                                    <th>
+                                        Link
+                                    </th>
+                                </tr>
+                                <% for(var i=0; i<convs.length && i < 5; i++) {%>
+                                    <tr>
+                                        <td>
+                                            <% if(convs[i].topic !== ''){ %>
+                                            Group: <%= convs[i].topic %>
+                                            <% }  else if( convs[i].participants.length === 2){ %>
+                                            Direct
+                                            <% }  else{ %>
+                                            Group
+                                            <% } %>
+                                        </td>
+                                        <td>
+                                            <!-- Split button -->
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <%=convs[i].participants.length %><span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <% for(var j=0; j < convs[i].participants.length; j++) { %>
+                                                    <li><a><%= convs[i].participants[j].displayName %></a></li>
+                                                    <% } %>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a href="/conv/<%=convs[i].convId %>">
+                                                show statistics
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <% } %>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% include ../partials/footer.ejs %>
+    </body>
+</html>

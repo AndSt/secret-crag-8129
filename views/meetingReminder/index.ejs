@@ -1,0 +1,55 @@
+<html>
+
+    <% include ../partials/header.ejs %>
+
+    <body>
+
+        <% include ../partials/nav.ejs %>
+
+        <div id="wrap" class="container">
+
+            <div class="container">
+                <div class="row">
+                    The purpose of the meeting reminder is, that you get a reminding before the
+                    meeting starts. This has two advantages:
+                    <ul>
+                        <li>
+                            You get reminded
+                        </li>
+                        <li>
+                            The conversation is going to the top and you don't have to search for it
+                        </li>
+                    </ul>
+
+                    <div class="page-header">
+                        <h2>Help</h2>
+
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default">
+                            <a href="#addMeeting">
+                                Add Meeting
+                            </a>
+                        </button>
+                        <button type="button" class="btn btn-default">
+                            <a href="#listMeetings">
+                                List Meetings
+                            </a>
+                        </button>
+                        <button type="button" class="btn btn-default">
+                            <a href="#deleteMeeting">
+                                Delete Meeting
+                            </a>
+                        </button>
+                    </div>
+                </div>
+                <hr>
+                <% include ./help/addMeeting.ejs %>
+                <% include ./help/listMeetings.ejs %>
+                <% include ./help/deleteMeeting.ejs %>
+            </div>
+        </div>
+        <% include ../partials/footer.ejs %>
+    </body>
+</html>
+

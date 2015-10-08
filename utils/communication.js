@@ -1,6 +1,10 @@
+
+
 var circuit = require('circuit');
-var logger = require('./../utils/logger');
-var client = require('./../utils/client').getClient();
+var File = require('file-api').File;
+
+var logger = require('./logger');
+var client = require('./client').getClient();
 
 //var config = require('./../config/config.json');
 
@@ -10,26 +14,73 @@ var client = require('./../utils/client').getClient();
  * 
  * @param convId    ID of the conversation
  * @param text      text which will be sent
+ * @param itemId    (optional) if a itemId is known, a comment to this
+ *                  item shall be made
  */
-var sendTextItem = function (convId, text) {
+var sendTextItem = function (convId, text, itemId) {
     logger.debug("sendTextItem( " + convId + " )");
-//    if (config.online === true) {
-    client.addTextItem(convId,
-            {
-                contentType: "RICH",
-                content: text
-            }
-    ).then(function (item) {
-        logger.info("Message '" + text + "' to conversation " + convId +
-                "was delivered correctly");
-    }).catch(function (err) {
-        logger.error('Unable to answer. ' + err);
+
+    return new Promise(function (resolve, reject) {
+        var options = {
+            contentType: "RICH",
+            content: text
+        };
+
+        if (itemId) {
+            options.parentId = itemId;
+        }
+        client.addTextItem(convId, options)
+                .then(function (item) {
+                    resolve(item);
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
     });
-//    }
-//    else {
-//        logger.debug("TextItem text is: " + text);
-//    }
 };
+
+/**
+ * 
+ * @param {type} convId
+ * @param {type} text
+ * @param {type} filePaths
+ * @param {type} itemId
+ * @returns {Promise}
+ */
+var sendTextItemWithFiles = function (convId, text, filePaths, itemId) {
+    logger.debug("sendTextItemWithFiles( " + convId + " )");
+
+    files = [];
+    filePaths.forEach(function (filePath) {
+        var file = new File(filePath);
+        files.push(file);
+    });
+
+    var message = {
+        content: text,
+        attachments: files
+    };
+    if (itemId) {
+        message.parentId = itemId;
+    }
+
+    return new Promise(function (resolve, reject) {
+
+        client.addTextItem(convId, message)
+                .then(function (item) {
+                    logger.debug("Message '" + text + "' to conversation " +
+                            convId + "was delivered correctly");
+                    resolve();
+                })
+                .catch(function (err) {
+                    logger.error('Unable to send text+file message to ' + convId +
+                            ', because: ' + err);
+                    reject(err);
+                });
+
+    });
+};
+
 
 /*
  * getLastTextItems() receives the last textItems of a conversation
@@ -41,8 +92,19 @@ var sendTextItem = function (convId, text) {
 var getLastItems = function (convId, number) {
     return new Promise(function (resolve, reject) {
         client.getConversationItems(convId, {numberOfItems: number})
-                .then(function (items) {
+                .then(function (itemsData) {
                     logger.info("Successfully retrieved " + number + " items");
+                    var items = itemsData.map(function (itemitem) {
+                        return {
+                            itemId: item.itemId,
+                            convId: item.convId,
+                            type: item.text.type,
+                            text: item.text.content,
+                            creatorId: item.creatorId,
+                            creationTime: item.creationTime,
+                            modificationTime: item.modificationTime
+                        };
+                    });
                     resolve(items);
                 })
                 .catch(function (err) {
@@ -62,18 +124,13 @@ var getConversation = function (convId) {
     return new Promise(function (resolve, reject) {
         client.getConversationById(convId)
                 .then(function (conv) {
-                    logger.info("Successfully received the conversation " +
-                            convId);
                     resolve(conv);
                 })
                 .catch(function (err) {
-                    logger.error("Failure while received the conversation " +
-                            convId);
                     reject(err);
                 });
     });
 };
-
 
 
 var getUsersById = function (userIds) {
@@ -93,14 +150,10 @@ var getUsersById = function (userIds) {
     });
 };
 
-//var getLikes = function(convId){
-//    return new Promise(function(resolve, reject){
-//        client.
-//    })
-//}
 
 module.exports = {
     sendTextItem: sendTextItem,
+    sendTextItemWithFiles: sendTextItemWithFiles,
     getLastItems: getLastItems,
     getConversation: getConversation,
     getUsersById: getUsersById

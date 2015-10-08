@@ -1,0 +1,99 @@
+
+
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseAddMeeting" aria-expanded="true" aria-controls="collapseOne">
+                    add meeting
+                </a>
+            </h4>
+        </div>
+        <div id="collapseAddMeeting" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                The syntax is like this: <br>
+                <i>
+                    ma: add Meeting on DD.MM.YYYY HH:mm
+                </i>
+                <br>
+                Explanation:
+                <ul>
+                    <li>
+                        Instead of '<b>ma:</b>', you can also write
+                        '<b>meeting assistant:</b>', '<b>assistant:</b>'
+                    </li>
+                    <li>
+                        Instead of '<b>add meeting</b>', you can also write
+                        '<b>remind</b>' or '<b>rem</b>'
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseListMeeting" aria-expanded="true" aria-controls="collapseOne">
+                    list meetings
+                </a>
+            </h4>
+        </div>
+        <div id="collapseListMeeting" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                The syntax is like this: <br>
+                <i>
+                    ma: list meetings
+                </i>
+                <br>
+                Explanation:
+                <ul>
+                    <li>
+                        Instead of '<b>ma:</b>', you can also write
+                        '<b>meeting assistant:</b>', '<b>assistant:</b>'
+                    </li>
+                    <li>
+                        Instead of '<b>add meeting</b>', you can also write
+                        '<b>remind</b>' or '<b>rem</b>'
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseDeleteMeeting" aria-expanded="true" aria-controls="collapseOne">
+                    delete meeting
+                </a>
+            </h4>
+        </div>
+        <div id="collapseDeleteMeeting" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                The syntax is like this: <br>
+                <i>
+                    ma: delete meeting %nr%
+                </i>
+                <br>
+                Explanation:
+                <ul>
+                    <li>
+                        Instead of '<b>ma:</b>', you can also write
+                        '<b>meeting assistant:</b>', '<b>assistant:</b>'
+                    </li>
+                    <li>
+                        Instead of '<b>delete</b>', you can also write
+                        '<b>del</b>'
+                    </li>
+                    <li>
+                        %nr% is a placeholer for the number of the meeting.
+                        By using 'list meetings' you can find it out.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+

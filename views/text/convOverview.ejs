@@ -1,0 +1,49 @@
+<html>
+
+    <% include ../partials/header.ejs %>
+
+    <body>
+
+        <% include ../partials/nav.ejs %>
+
+        <div id="wrap" class="container">
+            <div class="jumbotron">
+                <div class="container">
+                    <h1>
+                        Text Statistics
+                    </h1>
+
+                    <table class="table">
+                        <tr>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Anzahl Teilnehmer
+                            </th>
+                            <th>
+                                Link
+                            </th>
+                        </tr>
+                        <% for(var i=0; i<convs.length && i < 5; i++) {%>
+                            <tr>
+                                <td>
+                                    <%= convs[i].topic %>
+                                </td>
+                                <td>
+                                    <%=convs[i].participants.length %>
+                                </td>
+                                <td>
+                                    <a href="/statistics/conv/<%=convs[i].convId %>">
+                                        show statistics
+                                    </a>
+                                </td>
+                            </tr>
+                            <% } %>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <% include ../partials/footer.ejs %>
+    </body>
+</html>

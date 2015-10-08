@@ -1,0 +1,134 @@
+<html>
+
+    <% include ../partials/header.ejs %>
+
+    <body>
+
+        <% include ../partials/nav.ejs %>
+
+        <div id="wrap" class="container">
+
+            <div id="content" class="container">
+                <div class="jumbotron">
+                    <div class="row">
+                        <h2>
+                            Last week
+                        </h2>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h2>
+                                message count
+                            </h2>
+                            <canvas id="numItemsChartW" width="250" height="250"/>
+                            <div>
+                                Legend 1
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h2>
+                                word count
+                            </h2>
+                            <canvas id="numWordsChartW" width="250" height="250" />
+                            <div>
+                                Legend 3
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h2>
+                                letter count
+                            </h2>
+                            <canvas id="numLettersChartW" width="250" height="250"/>
+                            <div>
+                                Legend 2
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="jumbotron">
+                    <div class="row">
+                        <h2>
+                            Last month
+                        </h2>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h2>
+                                message count
+                            </h2>
+                            <canvas id="numItemsChartM" width="250" height="250"/>
+                            <div>
+                                Legend 1
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h2>
+                                word count
+                            </h2>
+                            <canvas id="numWordsChartM" width="250" height="250" />
+                            <div>
+                                Legend 3
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h2>
+                                letter count
+                            </h2>
+                            <canvas id="numLettersChartM" width="250" height="250"/>
+                            <div>
+                                Legend 2
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="jumbotron">
+                    <div class="row">
+                        <h2>
+                            Overall
+                        </h2>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h2>
+                                message count
+                            </h2>
+                            <canvas id="numItemsChartO" width="250" height="250"/>
+                            <div>
+                                Legend 1
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h2>
+                                word count
+                            </h2>
+                            <canvas id="numWordsChartO" width="250" height="250" />
+                            <div>
+                                Legend 3
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <h2>
+                                letter count
+                            </h2>
+                            <canvas id="numLettersChartO" width="250" height="250"/>
+                            <div>
+                                Legend 2
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% include ../partials/footer.ejs %>
+        <script src="/javascript/conversationStatistics.js"></script>
+    </body>
+</html>

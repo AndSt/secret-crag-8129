@@ -5,7 +5,7 @@ var config = require("./../../config.json");
 var parsingOptions = require(config.root + "/files/parsingOptions.json");
 
 var logger = require(config.loggerPath);
-var helper = require("./helper");
+var helper = require(config.root + "/utils/stringHelper");
 
 
 

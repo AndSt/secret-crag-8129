@@ -1,8 +1,7 @@
 
-//var config = require('./../config/config.json');
+var config = require('./../assistant/config.json').client;
 
 var Circuit = require('circuit');
-var logger = require('./logger');
 
 /*
  * Login the client and return the object 
@@ -10,13 +9,13 @@ var logger = require('./logger');
 
 //if (config.test === false) {
 
-var client = new Circuit.Client({domain: 'circuitsandbox.net'});
-client.logon('andreas-stephan@hotmail.de', 'andalos1')
+var client = new Circuit.Client({domain: config.domain});
+client.logon(config.userName, config.password)
         .then(function (user) {
-            logger.info('Logged in as ' + user.displayName);
+            console.log('Logged in as ' + user.displayName);
         })
         .catch(function (err) {
-            logger.error('Unable to logon. ' + err);
+            console.log('Unable to logon. ' + err);
         });
 
 //}
@@ -24,7 +23,6 @@ client.logon('andreas-stephan@hotmail.de', 'andalos1')
 var getClient = function () {
     return client;
 };
-
 
 module.exports.getClient = function () {
     return client;

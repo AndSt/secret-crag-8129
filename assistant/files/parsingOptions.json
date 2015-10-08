@@ -4,7 +4,9 @@
         "meeting assistant:",
         "meeting assistent:",
         "assistant:",
-        "assistent:"
+        "assistent:",
+        "homie:",
+        ""
     ],
     "services": {
         "help": {
@@ -12,25 +14,51 @@
                 "help",
                 "--h"
             ],
+            "helpServices": [
+                "meetingReminder",
+                "addFile",
+                "textStatistics"
+            ],
             "options": [
             ]
         },
         "meetingReminder": {
             "keywords": [
+                "reminder",
                 "remind",
                 "add a meeting",
                 "add meeting",
                 "new meeting",
-                "add a new meeting"
+                "add a new meeting",
+                "meetings",
+                "meeting",
+                "rem",
+                "list",
+                "delete"
             ],
             "options": {
-                "ics": {
-                    "keywords": [
-                        "ics"
-                    ]
+                "addMeeting": {
+                    "ics": {
+                        "keywords": [
+                            "ics"
+                        ]
+                    }
                 },
                 "timeBevor": {
                     "keywords": [
+                    ]
+                },
+                "list": {
+                    "keywords": [
+                        "list",
+                        "showAll"
+                    ]
+                },
+                "delete": {
+                    "keywords": [
+                        "delete",
+                        "remove",
+                        "del"
                     ]
                 }
             }
@@ -46,8 +74,177 @@
             "options": {
             }
         },
-        "textStatistics": [
-            "te"
+        "textStatistics": {
+            "keywords": [
+                "textStatistics",
+                "statistics",
+                "stats",
+                "statistic",
+                "speakers",
+                "conference png",
+                "png"
+            ]
+        },
+        "feedback": {
+            "hi": {
+                "keywords": [
+                    "hi",
+                    "hello",
+                    "ladies and gentleman"
+                ]
+            },
+            "bye": {
+                "keywords": [
+                    "bye",
+                    "see you",
+                    "good bye"
+                ]
+            },
+            "name": {
+                "keywords": [
+                    "who are you",
+                    "name"
+                ]
+            },
+            "how": {
+                "keywords": [
+                    "how are you?"
+                ]
+            },
+            "fun": {
+                "keywords": [
+                    "alcohol",
+                    "drunk",
+                    "stay home"
+                ]
+            },
+            "music": {
+                "keywords": [
+                    "music",
+                    "musci",
+                    "mukke",
+                    "sound"
+                ]
+            },
+            "thanks": {
+                "keywords": [
+                    "thanks",
+                    "thank",
+                    "nice",
+                    "good",
+                    "well done",
+                    "sexy",
+                    "super",
+                    "toll",
+                    "perfekt",
+                    "perfect",
+                    "genious",
+                    "mastermind",
+                    "best",
+                    "kind"
+                ]
+            },
+            "sorry": {
+                "keywords": [
+                    "bad",
+                    "wrong",
+                    "mühe",
+                    "anstrengen",
+                    "entschuldigen"
+                ]
+            },
+            "angry": {
+                "keywords": [
+                    "fuck",
+                    "sucked",
+                    "do a better job",
+                    "you are the worst",
+                    "shitty tool",
+                    "bastard",
+                    "ass",
+                    "pussy",
+                    "grutzefix",
+                    "birnbam",
+                    "hate",
+                    "das allerletzte"
+                ]
+            }
+        }
+    },
+    "time": {
+        "formats": [
+            "MM-DD-YYYY HH:mm",
+            "YYYY-MM-DD HH:mm",
+            "DD.MM.YYYY HH:mm",
+            "YYYY.MM.DD HH:mm",
+            "MM/DD/YYYY HH:mm",
+            "YYYY/MM/DD HH:mm",
+            "M-D-YYYY HH:mm",
+            "YYYY-M-D HH:mm",
+            "D.M.YYYY HH:mm",
+            "YYYY.M.D HH:mm",
+            "M/D/YYYY HH:mm",
+            "YYYY/M/D HH:mm",
+            "MM-DD-YYYY H:mm",
+            "YYYY-MM-DD H:mm",
+            "DD.MM.YYYY H:mm",
+            "YYYY.MM.DD H:mm",
+            "MM/DD/YYYY H:mm",
+            "YYYY/MM/DD H:mm",
+            "M-D-YYYY H:mm",
+            "YYYY-M-D H:mm",
+            "D.M.YYYY H:mm",
+            "YYYY.M.D H:mm",
+            "M/D/YYYY H:mm",
+            "YYYY/M/D H:mm",
+            "MM-DD-YY HH:mm",
+            "YY-MM-DD HH:mm",
+            "DD.MM.YY HH:mm",
+            "YY.MM.DD HH:mm",
+            "MM/DD/YY HH:mm",
+            "YY/MM/DD HH:mm",
+            "M-D-YY HH:mm",
+            "YY-M-D HH:mm",
+            "D.M.YY HH:mm",
+            "YY.M.D HH:mm",
+            "M/D/YY HH:mm",
+            "YY/M/D HH:mm",
+            "MM-DD-YY H:mm",
+            "YY-MM-DD H:mm",
+            "DD.MM.YY H:mm",
+            "YY.MM.DD H:mm",
+            "MM/DD/YY H:mm",
+            "YY/MM/DD H:mm",
+            "M-D-YY H:mm",
+            "YY-M-D H:mm",
+            "D.M.YY H:mm",
+            "YY.M.D H:mm",
+            "M/D/YY H:mm",
+            "YY/M/D H:mm",
+            "MM-DD HH:mm",
+            "MM-DD HH:mm",
+            "DD.MM HH:mm",
+            "MM.DD HH:mm",
+            "MM/DD HH:mm",
+            "MM/DD HH:mm",
+            "M-D HH:mm",
+            "M-D HH:mm",
+            "D.M HH:mm",
+            "M.D HH:mm",
+            "M/D HH:mm",
+            "M/D HH:mm",
+            "MM-DD H:mm",
+            "MM-DD H:mm",
+            "DD.MM H:mm",
+            "MM.DD H:mm",
+            "MM/DD H:mm",
+            "MM/DD H:mm",
+            "M-D H:mm",
+            "M-D H:mm",
+            "D.M H:mm",
+            "M.D H:mm",
+            "M/D H:mm",
+            "M/D H:mm"
         ]
     }
 }

@@ -1,0 +1,9 @@
+{
+    "info": {
+        "text": "everything is in seconds or points"
+    },
+    "comingTooLate": {
+        "firstMinusPointAfter": "120", 
+        "minusPointsPerMinute": "5"
+    }
+}
