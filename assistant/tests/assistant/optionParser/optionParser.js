@@ -111,18 +111,7 @@ describe('optionParser', function () {
                     text: 'ma: trolololo'
                 },
                 output: {
-                    convId: 'testConv',
-                    itemId: 'testItem',
-                    creatorId: 'testCreator',
-                    modificationTime: 'testZeit',
-                    creationTime: 'testZeit',
-                    isInUse: false,
-                    writtenOptionsWrong: false,
-                    help: {
-                        isInUse: false
-                    },
-                    services: {
-                    }
+                    "error": "writtenOptionsWrong"
                 }
             }
         ];

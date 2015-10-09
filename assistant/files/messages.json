@@ -5,14 +5,14 @@
             "text": "<ul><li>'<i>ma: remind DD.MM.YYYY hh:mm' to add a meeting</i></li><li>'<i>ma: remind list</i>' to list all meetings</li><li>'<i>ma: delete meeting(Meeting Nr.)</i>' to delete a meeting. You can see the number by listing the meetings</li></ul>"
         },
         "textStatistics": {
-            "text": "By adding the assistant to the conversation, statistics are already made.<br>Goto http://localhost:5000/statistics to see them."
+            "text": "By adding the assistant to the conversation, statistics are already made.<br>Goto http://localhost:5000 to see them."
         }
     },
     "meetingReminder": {
         "remind": "In 5 minutes starts a meeting!",
         "add": {
             "text1": "A new meeting was added. You will be reminded on",
-            "text2": "GMT.<br> You can cancel by writing '<i>ma: delete meeting ",
+            "text2": " GMT.<br> You can cancel by writing '<i>ma: delete meeting ",
             "text3": "</i>'"
         },
         "list": {
@@ -34,6 +34,9 @@
                 "Oh, it's you again. Hi!",
                 "Good morning!"
             ]
+        },
+        "greet": {
+            "text": "Hello everyone. Nice to meet you!"
         },
         "bye": {
             "texts": [
@@ -65,7 +68,8 @@
         "music": {
             "texts": [
                 "Avicii before he was Avicii: https://www.youtube.com/watch?v=_qfuBPgsgw4",
-                "Som chilling hip hop: https://www.youtube.com/watch?v=BmMZsVhGSAI"
+                "Som chilling hip hop: https://www.youtube.com/watch?v=BmMZsVhGSAI",
+                "Rock'n Roll! https://www.youtube.com/watch?v=qzOaPQaNkmU"
             ]
         },
         "thanks": {
@@ -80,7 +84,7 @@
     },
     "textStatistics": {
         "description": "change text if URL changes",
-        "text": "Here are your statistics! More on http://localhost:5000/statistics"
+        "text": "Here are your statistics! More on http://localhost:5000"
     },
     "errors": {
         "parsingErrors": {

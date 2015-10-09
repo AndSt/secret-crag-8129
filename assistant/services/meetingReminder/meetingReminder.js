@@ -150,7 +150,7 @@ var listMeetings = function (options) {
                         message = messages.meetingReminder.list.text + "<ul>";
                         rows.forEach(function (row) {
                             message += "<li>" + time.getUserOutputDate(row.date) +
-                                    "(Nr. " + row.ID + ")</li>";
+                                    " GMT(Nr. " + row.ID + ")</li>";
                         });
                         message += "</ul>";
 
@@ -219,22 +219,24 @@ var askForRepetition = function (item) {
 
         var sendAndInsert = function () {
             return new Promise(function (res, rej) {
-                comm.sendTextItem(item.convId, sendString, item.itemId)
+
+                var information = {
+                    oldDate: finishedMeetingBegin,
+                    newDate: newDate,
+                    addedQuestionTime: time.getUnixTimeStamp()
+                };
+
+                dbFunctions.insertConversationStatus(item, information)
                         .then(function () {
 
-                            var information = {
-                                oldDate: finishedMeetingBegin,
-                                newDate: newDate,
-                                addedQuestionTime: time.getUnixTimeStamp()
-                            };
 
-                            dbFunctions.insertConversationStatus(item, information)
+                            comm.sendTextItem(item.convId, sendString, item.itemId)
                                     .then(function () {
                                         res("Successfully asked for repetition.");
                                     })
-                                    .catch(function (err) {
-                                        rej(err);
-                                    });
+                                            .catch(function (err) {
+                                rej(err);
+                            });
                         })
                         .catch(function (err) {
                             rej(err);

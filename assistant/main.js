@@ -9,7 +9,6 @@ var htmlSanitize = require('sanitize-html');
 
 var help = require('./services/help/help');
 var meetingReminder = require('./services/meetingReminder/meetingReminder');
-var addFile = require('./services/addFile/addFile');
 var textStatistics = require('./services/textStatistics/main');
 var feedback = require('./services/feedback/feedback');
 
@@ -166,11 +165,6 @@ var parseItem = function (item) {
             if (options.services.hasOwnProperty("meetingReminder")) {
                 if (options.services.meetingReminder.isInUse === true) {
                     resolve(meetingReminder.start(options));
-                }
-            }
-            else if (options.services.hasOwnProperty("addFile")) {
-                if (options.services.addFile.isInUse === true) {
-                    resolve(addFile.start(options));
                 }
             }
             else if (options.services.hasOwnProperty("feedback")) {

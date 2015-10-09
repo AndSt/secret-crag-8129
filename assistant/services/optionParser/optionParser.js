@@ -8,7 +8,6 @@ var helper = require(config.root + "/utils/stringHelper");
 
 var helpParser = require("./help");
 var meetingReminderParser = require("./meetingReminder");
-var addFileParser = require("./addFile");
 var feedbackParser = require("./feedback");
 var textStatisticParser = require('./textStatistics');
 
@@ -48,18 +47,18 @@ var parseOptions = function (item) {
             return options;
         }
         else {
-            
+
             var services = {
                 meetingReminder: meetingReminderParser.parse(text),
                 feedback: feedbackParser.parse(text),
                 textStatistics: textStatisticParser.parse(text)
             };
-            
-            for(var key in services){
-                if(services[key].isInUse){
+
+            for (var key in services) {
+                if (services[key].isInUse) {
                     options.services[key] = services[key];
                 }
-                else if(services[key].writtenOptionsWrong){
+                else if (services[key].writtenOptionsWrong) {
                     options.writtenOptionsWrong = true;
                 }
             }
@@ -67,7 +66,12 @@ var parseOptions = function (item) {
     }
     logger.info("Options are rendered: " + JSON.stringify(options));
 
-    return validate(options);
+    if (options.isInUse === true) {
+        return validate(options);
+    }
+    else {
+        return options;
+    }
 };
 
 

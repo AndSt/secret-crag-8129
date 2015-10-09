@@ -5,8 +5,7 @@
         "meeting assistent:",
         "assistant:",
         "assistent:",
-        "homie:",
-        ""
+        "homie:"
     ],
     "services": {
         "help": {
@@ -100,6 +99,11 @@
                     "good bye"
                 ]
             },
+            "greet": {
+                "keywords": [
+                    "greet"
+                ]
+            },
             "name": {
                 "keywords": [
                     "who are you",
@@ -115,7 +119,10 @@
                 "keywords": [
                     "alcohol",
                     "drunk",
-                    "stay home"
+                    "stay home",
+                    "drink",
+                    "party",
+                    "fun"
                 ]
             },
             "music": {
