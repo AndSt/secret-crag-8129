@@ -15,7 +15,7 @@
     "client": {
         "domain": "circuitsandbox.net",
         "userName": "andreas-stephan@hotmail.de",
-        "password": "andalos1"
+        "password": "test"
     },
     "clientCommunicationPath": "/home/astephan/Praktikum-Andi/MeetingAssistent/node-js-getting-started/utils/communication",
     "domain": "https://secret-crag-8129.herokuapp.com"
